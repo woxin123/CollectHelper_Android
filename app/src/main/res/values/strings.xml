@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">CollectionHelper</string>
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+    <string name="login_input_username_hint">用户名</string>
+    <string name="login_hold_hint">自动登录</string>
+    <string name="login_forget_hint">忘记密码</string>
+    <string name="my_book_mark">我的书签</string>
+    <string name="sep">/</string>
+    <string name="count" >0</string>
+</resources>
