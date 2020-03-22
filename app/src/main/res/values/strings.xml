@@ -8,4 +8,28 @@
     <string name="my_book_mark">我的书签</string>
     <string name="sep">/</string>
     <string name="count" >0</string>
+
+    <!-- 七牛云配置 -->
+    <string name="bucket">Bucket</string>
+    <string name="qiniu_AK">AccessKey</string>
+    <string name="qiniu_sk">SecretKey</string>\
+    <string name="image_bucket">图片 Bucket</string>
+    <string name="doc_bucket">文档 Bucket</string>
+    <string name="music_bucket">音乐 Bucket</string>
+    <string name="video_bucket">视频 Bucket</string>
+    <string name="doc_path">文档路径</string>
+    <string name="music_path">音乐路径</string>
+    <string name="image_path">图片路径</string>
+    <string name="video_path">视频路径</string>
+    <string name="store_region">存储区域</string>
+    <string name="commit">提交</string>
+
+    <string name="qiniu_ak_hint">请输入七牛云 AccessKey</string>
+    <string name="qiniu_sk_hint">请输入七牛云 SecretKey</string>
+    <string name="bucket_hint">请输入 bucket</string>
+    <string name="other_bucket_hint">默认使用 bucket </string>
+    <string name="bucket_path_hint">默认 /</string>
+    <string name="store_region_hint">请输入存储区域</string>
+    <!-- 七牛云配置 -->
+
 </resources>
