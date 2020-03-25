@@ -14,14 +14,14 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@mipmap/bg_login"
+        android:background="#D2D9DD"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginLeft="14dp"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="30dp"
             android:layout_marginRight="14dp"
             android:background="@drawable/bg_login_input_ok"
             android:gravity="center_vertical">
@@ -37,7 +37,7 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="22dp"
-                android:background="@color/account_input_bg_color" />
+                android:background="@color/qmui_config_color_black" />
 
 
             <EditText
@@ -59,20 +59,10 @@
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
                 android:text="@={loginModel.username}"
-                android:textColorHint="@color/login_line_color"
                 android:textCursorDrawable="@null"
-                android:textSize="@dimen/font_16" />
+                android:textSize="@dimen/font_16"
+                android:autofillHints="null" />
 
-            <ImageView
-                android:id="@+id/iv_login_username_del"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:contentDescription="@null"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/ic_clear"
-                android:visibility="gone" />
 
         </LinearLayout>
 
@@ -96,7 +86,7 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="22dp"
-                android:background="@color/account_input_bg_color" />
+                android:background="@color/qmui_config_color_black" />
 
 
             <EditText
@@ -109,7 +99,7 @@
                 android:background="@null"
                 android:ems="15"
                 android:focusable="true"
-                android:hint="@string/login_input_username_hint"
+                android:hint="@string/login_input_password_hint"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
                 android:lines="1"
@@ -118,55 +108,10 @@
                 android:text="@={loginModel.password}"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
-                android:textColorHint="@color/login_line_color"
                 android:textCursorDrawable="@null"
                 android:textSize="@dimen/font_16" />
 
-            <ImageView
-                android:id="@+id/iv_login_pwd_del"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:contentDescription="@null"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/ic_clear"
-                android:visibility="gone" />
-
         </LinearLayout>
-
-        <Button
-            android:id="@+id/btn_login"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
-            android:background="@drawable/bg_login_submit"
-            android:elevation="0dp"
-            android:onClick="@{() -> loginModel.login()}"
-            android:outlineProvider="none"
-            android:text="@string/login"
-            android:textColor="@color/white"
-            android:textSize="@dimen/font_18"
-            tools:targetApi="lollipop" />
-
-        <Button
-            android:id="@+id/btn_register"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginStart="14dp"
-            android:layout_marginLeft="14dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
-            android:background="@drawable/bg_login_register"
-            android:elevation="0dp"
-            android:outlineProvider="none"
-            android:text="@string/register"
-            android:textColor="@color/white"
-            android:textSize="@dimen/font_18"
-            tools:targetApi="lollipop" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -193,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/login_hold_hint"
-                android:textColor="@color/white"
+                android:textColor="@color/qmui_config_color_black"
                 android:textSize="16sp"
                 android:visibility="visible" />
 
@@ -202,14 +147,44 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:paddingLeft="4dp"
+                android:paddingStart="4dp"
                 android:paddingTop="4dp"
                 android:paddingBottom="4dp"
                 android:text="@string/login_forget_hint"
-                android:textColor="@color/white"
+                android:textColor="@color/qmui_config_color_blue"
                 android:textSize="16sp"
                 tools:ignore="RtlSymmetry" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/bg_login_submit"
+            android:elevation="0dp"
+            android:onClick="@{() -> loginModel.login()}"
+            android:outlineProvider="none"
+            android:text="@string/login"
+            android:textColor="@color/qmui_config_color_black"
+            android:textSize="@dimen/font_18"
+            tools:targetApi="lollipop" />
+
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+            android:id="@+id/btn_register"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="24dp"
+            android:elevation="0dp"
+            android:outlineProvider="none"
+            android:text="@string/register"
+            android:textColor="@color/qmui_config_color_black"
+            android:textSize="@dimen/font_18"
+            tools:targetApi="lollipop" />
 
         <Space
             android:layout_width="match_parent"

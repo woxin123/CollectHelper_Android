@@ -1,10 +1,11 @@
-package online.mengchen.collectionhelper
+package online.mengchen.collectionhelper.main
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import online.mengchen.collectionhelper.R
 
 class MyFragment: Fragment() {
 

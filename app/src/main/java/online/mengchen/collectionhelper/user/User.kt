@@ -6,3 +6,16 @@ class User {
     private var phoneNumber: String? = null
 
 }
+
+data class LoginUser (
+    var username: String,
+    var password: String
+)
+
+data class UserData(
+    var userId: Long = -1,
+    var username: String = "",
+    var phone: String = "",
+    var avater: String = ""
+
+)

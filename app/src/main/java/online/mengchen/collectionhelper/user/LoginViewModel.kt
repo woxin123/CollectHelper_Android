@@ -2,22 +2,25 @@ package online.mengchen.collectionhelper.user
 
 import android.app.Activity
 import android.app.Application
+import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ObservableField
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import online.mengchen.collectionhelper.data.network.LoginNetwork
-import retrofit2.Callback
-import online.mengchen.collectionhelper.common.Result
-import retrofit2.Call
-import retrofit2.Response
-import java.util.concurrent.Callable
+import online.mengchen.collectionhelper.common.ApiResult
+import online.mengchen.collectionhelper.common.Constant
+import online.mengchen.collectionhelper.data.network.RetrofitClient
+import online.mengchen.collectionhelper.data.network.SessionInterceptor
+import online.mengchen.collectionhelper.data.network.api.LoginService
 
 class LoginViewModel(application: Application): AndroidViewModel(application) {
 
@@ -28,42 +31,39 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
     var username = ObservableField<String>("")
     var password = ObservableField<String>("")
     var rememberLogin = ObservableField<Boolean>(false)
-    var activity: Activity? = null
+    lateinit var activity: AppCompatActivity
     val isLoginSuccess = MutableLiveData<Boolean>()
     val user = User()
 
 
-    private val loginNetwork = LoginNetwork()
+    private val loginService = RetrofitClient.loginService
 
     fun login() {
-//        launch({
-//            val result = loginNetwork.login(username.get()!!, password.get()!!)
-//            val user =
-//            Log.d(TAG, "result = $result")
-//            isLoginSuccess.value = true
-//        }, {
-//            it.printStackTrace()
-//            Toast.makeText(activity, "登录失败", Toast.LENGTH_SHORT).show()
-//            isLoginSuccess.value = true
-//        })
-        viewModelScope.launch {
-            launch(Dispatchers.IO) {
-                delay(500L)
+        doLogin(username.get()!!, password.get()!!).observe(activity!!, Observer {
+            if (it == null) {
+                Toast.makeText(activity, "服务器连接失败", Toast.LENGTH_SHORT).show()
+            } else {
+                if (it.status == 400) {
+                    Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
+                }
+                if (it.status == 201) {
+                    // 存储登录状态
+                    activity.getSharedPreferences(Constant.SP_STATUS_KEY, Context.MODE_PRIVATE)
+                        .edit().putBoolean(Constant.IS_LOGIN, true).apply()
+                    activity.getSharedPreferences(Constant.SP_COOKIE, Context.MODE_PRIVATE)
+                        .edit().putString(Constant.COOKIE, SessionInterceptor.cookieSir).apply()
+                    Toast.makeText(activity, "登录成功", Toast.LENGTH_SHORT).show()
+                    activity.finish()
+                }
             }
-            isLoginSuccess.value = true
-        }
+        })
     }
 
-    private suspend fun doLogin(username: String, password: String) = withContext(Dispatchers.IO) {
-        val result = loginNetwork.login(username, password)
-        result
+    private fun doLogin(username: String, password: String): LiveData<ApiResult<UserData>?> {
+        return loginService.login(LoginUser(username, password))
     }
 
-    private fun launch(block: suspend () -> Unit, error: suspend (Throwable) -> Unit) = viewModelScope.launch {
-        try {
-            block()
-        } catch (e: Throwable) {
-            error(e)
-        }
+    fun check(username: String, password: String) {
+
     }
 }

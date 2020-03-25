@@ -29,13 +29,5 @@ class LoginActivity : AppCompatActivity() {
         binding.loginModel = loginViewModel
         binding.lifecycleOwner = this
         loginViewModel.activity = this
-        loginViewModel.isLoginSuccess.observe(this, Observer<Boolean> {
-            if (it) {
-                Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show()
-                finish()
-            } else {
-                Toast.makeText(this, "用户名或密码失败", Toast.LENGTH_SHORT).show()
-            }
-        })
     }
 }
