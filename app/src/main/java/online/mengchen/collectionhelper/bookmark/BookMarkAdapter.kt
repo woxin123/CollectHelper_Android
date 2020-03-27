@@ -35,9 +35,9 @@ class BookMarkAdapter : RecyclerView.Adapter<BookMarkViewHolder>() {
 
     override fun onBindViewHolder(holder: BookMarkViewHolder, position: Int) {
         val bookMark = data[position]
-        holder.category.text = bookMark.category
-        holder.summary.text = bookMark.summary
-        holder.title.text = bookMark.title
+        holder.category.text = bookMark.bookMarkCategory.categoryName
+        holder.summary.text = bookMark.bookMarkDetail?.summary
+        holder.title.text = bookMark.bookMarkDetail?.title
     }
 
 

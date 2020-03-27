@@ -21,7 +21,7 @@ object BookMarkUtils {
     }
 
 
-    fun parseUrlToBookMark(urlString: String): BookMark? {
+    fun parseUrlToBookMark(urlString: String): BookMarkDetail? {
         val doc = Jsoup.connect(urlString).execute().parse()
         val title = doc.title()
         val url = URL(urlString)
@@ -29,7 +29,7 @@ object BookMarkUtils {
         val favicon = url.protocol + "://" + url.host + (if (url.port != -1) url.port else "") + "/" + FAVICON
         val summary = map[url.host]?.invoke(doc) ?:  extractText(doc.selectFirst("h1"))
         println(summary)
-        return BookMark(url = urlString, title = title, favicon = favicon, summary = summary)
+        return BookMarkDetail(-1, title, summary, favicon)
     }
 
     private fun extractText(node: Node): String {

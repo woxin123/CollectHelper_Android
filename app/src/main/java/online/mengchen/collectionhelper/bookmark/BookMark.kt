@@ -1,10 +1,18 @@
 package online.mengchen.collectionhelper.bookmark
 
+import java.time.LocalDateTime
+
 data class BookMark(
-    var url: String = "",
-    var title: String = "",
-    var summary: String = "",
-    var time: String = "2020-02-23",
-    var favicon: String = "",
-    var category: String = "未分类"
+    var id: Long,
+    var url: String,
+    var bookMarkDetail: BookMarkDetail?,
+    var bookMarkCategory: BookMarkCategory,
+    var createTime: LocalDateTime
+)
+
+data class BookMarkDetail (
+    var id: Long,
+    var title: String,
+    var summary: String,
+    var icon: String
 )
