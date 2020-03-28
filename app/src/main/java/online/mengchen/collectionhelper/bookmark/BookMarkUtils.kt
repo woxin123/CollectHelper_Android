@@ -27,7 +27,13 @@ object BookMarkUtils {
         val url = URL(urlString)
         println(url.host)
         val favicon = url.protocol + "://" + url.host + (if (url.port != -1) url.port else "") + "/" + FAVICON
-        val summary = map[url.host]?.invoke(doc) ?:  extractText(doc.selectFirst("h1"))
+        val summary: String = map[url.host]?.invoke(doc) ?: doc.selectFirst("h1").run {
+            if (this == null) {
+                ""
+            } else {
+                extractText(this)
+            }
+        }
         println(summary)
         return BookMarkDetail(-1, title, summary, favicon)
     }

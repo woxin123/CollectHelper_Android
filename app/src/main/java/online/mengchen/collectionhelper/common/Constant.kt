@@ -7,4 +7,5 @@ object Constant {
     const val BASE_URL = "http://192.168.43.186:8080"
     const val SP_COOKIE = "cookie"
     const val COOKIE = "cookie"
+    const val BOOK_MARK_URL = "BOOK_MARK_URL"
 }

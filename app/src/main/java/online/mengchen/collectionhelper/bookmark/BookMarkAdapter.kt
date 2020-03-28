@@ -10,6 +10,8 @@ import online.mengchen.collectionhelper.R
 
 class BookMarkAdapter : RecyclerView.Adapter<BookMarkViewHolder>() {
 
+    var listener: OnItemClickListener? = null
+
     var data = mutableListOf<BookMark>()
         set(value) {
             field.addAll(value)
@@ -38,9 +40,14 @@ class BookMarkAdapter : RecyclerView.Adapter<BookMarkViewHolder>() {
         holder.category.text = bookMark.bookMarkCategory.categoryName
         holder.summary.text = bookMark.bookMarkDetail?.summary
         holder.title.text = bookMark.bookMarkDetail?.title
+        holder.itemView.setOnClickListener {
+            listener?.onClick(bookMark)
+        }
     }
 
-
+    interface OnItemClickListener {
+        fun onClick(bookMark: BookMark)
+    }
 }
 
 class BookMarkViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

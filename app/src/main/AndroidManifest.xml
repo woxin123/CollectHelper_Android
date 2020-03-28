@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".config.QiniuConfigActivity"></activity>
+        <activity android:name=".bookmark.BookMarkViewActivity"></activity>
+        <activity android:name=".config.QiniuConfigActivity" />
         <activity android:name=".user.LoginActivity" />
         <activity android:name=".main.MainActivity">
             <intent-filter>
