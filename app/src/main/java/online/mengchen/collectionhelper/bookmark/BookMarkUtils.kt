@@ -8,7 +8,7 @@ import java.net.URL
 
 object BookMarkUtils {
 
-    const val FAVICON = "favicon.ico"
+    private const val FAVICON = "favicon.ico"
 
     val map: MutableMap<String, (Document) -> String> = mutableMapOf()
 

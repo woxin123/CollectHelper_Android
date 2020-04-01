@@ -12,7 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".bookmark.BookMarkViewActivity"></activity>
+        <activity android:name=".bookmark.BookMarkShareActivity"
+            android:label="收藏书签">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".bookmark.BookMarkViewActivity" />
         <activity android:name=".config.QiniuConfigActivity" />
         <activity android:name=".user.LoginActivity" />
         <activity android:name=".main.MainActivity">

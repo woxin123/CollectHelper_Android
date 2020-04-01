@@ -22,9 +22,9 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
             android:text="@string/my_book_mark"
+            android:textColor="#4B4B4B"
             android:textSize="30sp"
             android:textStyle="bold"
-            android:textColor="#4B4B4B"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/sep"
             app:layout_constraintStart_toStartOf="parent"
@@ -52,18 +52,34 @@
             app:layout_constraintStart_toEndOf="@+id/sep"
             app:layout_constraintTop_toTopOf="@+id/sep" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/book_mark_margin"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="@dimen/book_mark_margin"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/bookMark"
-            app:layout_constraintVertical_bias="1.0" />
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:srlAccentColor="@android:color/white"
+            app:srlEnablePreviewInEditMode="true"
+            app:srlPrimaryColor="#444444"
+            app:layout_constraintTop_toBottomOf="@+id/bookMark">
+
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:id="@+id/classicsHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/book_mark_margin"
+                android:layout_marginEnd="@dimen/book_mark_margin"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

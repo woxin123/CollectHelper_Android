@@ -16,3 +16,8 @@ data class BookMarkDetail (
     var summary: String,
     var icon: String
 )
+
+data class AddBookMark (
+    var categoryId: Long = -1,
+    var url: String
+)

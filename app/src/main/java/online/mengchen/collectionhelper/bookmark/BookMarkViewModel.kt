@@ -17,22 +17,37 @@ import online.mengchen.collectionhelper.data.network.RetrofitClient
 class BookMarkViewModel: ViewModel() {
 
     private val bookMarkService = RetrofitClient.bookMarkService
-    private val list: MutableList<BookMark> = ArrayList()
+
+    var pageNo: Int = 0
+    var pageSize: Int = 10
 
     val loginSuccess: LiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
 
     val bookMarkCount: ObservableField<String> = ObservableField("0")
     lateinit var bookMarkAdapter: BookMarkAdapter
 
-    fun getBookMarks(pageNo: Int, pageSize: Int): LiveData<ApiResult<Page<BookMark>>> {
-        return bookMarkService.getBookMark()
+    /**
+     * @param refresh 是否是刷新， true 刷新，false load more
+     */
+    fun getBookMarks(refresh: Boolean): LiveData<ApiResult<Page<BookMark>>> {
+        if (refresh) {
+            return bookMarkService.getBookMark(0, pageSize)
+        }
+        if (bookMarkAdapter.data.size >= 10) {
+            this.pageNo++
+        }
+        return bookMarkService.getBookMark(pageNo, pageSize)
     }
 
-    fun addBooMarks(bookMarks: List<BookMark>) {
+    fun addBooMarks(bookMarks: List<BookMark>, refresh: Boolean = true) {
         viewModelScope.launch {
             getBookMarkDetails(bookMarks)
-            list.addAll(bookMarks)
-            bookMarkAdapter.data = list
+            if (refresh) {
+                bookMarkAdapter.data = mutableListOf(*bookMarks.toTypedArray())
+            } else {
+//                bookMarkAdapter.data
+            }
+            bookMarkCount.set(bookMarkAdapter.data.size.toString())
         }
 
     }
@@ -46,5 +61,6 @@ class BookMarkViewModel: ViewModel() {
             }
         }
     }
+
 
 }

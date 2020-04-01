@@ -56,4 +56,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:4.3.1'
     implementation 'org.jsoup:jsoup:1.12.2'
     implementation 'com.qmuiteam:qmui:1.4.0'
+
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.2'
 }
