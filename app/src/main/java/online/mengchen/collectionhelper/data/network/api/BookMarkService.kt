@@ -15,8 +15,8 @@ interface BookMarkService {
         const val BOOKMARKS = "/bookmarks"
     }
     @GET(BOOKMARKS)
-    fun getBookMark(@Query("page") page: Int, @Query("size") pageSize: Int): LiveData<ApiResult<Page<BookMark>>>
+    suspend fun getBookMark(@Query("page") page: Int, @Query("size") pageSize: Int): ApiResult<Page<BookMark>>
 
     @POST(BOOKMARKS)
-    fun addBookMark(@Body addBookMark: AddBookMark): LiveData<ApiResult<BookMark>>
+    suspend fun addBookMark(@Body addBookMark: AddBookMark): ApiResult<BookMark>
 }

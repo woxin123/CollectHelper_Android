@@ -14,29 +14,53 @@ import online.mengchen.collectionhelper.common.ApiResult
 import online.mengchen.collectionhelper.common.Page
 import online.mengchen.collectionhelper.data.network.RetrofitClient
 
-class BookMarkViewModel: ViewModel() {
+class BookMarkViewModel : ViewModel() {
 
     private val bookMarkService = RetrofitClient.bookMarkService
 
-    var pageNo: Int = 0
-    var pageSize: Int = 10
 
     val loginSuccess: LiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
 
     val bookMarkCount: ObservableField<String> = ObservableField("0")
     lateinit var bookMarkAdapter: BookMarkAdapter
+    val refreshBookMarks: MutableLiveData<ApiResult<Page<BookMark>>> = MutableLiveData()
+    val loadMoreLiveData: MutableLiveData<ApiResult<Page<BookMark>>> = MutableLiveData()
 
     /**
      * @param refresh 是否是刷新， true 刷新，false load more
      */
-    fun getBookMarks(refresh: Boolean): LiveData<ApiResult<Page<BookMark>>> {
-        if (refresh) {
-            return bookMarkService.getBookMark(0, pageSize)
+    fun getBookMarks(refresh: Boolean, pageNo: Int = 0, pageSize: Int = 10) {
+//        val bookMarksLiveData: LiveData<ApiResult<Page<BookMark>>> =
+//            if (refresh) {
+//                bookMarkService.getBookMark(0, pageSize)
+//            } else {
+//                bookMarkService.getBookMark(pageNo, pageSize)
+//            }
+//        val res = bookMarksLiveDat
+//        if (res.status == 200) {
+//            pageNo = res.data?.number!!
+//            pageSize = res.data?.size!!
+//        }
+//        viewModelScope.launch {
+//            getBookMarkDetails(res.data?.content!!)
+//        }
+//        return bookMarksLiveData
+        var bookMarksRes: ApiResult<Page<BookMark>>? = null
+        viewModelScope.launch {
+            bookMarksRes = withContext(Dispatchers.IO) {
+                if (refresh) {
+                    bookMarkService.getBookMark(0, pageSize)
+                } else {
+                    bookMarkService.getBookMark(pageNo, pageSize)
+                }
+            }
+            bookMarksRes?.data?.content?.let { getBookMarkDetails(it) }
+            if (refresh) {
+                refreshBookMarks.value = bookMarksRes
+            } else {
+                loadMoreLiveData.value = bookMarksRes
+            }
         }
-        if (bookMarkAdapter.data.size >= 10) {
-            this.pageNo++
-        }
-        return bookMarkService.getBookMark(pageNo, pageSize)
     }
 
     fun addBooMarks(bookMarks: List<BookMark>, refresh: Boolean = true) {
@@ -45,12 +69,13 @@ class BookMarkViewModel: ViewModel() {
             if (refresh) {
                 bookMarkAdapter.data = mutableListOf(*bookMarks.toTypedArray())
             } else {
-//                bookMarkAdapter.data
+                bookMarkAdapter.addAll(listOf(*bookMarks.toTypedArray()))
             }
             bookMarkCount.set(bookMarkAdapter.data.size.toString())
         }
 
     }
+
 
     private suspend fun getBookMarkDetails(bookMarks: List<BookMark>) {
         withContext(Dispatchers.IO) {

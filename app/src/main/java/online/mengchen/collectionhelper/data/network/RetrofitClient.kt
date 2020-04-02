@@ -20,6 +20,7 @@ import java.time.LocalDateTime
 object RetrofitClient {
     @SuppressLint("NewApi")
     private val gson = GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss")
+        // 添加 Gson 对 LocalDataTime 的序列化与反序列化
         .registerTypeAdapter(LocalDateTime::class.java, LocalDateSerializer())
         .registerTypeAdapter(LocalDateTime::class.java, LocalDateDeserializer())
         .create()
@@ -33,7 +34,6 @@ object RetrofitClient {
                 .build()
         )
         .addConverterFactory(GsonConverterFactory.create(gson))
-        .addCallAdapterFactory(LiveDataCallAdapterFactory())
         .build()
 
     val loginService: LoginService = retrofitClient.create(LoginService::class.java)

@@ -34,15 +34,15 @@ class BookMarkShareActivity : AppCompatActivity() {
                 SessionInterceptor.cookieSir = cookie
             }
         }
+        bookMarkShareViewModel.addBookMarkStatus.observe(this, Observer {
+            if (it.status != 201) {
+                Toast.makeText(this, "添加失败", Toast.LENGTH_SHORT).show()
+            }
+            Toast.makeText(this, "添加成功", Toast.LENGTH_SHORT).show()
+        })
         val intent = intent!!
         val shareText = intent.getStringExtra(Intent.EXTRA_TEXT)
         Log.d(TAG, "shareText = $shareText")
-        bookMarkShareViewModel.addBookMark(url = shareText!!).observe(this, Observer {
-            if (it.status == 201) {
-                Toast.makeText(this, "添加成功", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "添加失败", Toast.LENGTH_SHORT).show()
-            }
-        })
+        bookMarkShareViewModel.addBookMark(url = shareText!!)
     }
 }

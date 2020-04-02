@@ -9,5 +9,5 @@ import retrofit2.http.*
 
 interface LoginService {
     @POST("/sessions")
-    fun login(@Body user: LoginUser): LiveData<ApiResult<UserData>?>
+    suspend fun login(@Body user: LoginUser): ApiResult<UserData>
 }
