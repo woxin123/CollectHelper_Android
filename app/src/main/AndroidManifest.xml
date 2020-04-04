@@ -13,7 +13,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".bookmark.BookMarkShareActivity"
-            android:label="收藏书签">
+            android:label="收藏书签"
+            android:theme="@style/Theme.BookMarkDialog">
             <intent-filter>
                 <action android:name="android.intent.action.SEND"/>
                 <category android:name="android.intent.category.DEFAULT" />

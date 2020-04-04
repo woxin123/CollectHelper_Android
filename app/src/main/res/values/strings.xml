@@ -33,4 +33,9 @@
     <string name="store_region_hint">请输入存储区域</string>
     <!-- 七牛云配置 -->
 
+    <string name="save_collect_helper">保存到收藏助手</string>
+    <string name="please_choose_category">请选择</string>
+    <string name="create_new_category">+创建</string>
+    <string name="commit_add_book_mark">OK</string>
+
 </resources>
