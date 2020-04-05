@@ -18,3 +18,8 @@ data class BookMarkCategory (
         }
     }
 }
+
+data class AddOrUpdateBookMarkCategory(
+    var categoryId: Long = -1,
+    var categoryName: String
+)

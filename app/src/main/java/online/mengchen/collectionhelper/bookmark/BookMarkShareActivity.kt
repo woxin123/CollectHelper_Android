@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.inputmethodservice.InputMethodService
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethod
@@ -15,6 +16,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.postDelayed
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -40,6 +42,7 @@ class BookMarkShareActivity : AppCompatActivity() {
     private lateinit var bookMarkShareViewModel: BookMarkShareViewModel
     private lateinit var bookMarkCategoryAdapter: BookMarkCategoryAdapter
     private val bookMarkCategoryChecked = mutableListOf<BookMarkCategory>()
+    private lateinit var mHandler: Handler
 
 
 
@@ -72,6 +75,7 @@ class BookMarkShareActivity : AppCompatActivity() {
         initView()
         initListener()
         bookMarkShareViewModel.getBookMarkCategories()
+        mHandler = Handler()
     }
 
      private fun setStatusBarFullTransparent() {
@@ -120,7 +124,9 @@ class BookMarkShareActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "添加失败", Toast.LENGTH_SHORT).show()
             }
-            finish()
+            mHandler.postDelayed(Runnable {
+                finish()
+            }, 300)
         })
         createCategory.setOnClickListener {
             createCategoryView.visibility = View.VISIBLE
@@ -133,6 +139,26 @@ class BookMarkShareActivity : AppCompatActivity() {
                 createCategoryView.visibility = View.GONE
             }
         }
+        cancelCreateCategory.setOnClickListener {
+            QMUIKeyboardHelper.hideKeyboard(newCategoryName)
+            createCategoryView.visibility = View.GONE
+        }
+        commitCreateCategory.setOnClickListener {
+            val categoryName = newCategoryName.text.toString()
+            if (categoryName.trim().isEmpty()) {
+                Toast.makeText(this, "分类名称不能为空", Toast.LENGTH_SHORT).show()
+            } else {
+                bookMarkShareViewModel.addBookMarkCategory(categoryName)
+            }
+        }
+        bookMarkShareViewModel.addBookMarkCategory.observe(this, Observer {
+            if (it.status == 201) {
+                Toast.makeText(this, "创建成功", Toast.LENGTH_SHORT).show()
+                bookMarkCategoryAdapter.addBookMarkCategory(it?.data!!)
+            } else {
+                Toast.makeText(this, "创建失败", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
 

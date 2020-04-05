@@ -19,6 +19,11 @@ class BookMarkCategoryAdapter :
 
     var onItemClickListener: ((BookMarkCategory) -> Unit)? = null
 
+    fun addBookMarkCategory(bookMarkCategory: BookMarkCategory) {
+        data.add(bookMarkCategory)
+        notifyItemInserted(data.size - 1)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookMarkCategoryViewHolder {
         return BookMarkCategoryViewHolder(
             LayoutInflater.from(parent.context)

@@ -104,12 +104,13 @@
             android:layout_alignParentBottom="true">
 
             <TextView
+                android:id="@+id/cancelCreateCategory"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:layout_gravity="center"
-                android:text="取消" />
+                android:text="@string/cancel" />
 
             <EditText
                 android:id="@+id/newCategoryName"
@@ -118,19 +119,22 @@
                 android:layout_gravity="center"
                 android:background="@drawable/add_book_mark_category"
                 android:gravity="center"
-                android:hint="请输入分类名称"
+                android:hint="@string/create_book_mark_category_hint"
                 android:textSize="16sp"
-                android:layout_weight="5"/>
+                android:layout_weight="5"
+                android:autofillHints=""
+                android:inputType="text" />
 
 
             <TextView
+                android:id="@+id/commitCreateCategory"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:textColor="@color/qmui_s_link_color"
-                android:text="完成" />
+                android:text="@string/completed" />
         </LinearLayout>
     </online.mengchen.collectionhelper.common.custom.FixStatusBarLayout>
     <!--    </RelativeLayout>-->

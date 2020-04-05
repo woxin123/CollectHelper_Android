@@ -38,4 +38,8 @@
     <string name="create_new_category">+创建</string>
     <string name="commit_add_book_mark">OK</string>
 
+    <string name="cancel">取消</string>
+    <string name="completed">完成</string>
+    <string name="create_book_mark_category_hint">请输入分类名称</string>
+
 </resources>

@@ -1,6 +1,7 @@
 package online.mengchen.collectionhelper.bookmark
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,28 +12,32 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import online.mengchen.collectionhelper.common.ApiResult
 import online.mengchen.collectionhelper.data.network.RetrofitClient
+import retrofit2.HttpException
 
 class BookMarkShareViewModel : ViewModel() {
 
-    val bookMarkService = RetrofitClient.bookMarkService
+    companion object {
+        const val TAG = "BookMarkShareViewModel"
+    }
+
+    private val bookMarkService = RetrofitClient.bookMarkService
     val addBookMarkStatus: MutableLiveData<ApiResult<BookMark>> = MutableLiveData()
     val bookMarkCategories: MutableLiveData<ApiResult<List<BookMarkCategory>>> = MutableLiveData()
+    val addBookMarkCategory by lazy { MutableLiveData<ApiResult<BookMarkCategory>>() }
 
-    fun addBookMark(categoryId: Long = -1, url: String) {
-        viewModelScope.launch {
-            val addBookMarkRes = withContext(Dispatchers.IO) {
-                bookMarkService.addBookMark(AddBookMark(categoryId, url))
-            }
-            addBookMarkStatus.value = addBookMarkRes
-        }
-    }
 
     fun getBookMarkCategories() {
         viewModelScope.launch {
-            val bookMarkCategoriesRes = withContext(Dispatchers.IO) {
-                bookMarkService.getBookMarkCategories()
+            try {
+                val bookMarkCategoriesRes = withContext(Dispatchers.IO) {
+                    bookMarkService.getBookMarkCategories()
+                }
+                bookMarkCategories.value = bookMarkCategoriesRes
+            } catch (e: HttpException) {
+                val status = e.code()
+                val message = e.message()
+                Log.d(TAG, "HTTP Exception status = $status And message = $message")
             }
-            bookMarkCategories.value = bookMarkCategoriesRes
         }
     }
 
@@ -51,6 +56,21 @@ class BookMarkShareViewModel : ViewModel() {
                 }
             }
             addBookMarkStatus.value = addBookMarkRes
+        }
+    }
+
+    fun addBookMarkCategory(bookMarkCategoryName: String) {
+        try {
+            viewModelScope.launch {
+                val addBookMarkCategoryRes = withContext(Dispatchers.IO) {
+                    bookMarkService.addBookMarkCategory(AddOrUpdateBookMarkCategory(categoryName = bookMarkCategoryName))
+                }
+                addBookMarkCategory.value = addBookMarkCategoryRes
+            }
+        } catch (e: HttpException) {
+            val status = e.code()
+            val message = e.message()
+            Log.d(TAG, "HTTP Exception status = $status message = $message")
         }
     }
 

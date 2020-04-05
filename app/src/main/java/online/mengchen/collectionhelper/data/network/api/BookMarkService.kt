@@ -2,6 +2,7 @@ package online.mengchen.collectionhelper.data.network.api
 
 import androidx.lifecycle.LiveData
 import online.mengchen.collectionhelper.bookmark.AddBookMark
+import online.mengchen.collectionhelper.bookmark.AddOrUpdateBookMarkCategory
 import online.mengchen.collectionhelper.bookmark.BookMark
 import online.mengchen.collectionhelper.bookmark.BookMarkCategory
 import online.mengchen.collectionhelper.common.ApiResult
@@ -24,4 +25,7 @@ interface BookMarkService {
 
     @GET(BOOKMARK_CATEGORY)
     suspend fun getBookMarkCategories(): ApiResult<List<BookMarkCategory>>
+
+    @POST(BOOKMARK_CATEGORY)
+    suspend fun addBookMarkCategory(@Body bookMarkCategory: AddOrUpdateBookMarkCategory): ApiResult<BookMarkCategory>
 }
