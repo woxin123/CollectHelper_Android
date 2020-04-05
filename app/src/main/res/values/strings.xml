@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CollectionHelper</string>
+    <string name="app_name">收藏助手</string>
     <string name="login">登录</string>
     <string name="register">注册</string>
     <string name="login_input_username_hint">请输入用户名</string>

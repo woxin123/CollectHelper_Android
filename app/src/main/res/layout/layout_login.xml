@@ -157,7 +157,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/btn_login"
+            android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginStart="14dp"
@@ -165,7 +165,6 @@
             android:layout_marginEnd="24dp"
             android:background="@drawable/bg_login_submit"
             android:elevation="0dp"
-            android:onClick="@{() -> loginModel.login()}"
             android:outlineProvider="none"
             android:text="@string/login"
             android:textColor="@color/qmui_config_color_black"
