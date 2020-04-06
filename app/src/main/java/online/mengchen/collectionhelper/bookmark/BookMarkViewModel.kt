@@ -13,13 +13,13 @@ import okhttp3.Dispatcher
 import online.mengchen.collectionhelper.common.ApiResult
 import online.mengchen.collectionhelper.common.Page
 import online.mengchen.collectionhelper.data.network.RetrofitClient
+import online.mengchen.collectionhelper.utils.HttpExceptionProcess
+import retrofit2.HttpException
 
 class BookMarkViewModel : ViewModel() {
 
     private val bookMarkService = RetrofitClient.bookMarkService
 
-
-    val loginSuccess: LiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
 
     val bookMarkCount: ObservableField<String> = ObservableField("0")
     lateinit var bookMarkAdapter: BookMarkAdapter
@@ -47,12 +47,16 @@ class BookMarkViewModel : ViewModel() {
 //        return bookMarksLiveData
         var bookMarksRes: ApiResult<Page<BookMark>>? = null
         viewModelScope.launch {
-            bookMarksRes = withContext(Dispatchers.IO) {
-                if (refresh) {
-                    bookMarkService.getBookMark(0, pageSize)
-                } else {
-                    bookMarkService.getBookMark(pageNo, pageSize)
+            try {
+                bookMarksRes = withContext(Dispatchers.IO) {
+                    if (refresh) {
+                        bookMarkService.getBookMark(0, pageSize)
+                    } else {
+                        bookMarkService.getBookMark(pageNo, pageSize)
+                    }
                 }
+            } catch (e: HttpException) {
+                HttpExceptionProcess.process(e)
             }
             bookMarksRes?.data?.content?.let { getBookMarkDetails(it) }
             if (refresh) {

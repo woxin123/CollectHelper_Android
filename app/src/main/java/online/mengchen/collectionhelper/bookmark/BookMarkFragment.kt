@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.fragment_book_mark.*
 import online.mengchen.collectionhelper.R
 import online.mengchen.collectionhelper.common.Constant
 import online.mengchen.collectionhelper.databinding.FragmentBookMarkBinding
+import online.mengchen.collectionhelper.utils.LoginUtils
 
 class BookMarkFragment : Fragment() {
 
@@ -31,6 +32,7 @@ class BookMarkFragment : Fragment() {
     private var isLastPage = false
     private var page: Int = 0
     private var pageSize: Int = 10
+    private var isFirstInit = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,19 +48,15 @@ class BookMarkFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initView()
-
-
         initListener()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
     }
 
     override fun onResume() {
         super.onResume()
-        mViewModel.getBookMarks(true)
-        loading.show()
+        if (isFirstInit && LoginUtils.isLogin) {
+            mViewModel.getBookMarks(true)
+            loading.show()
+        }
     }
 
     private fun initView() {
