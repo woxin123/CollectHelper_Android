@@ -45,10 +45,8 @@ class LoginActivity : AppCompatActivity() {
             // 存储登录状态
             this.getSharedPreferences(Constant.SP_STATUS_KEY, Context.MODE_PRIVATE)
                 .edit().putBoolean(Constant.IS_LOGIN, true).apply()
-            this.getSharedPreferences(Constant.SP_COOKIE, Context.MODE_PRIVATE)
-                .edit().putString(Constant.COOKIE, SessionInterceptor.cookieSir).apply()
+            LoginUtils.writeSession(this, SessionInterceptor.cookieSir!!)
             Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show()
-            LoginUtils.isLogin = true
             this.finish()
         })
         mLoginViewModel.mLoginError.observe(this, Observer {

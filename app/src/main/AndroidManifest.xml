@@ -13,12 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".bookmark.BookMarkShareActivity"
+        <activity android:name=".image.ImageShareActivity"></activity>
+        <activity
+            android:name=".bookmark.BookMarkShareActivity"
             android:label="收藏书签"
             android:theme="@style/Theme.BookMarkDialog">
             <intent-filter>
-                <action android:name="android.intent.action.SEND"/>
+                <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>

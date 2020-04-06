@@ -1,6 +1,5 @@
 package online.mengchen.collectionhelper.utils
 
-import android.app.Application
 import android.content.Intent
 import com.google.gson.Gson
 import okhttp3.ResponseBody
@@ -24,7 +23,6 @@ object HttpExceptionProcess {
             }
             HTTPStatus.UNAUTHORIZED.code -> {
                 CollectHelperApplication.context.startActivity(Intent(CollectHelperApplication.context, LoginActivity::class.java))
-
             }
         }
         return errorRes

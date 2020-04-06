@@ -2,7 +2,6 @@ package online.mengchen.collectionhelper.bookmark
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +31,7 @@ class BookMarkFragment : Fragment() {
     private var isLastPage = false
     private var page: Int = 0
     private var pageSize: Int = 10
-    private var isFirstInit = false
+    private var isFirstInit = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,7 +52,8 @@ class BookMarkFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (isFirstInit && LoginUtils.isLogin) {
+        if (isFirstInit && !LoginUtils.isNeedLogin(this.activity!!)) {
+            isFirstInit = false
             mViewModel.getBookMarks(true)
             loading.show()
         }
