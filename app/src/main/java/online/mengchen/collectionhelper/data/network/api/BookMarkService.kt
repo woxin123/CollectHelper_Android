@@ -1,9 +1,8 @@
 package online.mengchen.collectionhelper.data.network.api
 
-import androidx.lifecycle.LiveData
 import online.mengchen.collectionhelper.bookmark.AddBookMark
 import online.mengchen.collectionhelper.bookmark.AddOrUpdateBookMarkCategory
-import online.mengchen.collectionhelper.bookmark.BookMark
+import online.mengchen.collectionhelper.bookmark.BookMarkInfo
 import online.mengchen.collectionhelper.bookmark.BookMarkCategory
 import online.mengchen.collectionhelper.common.ApiResult
 import online.mengchen.collectionhelper.common.Page
@@ -18,10 +17,10 @@ interface BookMarkService {
         const val BOOKMARK_CATEGORY = "/bookmarkCategories"
     }
     @GET(BOOKMARKS)
-    suspend fun getBookMark(@Query("page") page: Int, @Query("size") pageSize: Int): ApiResult<Page<BookMark>>
+    suspend fun getBookMark(@Query("page") page: Int, @Query("size") pageSize: Int): ApiResult<Page<BookMarkInfo>>
 
     @POST(BOOKMARKS)
-    suspend fun addBookMark(@Body addBookMark: AddBookMark): ApiResult<BookMark>
+    suspend fun addBookMark(@Body addBookMark: AddBookMark): ApiResult<BookMarkInfo>
 
     @GET(BOOKMARK_CATEGORY)
     suspend fun getBookMarkCategories(): ApiResult<List<BookMarkCategory>>

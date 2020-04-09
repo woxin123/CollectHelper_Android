@@ -22,5 +22,4 @@ open class TitleImageViewHolder(var itemView: View): ImageViewHolder(itemView) {
 class ImageImageViewHolder(itemView: View): ImageViewHolder(itemView) {
     val imageView: ImageView = itemView.findViewById(R.id.imageView)
     val categoryName: TextView = itemView.findViewById(R.id.category)
-    val count: TextView = itemView.findViewById(R.id.count)
 }

@@ -16,6 +16,6 @@ data class UserData(
     var userId: Long = -1,
     var username: String = "",
     var phone: String = "",
-    var avater: String = ""
+    var avatar: String = ""
 
 )

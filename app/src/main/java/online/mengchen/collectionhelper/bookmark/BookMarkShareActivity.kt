@@ -1,36 +1,25 @@
 package online.mengchen.collectionhelper.bookmark
 
-import android.annotation.SuppressLint
-import android.app.ActionBar
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.inputmethodservice.InputMethodService
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.*
-import android.view.inputmethod.InputMethod
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.postDelayed
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.qmuiteam.qmui.util.QMUIDisplayHelper
 import com.qmuiteam.qmui.util.QMUIKeyboardHelper
-import com.qmuiteam.qmui.widget.dialog.QMUIDialog
 import kotlinx.android.synthetic.main.activity_book_mark_share.*
-import kotlinx.android.synthetic.main.fragment_book_mark.*
 import online.mengchen.collectionhelper.R
 import online.mengchen.collectionhelper.common.Constant
 import online.mengchen.collectionhelper.data.network.SessionInterceptor
 import online.mengchen.collectionhelper.user.LoginActivity
-import online.mengchen.collectionhelper.utils.KeyBoardHelper
 import java.time.LocalDateTime
 
 
@@ -119,7 +108,7 @@ class BookMarkShareActivity : AppCompatActivity() {
             bookMarkShareViewModel.addBookMark(bookMarkCategoryChecked, url!!)
         }
 
-        bookMarkShareViewModel.addBookMarkStatus.observe(this, Observer {
+        bookMarkShareViewModel.addBookMarkInfoStatus.observe(this, Observer {
             if (it.status == 201) {
                 Toast.makeText(this, "添加成功", Toast.LENGTH_SHORT).show()
             } else {

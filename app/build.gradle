@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -23,6 +25,7 @@ android {
     }
 
     dataBinding {
+        //noinspection DataBindingWithoutKapt
         enabled = true
     }
 }
@@ -44,7 +47,7 @@ dependencies {
     implementation "com.bytedance.scene:scene-ui:${latest_version}"
     implementation "com.bytedance.scene:scene-shared-element-animation:${latest_version}"
     implementation "com.bytedance.scene:scene-ktx:${latest_version}"
-    implementation 'com.android.support:design:28.0.0'
+    implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     implementation "androidx.lifecycle:lifecycle-common-java8:2.2.0"
     //noinspection LifecycleAnnotationProcessorWithJava8
@@ -59,4 +62,8 @@ dependencies {
 
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.2'
+
+    runtimeOnly 'androidx.room:room-runtime:2.2.5'
+    kapt 'androidx.room:room-compiler:2.2.5'
+    implementation 'androidx.room:room-ktx:2.2.5'
 }

@@ -46,6 +46,7 @@ class LoginActivity : AppCompatActivity() {
             this.getSharedPreferences(Constant.SP_STATUS_KEY, Context.MODE_PRIVATE)
                 .edit().putBoolean(Constant.IS_LOGIN, true).apply()
             LoginUtils.writeSession(this, SessionInterceptor.cookieSir!!)
+            LoginUtils.user = it.data
             Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show()
             this.finish()
         })

@@ -7,9 +7,13 @@ import okhttp3.Cookie
 import okhttp3.internal.cookieToString
 import online.mengchen.collectionhelper.common.Constant
 import online.mengchen.collectionhelper.data.network.SessionInterceptor
+import online.mengchen.collectionhelper.user.UserData
+
 import java.util.*
 
 object LoginUtils {
+
+    var user: UserData? = null
 
     /**
      * 这里验证了 session 是否存在
@@ -34,5 +38,7 @@ object LoginUtils {
             .putLong("SESSION_TIME", System.currentTimeMillis())
             .apply()
     }
+
+
 
 }

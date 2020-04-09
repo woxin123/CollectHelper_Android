@@ -6,21 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import okhttp3.internal.notifyAll
 import online.mengchen.collectionhelper.R
 
 class BookMarkAdapter : RecyclerView.Adapter<BookMarkViewHolder>() {
 
     var listener: OnItemClickListener? = null
 
-    var data = mutableListOf<BookMark>()
+    var data = mutableListOf<BookMarkInfo>()
         set(value) {
             field = value
             notifyDataSetChanged()
             Log.d("mengchen", "data.size = ${data.size}")
         }
 
-    fun addAll(newData: List<BookMark>) {
+    fun addAll(newData: List<BookMarkInfo>) {
         Log.d("mengchen", newData.toString())
         data.addAll(newData.toTypedArray())
         notifyDataSetChanged()
@@ -53,7 +52,7 @@ class BookMarkAdapter : RecyclerView.Adapter<BookMarkViewHolder>() {
     }
 
     interface OnItemClickListener {
-        fun onClick(bookMark: BookMark)
+        fun onClick(bookMarkInfo: BookMarkInfo)
     }
 }
 

@@ -8,7 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="Theme.BookMarkDialog" parent="AppTheme">
+    <style name="Theme.CollectHelpShare" parent="AppTheme">
         <!-- 背景色，这里的背景色一定要设置成透明 -->
         <item name="android:windowBackground">@color/transparent</item>
         <!-- window is translucent 窗口是半透明的 -->

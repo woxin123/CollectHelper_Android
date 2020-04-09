@@ -2,7 +2,7 @@ package online.mengchen.collectionhelper.bookmark
 
 import java.time.LocalDateTime
 
-data class BookMark(
+data class BookMarkInfo(
     var id: Long,
     var url: String,
     var bookMarkDetail: BookMarkDetail?,

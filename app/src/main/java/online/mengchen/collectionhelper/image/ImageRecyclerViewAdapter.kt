@@ -33,7 +33,6 @@ class ImageRecyclerViewAdapter(val data: MutableList<ImageCategory>, private val
         val imageImageViewHolder = holder as ImageImageViewHolder
         val category = data[position]
         imageImageViewHolder.categoryName.text = category.name
-        imageImageViewHolder.count.text = category.count.toString()
     }
 
 }

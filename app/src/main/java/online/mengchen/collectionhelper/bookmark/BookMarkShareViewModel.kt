@@ -3,7 +3,6 @@ package online.mengchen.collectionhelper.bookmark
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,7 +20,7 @@ class BookMarkShareViewModel : ViewModel() {
     }
 
     private val bookMarkService = RetrofitClient.bookMarkService
-    val addBookMarkStatus: MutableLiveData<ApiResult<BookMark>> = MutableLiveData()
+    val addBookMarkInfoStatus: MutableLiveData<ApiResult<BookMarkInfo>> = MutableLiveData()
     val bookMarkCategories: MutableLiveData<ApiResult<List<BookMarkCategory>>> = MutableLiveData()
     val addBookMarkCategory by lazy { MutableLiveData<ApiResult<BookMarkCategory>>() }
 
@@ -48,14 +47,14 @@ class BookMarkShareViewModel : ViewModel() {
             if (bookMarkCategories.isEmpty()) {
                 bookMarkCategories.add(BookMarkCategory.unCategorized())
             }
-            var addBookMarkRes: ApiResult<BookMark>? = null
+            var addBookMarkInfoRes: ApiResult<BookMarkInfo>? = null
             withContext(Dispatchers.IO) {
                 bookMarkCategories.forEach {
                     bookMark.categoryId = it.categoryId
-                    addBookMarkRes = bookMarkService.addBookMark(bookMark)
+                    addBookMarkInfoRes = bookMarkService.addBookMark(bookMark)
                 }
             }
-            addBookMarkStatus.value = addBookMarkRes
+            addBookMarkInfoStatus.value = addBookMarkInfoRes
         }
     }
 

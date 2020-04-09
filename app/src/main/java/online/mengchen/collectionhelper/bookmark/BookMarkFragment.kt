@@ -66,13 +66,13 @@ class BookMarkFragment : Fragment() {
         mViewModel.bookMarkAdapter = adapter
         mBinding.recyclerView.adapter = adapter
         adapter.listener = object : BookMarkAdapter.OnItemClickListener {
-            override fun onClick(bookMark: BookMark) {
+            override fun onClick(bookMarkInfo: BookMarkInfo) {
                 startActivity(
                     Intent(
                         this@BookMarkFragment.activity,
                         BookMarkViewActivity::class.java
                     ).apply {
-                        putExtra(Constant.BOOK_MARK_URL, bookMark.url)
+                        putExtra(Constant.BOOK_MARK_URL, bookMarkInfo.url)
                     })
             }
         }
@@ -83,7 +83,7 @@ class BookMarkFragment : Fragment() {
     }
 
     private fun initListener() {
-        mViewModel.refreshBookMarks.observe(this.viewLifecycleOwner, Observer {
+        mViewModel.refreshBookMarksInfo.observe(this.viewLifecycleOwner, Observer {
             if (it.status != 200) {
                 Toast.makeText(this.activity, "书签获取出错", Toast.LENGTH_SHORT).show()
             } else {
