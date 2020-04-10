@@ -54,13 +54,16 @@
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/refresh"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginTop="20dp"
             app:srlAccentColor="@android:color/white"
             app:srlEnablePreviewInEditMode="true"
             app:srlPrimaryColor="#444444"
-            app:layout_constraintTop_toBottomOf="@+id/bookMark">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bookMark"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <com.scwang.smartrefresh.layout.header.ClassicsHeader
                 android:id="@+id/classicsHeader"

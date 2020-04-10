@@ -11,10 +11,13 @@ import online.mengchen.collectionhelper.domain.entity.BookMark
 interface BookMarkDao {
 
     @Query("SELECT * FROM bookmark")
-    fun getAll(): LiveData<List<BookMark>>
+    suspend fun getAll(): List<BookMark>
 
     @Query("SELECT * FROM bookmark WHERE id = :id")
     suspend fun findById(id: Long): BookMark?
+
+    @Query("SELECT count(*) FROM bookmark WHERE id = :id")
+    suspend fun existsById(id: Long): Boolean
 
     @Insert
     suspend fun insert(bookMark: BookMark)

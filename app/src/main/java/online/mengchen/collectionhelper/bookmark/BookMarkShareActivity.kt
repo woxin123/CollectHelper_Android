@@ -31,7 +31,7 @@ class BookMarkShareActivity : AppCompatActivity() {
 
     private lateinit var bookMarkShareViewModel: BookMarkShareViewModel
     private lateinit var bookMarkCategoryAdapter: BookMarkCategoryAdapter
-    private val bookMarkCategoryChecked = mutableListOf<BookMarkCategory>()
+    private val bookMarkCategoryChecked = mutableListOf<CategoryInfo>()
     private lateinit var mHandler: Handler
 
 
@@ -79,10 +79,6 @@ class BookMarkShareActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initView() {
-        val data = mutableListOf<BookMarkCategory>()
-        for (i in 1..20) {
-            data.add(BookMarkCategory(i.toLong(), "java$i", LocalDateTime.now(), LocalDateTime.now()))
-        }
         bookMarkCategoryAdapter = BookMarkCategoryAdapter()
         categoriesRecyclerView.adapter = bookMarkCategoryAdapter
         categoriesRecyclerView.layoutManager = GridLayoutManager(this, 3, LinearLayoutManager.VERTICAL, false)
@@ -96,7 +92,7 @@ class BookMarkShareActivity : AppCompatActivity() {
             finish()
         }
 
-        bookMarkShareViewModel.bookMarkCategories.observe(this, Observer {
+        bookMarkShareViewModel.categories.observe(this, Observer {
             bookMarkCategoryAdapter.data = it.data?.toMutableList()!!
         })
 

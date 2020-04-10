@@ -11,16 +11,16 @@ import online.mengchen.collectionhelper.R
 class BookMarkCategoryAdapter :
     RecyclerView.Adapter<BookMarkCategoryViewHolder>() {
 
-    var data: MutableList<BookMarkCategory> = mutableListOf()
+    var data: MutableList<CategoryInfo> = mutableListOf()
         set(value)  {
             field = value
             notifyDataSetChanged()
         }
 
-    var onItemClickListener: ((BookMarkCategory) -> Unit)? = null
+    var onItemClickListener: ((CategoryInfo) -> Unit)? = null
 
-    fun addBookMarkCategory(bookMarkCategory: BookMarkCategory) {
-        data.add(bookMarkCategory)
+    fun addBookMarkCategory(categoryInfo: CategoryInfo) {
+        data.add(categoryInfo)
         notifyItemInserted(data.size - 1)
     }
 

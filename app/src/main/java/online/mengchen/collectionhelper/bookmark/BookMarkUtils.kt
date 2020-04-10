@@ -21,7 +21,7 @@ object BookMarkUtils {
     }
 
 
-    fun parseUrlToBookMark(urlString: String): BookMarkDetail? {
+    fun parseUrlToBookMark(urlString: String): BookMarkDetailInfo? {
         val doc = Jsoup.connect(urlString).execute().parse()
         val title = doc.title()
         val url = URL(urlString)
@@ -35,7 +35,7 @@ object BookMarkUtils {
             }
         }
         println(summary)
-        return BookMarkDetail(-1, title, summary, favicon)
+        return BookMarkDetailInfo(-1, title, summary, favicon)
     }
 
     private fun extractText(node: Node): String {

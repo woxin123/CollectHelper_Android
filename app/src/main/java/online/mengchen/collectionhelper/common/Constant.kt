@@ -9,4 +9,5 @@ object Constant {
     const val COOKIE = "cookie"
     const val BOOK_MARK_URL = "BOOK_MARK_URL"
     const val SESSION_TIMEOUT = 7 * 24 * 60 * 60 * 1000
+    const val DB_NAME = "Collection_Help"
 }

@@ -54,7 +54,7 @@ class BookMarkFragment : Fragment() {
         super.onResume()
         if (isFirstInit && !LoginUtils.isNeedLogin(this.activity!!)) {
             isFirstInit = false
-            mViewModel.getBookMarks(true)
+            mViewModel.loadBookMarks()
             loading.show()
         }
     }
@@ -113,6 +113,10 @@ class BookMarkFragment : Fragment() {
             page++
             mViewModel.getBookMarks(false, page, pageSize)
         }
+        mViewModel.loadBookMarks.observe(this.viewLifecycleOwner, Observer {
+            adapter.data = mutableListOf(*it.toTypedArray())
+            loading.dismiss()
+        })
     }
 
 

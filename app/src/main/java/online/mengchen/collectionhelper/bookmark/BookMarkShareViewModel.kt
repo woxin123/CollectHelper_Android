@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import online.mengchen.collectionhelper.common.ApiResult
 import online.mengchen.collectionhelper.data.network.RetrofitClient
+import online.mengchen.collectionhelper.domain.entity.Category
 import retrofit2.HttpException
 
 class BookMarkShareViewModel : ViewModel() {
@@ -20,18 +21,19 @@ class BookMarkShareViewModel : ViewModel() {
     }
 
     private val bookMarkService = RetrofitClient.bookMarkService
+    private val categoryService = RetrofitClient.categoryService
     val addBookMarkInfoStatus: MutableLiveData<ApiResult<BookMarkInfo>> = MutableLiveData()
-    val bookMarkCategories: MutableLiveData<ApiResult<List<BookMarkCategory>>> = MutableLiveData()
-    val addBookMarkCategory by lazy { MutableLiveData<ApiResult<BookMarkCategory>>() }
+    val categories: MutableLiveData<ApiResult<List<CategoryInfo>>> = MutableLiveData()
+    val addBookMarkCategory by lazy { MutableLiveData<ApiResult<CategoryInfo>>() }
 
 
     fun getBookMarkCategories() {
         viewModelScope.launch {
             try {
                 val bookMarkCategoriesRes = withContext(Dispatchers.IO) {
-                    bookMarkService.getBookMarkCategories()
+                    categoryService.getBookMarkCategories()
                 }
-                bookMarkCategories.value = bookMarkCategoriesRes
+                categories.value = bookMarkCategoriesRes
             } catch (e: HttpException) {
                 val status = e.code()
                 val message = e.message()
@@ -41,15 +43,15 @@ class BookMarkShareViewModel : ViewModel() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun addBookMark(bookMarkCategories: MutableList<BookMarkCategory>, url: String) {
+    fun addBookMark(categoryIfs: MutableList<CategoryInfo>, url: String) {
         viewModelScope.launch {
             val bookMark = AddBookMark(url = url)
-            if (bookMarkCategories.isEmpty()) {
-                bookMarkCategories.add(BookMarkCategory.unCategorized())
+            if (categoryIfs.isEmpty()) {
+                categoryIfs.add(CategoryInfo.unCategorized(Category.BOOKMARK))
             }
             var addBookMarkInfoRes: ApiResult<BookMarkInfo>? = null
             withContext(Dispatchers.IO) {
-                bookMarkCategories.forEach {
+                categoryIfs.forEach {
                     bookMark.categoryId = it.categoryId
                     addBookMarkInfoRes = bookMarkService.addBookMark(bookMark)
                 }
@@ -62,7 +64,7 @@ class BookMarkShareViewModel : ViewModel() {
         try {
             viewModelScope.launch {
                 val addBookMarkCategoryRes = withContext(Dispatchers.IO) {
-                    bookMarkService.addBookMarkCategory(AddOrUpdateBookMarkCategory(categoryName = bookMarkCategoryName))
+                    categoryService.addCategory(AddOrUpdateCategory(categoryName = bookMarkCategoryName, categoryType = Category.BOOKMARK))
                 }
                 addBookMarkCategory.value = addBookMarkCategoryRes
             }

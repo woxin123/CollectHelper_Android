@@ -9,8 +9,11 @@ import online.mengchen.collectionhelper.domain.entity.Category
 @Dao
 interface CategoryDao {
 
-    @Query("SELECT * FROM category")
-    suspend fun findById() : Category
+    @Query("SELECT * FROM category WHERE cid = :cid")
+    suspend fun findById(cid: Long) : Category
+
+    @Query("SELECT count(*) FROM category WHERE cid = :cid")
+    suspend fun existsById(cid: Long): Boolean
 
     @Insert
     suspend fun insert(category: Category)

@@ -10,6 +10,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import online.mengchen.collectionhelper.common.Constant
 import online.mengchen.collectionhelper.data.network.api.BookMarkService
+import online.mengchen.collectionhelper.data.network.api.CategoryService
 import online.mengchen.collectionhelper.data.network.api.LoginService
 import online.mengchen.collectionhelper.utils.LocalDateDeserializer
 import online.mengchen.collectionhelper.utils.LocalDateSerializer
@@ -38,4 +39,5 @@ object RetrofitClient {
 
     val loginService: LoginService = retrofitClient.create(LoginService::class.java)
     val bookMarkService: BookMarkService = retrofitClient.create(BookMarkService::class.java)
+    val categoryService: CategoryService = retrofitClient.create(CategoryService::class.java)
 }

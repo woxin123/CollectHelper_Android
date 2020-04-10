@@ -8,12 +8,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import online.mengchen.collectionhelper.common.ApiResult
 import online.mengchen.collectionhelper.common.Page
-import online.mengchen.collectionhelper.data.db.BookMarkDatabase
+import online.mengchen.collectionhelper.data.db.CollectHelpDatabase
 import online.mengchen.collectionhelper.data.network.RetrofitClient
+import online.mengchen.collectionhelper.domain.entity.BookMarkDetail
 import online.mengchen.collectionhelper.repository.BookMarkRepository
 import online.mengchen.collectionhelper.utils.HttpExceptionProcess
-import online.mengchen.collectionhelper.utils.LoginUtils
-import online.mengchen.collectionhelper.domain.entity.BookMark as BookMarkInDB
 import retrofit2.HttpException
 
 class BookMarkViewModel(application: Application) : AndroidViewModel(application) {
@@ -22,8 +21,8 @@ class BookMarkViewModel(application: Application) : AndroidViewModel(application
     private val bookMarkRepository: BookMarkRepository
 
     init {
-        val bookMarkDao = BookMarkDatabase.getDatabase(application, viewModelScope).bookMarkDao()
-        bookMarkRepository = BookMarkRepository(bookMarkDao)
+        val database = CollectHelpDatabase.getDatabase(application, viewModelScope)
+        bookMarkRepository = BookMarkRepository(database.bookMarkDao(), database.bookMarkDetailDao(), database.categoryDao())
     }
 
 
@@ -31,26 +30,23 @@ class BookMarkViewModel(application: Application) : AndroidViewModel(application
     lateinit var bookMarkAdapter: BookMarkAdapter
     val refreshBookMarksInfo: MutableLiveData<ApiResult<Page<BookMarkInfo>>> = MutableLiveData()
     val loadMoreLiveData: MutableLiveData<ApiResult<Page<BookMarkInfo>>> = MutableLiveData()
+    val loadBookMarks: MutableLiveData<List<BookMarkInfo>> = MutableLiveData()
+
+    fun loadBookMarks() {
+        viewModelScope.launch {
+            val bookMarks = bookMarkRepository.getAll()
+            if (bookMarks.isEmpty()) {
+                getBookMarks(true)
+            } else {
+                loadBookMarks.value = bookMarks
+            }
+        }
+    }
 
     /**
      * @param refresh 是否是刷新， true 刷新，false load more
      */
     fun getBookMarks(refresh: Boolean, pageNo: Int = 0, pageSize: Int = 10) {
-//        val bookMarksLiveData: LiveData<ApiResult<Page<BookMark>>> =
-//            if (refresh) {
-//                bookMarkService.getBookMark(0, pageSize)
-//            } else {
-//                bookMarkService.getBookMark(pageNo, pageSize)
-//            }
-//        val res = bookMarksLiveDat
-//        if (res.status == 200) {
-//            pageNo = res.data?.number!!
-//            pageSize = res.data?.size!!
-//        }
-//        viewModelScope.launch {
-//            getBookMarkDetails(res.data?.content!!)
-//        }
-//        return bookMarksLiveData
         var bookMarksResInfo: ApiResult<Page<BookMarkInfo>>? = null
         viewModelScope.launch {
             try {
@@ -70,7 +66,6 @@ class BookMarkViewModel(application: Application) : AndroidViewModel(application
             } else {
                 loadMoreLiveData.value = bookMarksResInfo
             }
-            insertBookMarks(bookMarksResInfo?.data?.content!!)
         }
     }
 
@@ -88,9 +83,9 @@ class BookMarkViewModel(application: Application) : AndroidViewModel(application
     }
 
 
-    private suspend fun getBookMarkDetails(bookMarkInfos: List<BookMarkInfo>) {
+    private suspend fun getBookMarkDetails(bookMarkIfs: List<BookMarkInfo>) {
         withContext(Dispatchers.IO) {
-            bookMarkInfos.forEach {
+            bookMarkIfs.forEach {
                 if (it.bookMarkDetail == null) {
                     it.bookMarkDetail = BookMarkUtils.parseUrlToBookMark(it.url)
                 }
@@ -98,19 +93,10 @@ class BookMarkViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    private fun insertBookMarks(bookMarkInfos: List<BookMarkInfo>) {
+    private fun insertBookMarks(bookMarkIfs: List<BookMarkInfo>) {
         viewModelScope.launch {
-            bookMarkInfos.forEach {
-                bookMarkRepository.insert(
-                    BookMarkInDB(
-                        it.id,
-                        it.url,
-                        it.createTime,
-                        it.bookMarkDetail?.id,
-                        it.bookMarkCategory.categoryId,
-                        LoginUtils.user?.userId!!
-                    )
-                )
+            bookMarkIfs.forEach {
+               bookMarkRepository.insertBookMarkInfo(it)
             }
         }
     }
