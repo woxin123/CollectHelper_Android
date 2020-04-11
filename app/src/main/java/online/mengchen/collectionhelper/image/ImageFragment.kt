@@ -20,7 +20,6 @@ class ImageFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d("mengchenaa", "Image")
         return inflater.inflate(R.layout.fragment_image, container, false)
     }
 

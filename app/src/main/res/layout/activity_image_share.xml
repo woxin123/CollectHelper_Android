@@ -1,141 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".bookmark.BookMarkShareActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="online.mengchen.collectionhelper.image.ImageShareViewModel" />
+    </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        tools:context=".image.ImageShareActivity">
 
-        <View
-            android:id="@+id/space"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
 
         <LinearLayout
-            android:id="@+id/content"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:background="@drawable/book_mark_share"
-            android:orientation="vertical">
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="15dp"
-                android:text="@string/save_collect_helper"
-                android:textSize="25sp" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="15dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/please_choose_category" />
-
-                <TextView
-                    android:id="@+id/createCategory"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:text="@string/create_new_category"
-                    android:textColor="@color/blue" />
-            </RelativeLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/categoriesRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="15dp"
-                android:layout_weight="1"
-                tools:ignore="NestedWeights" />
-
-            <Button
-                android:id="@+id/commit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginEnd="15dp"
-                android:background="@color/qmui_config_color_gray_2"
-                android:text="@string/commit_add_book_mark"
-                android:textColor="@color/white" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <online.mengchen.collectionhelper.common.custom.FixStatusBarLayout
-        android:id="@+id/createCategoryView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:visibility="gone">
-
-        <View
-            android:id="@+id/createCategorySpace"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal" />
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/space"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:background="@drawable/book_mark_share"
+                android:orientation="vertical">
 
 
-        <LinearLayout
-            android:id="@+id/createCategoryLinearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="#E6E3E6"
-            android:orientation="horizontal"
-            android:layout_alignParentBottom="true">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="15dp"
+                    android:text="@string/save_collect_helper"
+                    android:textSize="25sp" />
 
-            <TextView
-                android:id="@+id/cancelCreateCategory"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:text="@string/cancel" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="15dp">
 
-            <EditText
-                android:id="@+id/newCategoryName"
-                android:layout_width="0dp"
-                android:layout_height="35dp"
-                android:layout_gravity="center"
-                android:background="@drawable/add_book_mark_category"
-                android:gravity="center"
-                android:hint="@string/create_book_mark_category_hint"
-                android:textSize="16sp"
-                android:layout_weight="5"
-                android:autofillHints=""
-                android:inputType="text" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/please_choose_category" />
+
+                    <TextView
+                        android:id="@+id/createCategory"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:text="@string/create_new_category"
+                        android:textColor="@color/blue"
+                        tools:ignore="RelativeOverlap" />
+                </RelativeLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/categoriesRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_weight="1"
+                    app:items="@{viewModel.items}"
+                    tools:ignore="NestedWeights" />
 
 
-            <TextView
-                android:id="@+id/commitCreateCategory"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:textColor="@color/qmui_s_link_color"
-                android:text="@string/completed" />
+                <Button
+                    android:id="@+id/commit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@color/qmui_config_color_gray_2"
+                    android:text="@string/commit_add_book_mark"
+                    android:textColor="@color/white" />
+            </LinearLayout>
         </LinearLayout>
-    </online.mengchen.collectionhelper.common.custom.FixStatusBarLayout>
-    <!--    </RelativeLayout>-->
-</FrameLayout>
+
+        <online.mengchen.collectionhelper.common.custom.FixStatusBarLayout
+            android:id="@+id/createCategoryView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            android:visibility="gone">
+
+            <View
+                android:id="@+id/createCategorySpace"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal" />
+
+
+            <LinearLayout
+                android:id="@+id/createCategoryLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="#E6E3E6"
+                android:orientation="horizontal"
+                android:layout_alignParentBottom="true">
+
+                <TextView
+                    android:id="@+id/cancelCreateCategory"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:text="@string/cancel" />
+
+                <EditText
+                    android:id="@+id/newCategoryName"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/add_book_mark_category"
+                    android:gravity="center"
+                    android:hint="@string/create_book_mark_category_hint"
+                    android:textSize="16sp"
+                    android:layout_weight="5"
+                    android:autofillHints=""
+                    android:inputType="text" />
+
+
+                <TextView
+                    android:id="@+id/commitCreateCategory"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textColor="@color/qmui_s_link_color"
+                    android:text="@string/completed" />
+            </LinearLayout>
+        </online.mengchen.collectionhelper.common.custom.FixStatusBarLayout>
+        <!--    </RelativeLayout>-->
+    </FrameLayout>
+</layout>

@@ -11,11 +11,16 @@ import retrofit2.http.POST
 interface CategoryService {
     companion object {
         const val CATEGORIES = "categories"
+        const val BOOKMARK = "BOOKMARK"
+        const val IMAGE = "IMAGE"
     }
 
-    @GET("$CATEGORIES/BOOKMARK")
+    @GET("$CATEGORIES/$BOOKMARK")
     suspend fun getBookMarkCategories(): ApiResult<List<CategoryInfo>>
 
     @POST(CATEGORIES)
     suspend fun addCategory(@Body category: AddOrUpdateCategory): ApiResult<CategoryInfo>
+
+    @GET("$CATEGORIES/$IMAGE")
+    suspend fun getImageCategory(): ApiResult<List<CategoryInfo>>
 }
