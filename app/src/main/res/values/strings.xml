@@ -41,5 +41,10 @@
     <string name="cancel">取消</string>
     <string name="completed">完成</string>
     <string name="create_book_mark_category_hint">请输入分类名称</string>
+    <string name="new_category_empty">分类名称不能为空</string>
+
+    <string name="internal_error">内部出错</string>
+    <string name="file_upload_fail">文件上传失败</string>
+    <string name="file_upload_success">文件上传成功</string>
 
 </resources>

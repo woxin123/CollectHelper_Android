@@ -80,25 +80,21 @@ class AliyunCloudStore(
         callback: CloudStoreCallback?,
         isBigFile: Boolean
     ) {
-        val progressListener = object : OSSProgressCallback<PutObjectRequest> {
-            override fun onProgress(
-                request: PutObjectRequest?,
-                currentSize: Long,
-                totalSize: Long
-            ) {
+        val progressListener =
+            OSSProgressCallback<PutObjectRequest> { _, currentSize, totalSize ->
                 val progress = currentSize.times(100.0).div(totalSize).toInt()
                 progressListener?.invoke(progress, currentSize, totalSize)
             }
-        }
         if (!isBigFile) {
             val putObjectRequest =
-                PutObjectRequest(bucketName, key, filePath)
+                PutObjectRequest(cfg.bucket, key, filePath)
             putObjectRequest.progressCallback = progressListener
             ossClient.asyncPutObject(
                 putObjectRequest,
                 object : OSSCompletedCallback<PutObjectRequest, PutObjectResult> {
                     override fun onSuccess(request: PutObjectRequest?, result: PutObjectResult?) {
                         Log.d(TAG, "上传成功")
+                        Log.d(TAG, result.toString())
                         callback?.onSuccess()
                     }
 

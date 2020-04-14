@@ -6,17 +6,14 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import online.mengchen.collectionhelper.common.Constant
-import online.mengchen.collectionhelper.dao.AliyunConfigDao
-import online.mengchen.collectionhelper.dao.BookMarkDao
-import online.mengchen.collectionhelper.dao.BookMarkDetailDao
-import online.mengchen.collectionhelper.dao.CategoryDao
+import online.mengchen.collectionhelper.dao.*
 import online.mengchen.collectionhelper.domain.entity.*
 import online.mengchen.collectionhelper.utils.LocalDateTypeConverter
 import online.mengchen.collectionhelper.utils.LoginUtils
 
 @Database(
-    entities = [BookMark::class, BookMarkDetail::class, Category::class, User::class, AliyunConfig::class],
-    version = 2
+    entities = [BookMark::class, BookMarkDetail::class, Category::class, User::class, AliyunConfig::class, FileInfo::class],
+    version = 3
 )
 @TypeConverters(LocalDateTypeConverter::class)
 abstract class CollectHelpDatabase : RoomDatabase() {
@@ -25,6 +22,7 @@ abstract class CollectHelpDatabase : RoomDatabase() {
     abstract fun categoryDao(): CategoryDao
     abstract fun bookMarkDetailDao(): BookMarkDetailDao
     abstract fun aliyunConfigDao(): AliyunConfigDao
+    abstract fun fileInfoDao(): FileInfoDao
 
     companion object {
 
@@ -48,7 +46,9 @@ abstract class CollectHelpDatabase : RoomDatabase() {
                     .addCallback(object : Callback() {
                         override fun onOpen(db: SupportSQLiteDatabase) {
                             super.onOpen(db)
+                            INSTANCE?.let {
 
+                            }
                         }
                     })
                     .build()

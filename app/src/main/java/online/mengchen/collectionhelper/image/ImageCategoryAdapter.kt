@@ -11,15 +11,22 @@ import kotlinx.android.synthetic.main.layout_book_mark_item.view.*
 import online.mengchen.collectionhelper.R
 import online.mengchen.collectionhelper.bookmark.CategoryInfo
 
-class ImageCategoryAdapter(private var categories: List<CategoryInfo>) :
+class ImageCategoryAdapter(categories: List<CategoryInfo>, private val viewModel: ImageShareViewModel) :
     RecyclerView.Adapter<ImageCategoryAdapter.ImageCategoryViewHolder>() {
+
+    private var data: MutableList<CategoryInfo> = mutableListOf(*categories.toTypedArray())
 
     fun replaceData(categories: List<CategoryInfo>) {
         setData(categories)
     }
 
+    fun addCategory(categoryInfo: CategoryInfo) {
+        data.add(categoryInfo)
+        notifyItemInserted(data.size - 1)
+    }
+
     private fun setData(categories: List<CategoryInfo>) {
-        this.categories = categories
+        this.data = mutableListOf(*categories.toTypedArray())
         this.notifyDataSetChanged()
     }
 
@@ -28,11 +35,17 @@ class ImageCategoryAdapter(private var categories: List<CategoryInfo>) :
     }
 
     override fun getItemCount(): Int {
-        return categories.size
+        return data.size
     }
 
     override fun onBindViewHolder(holder: ImageCategoryViewHolder, position: Int) {
-        holder.categoryCb.text = categories[position].categoryName
+        holder.categoryCb.text = data[position].categoryName
+        holder.itemView.setOnClickListener {
+            val isChecked = holder.categoryCb.isChecked
+            if (isChecked) {
+                viewModel.checkedCategory(isChecked, data[position])
+            }
+        }
     }
 
     class ImageCategoryViewHolder(item: View) : RecyclerView.ViewHolder(item) {

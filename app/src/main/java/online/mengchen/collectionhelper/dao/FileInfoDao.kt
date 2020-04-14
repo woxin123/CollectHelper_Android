@@ -13,7 +13,7 @@ interface FileInfoDao {
     suspend fun findByFileType(fileType: Int, uid: Long, storeType: Int): List<FileInfo>
 
     @Query("SELECT * FROM file_info WHERE category_id = :categoryId AND uid = :uid AND store_type = :storeType")
-    suspend fun findByCategory(categoryId: Int, uid: Long, storeType: Int)
+    suspend fun findByCategory(categoryId: Int, uid: Long, storeType: Int): FileInfo?
 
     @Insert
     suspend fun insert(fileInfo: FileInfo)
