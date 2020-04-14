@@ -12,6 +12,7 @@ import online.mengchen.collectionhelper.common.Constant
 import online.mengchen.collectionhelper.data.network.api.BookMarkService
 import online.mengchen.collectionhelper.data.network.api.CategoryService
 import online.mengchen.collectionhelper.data.network.api.LoginService
+import online.mengchen.collectionhelper.data.network.api.UserService
 import online.mengchen.collectionhelper.utils.LocalDateDeserializer
 import online.mengchen.collectionhelper.utils.LocalDateSerializer
 import retrofit2.Retrofit
@@ -40,4 +41,5 @@ object RetrofitClient {
     val loginService: LoginService = retrofitClient.create(LoginService::class.java)
     val bookMarkService: BookMarkService = retrofitClient.create(BookMarkService::class.java)
     val categoryService: CategoryService = retrofitClient.create(CategoryService::class.java)
+    val userService: UserService = retrofitClient.create(UserService::class.java)
 }

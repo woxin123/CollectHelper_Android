@@ -1,22 +1,22 @@
-package online.mengchen.collectionhelper.image
+package online.mengchen.collectionhelper.ui.image
 
-import android.app.Activity
 import android.content.Context
 import android.graphics.BitmapFactory
+import android.graphics.Rect
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import online.mengchen.collectionhelper.R
 
-class ImageRecyclerViewAdapter(val data: MutableList<ImageCategory>, private val context: Context): RecyclerView.Adapter<ImageViewHolder>() {
+
+class ImageRecyclerViewAdapter(var data: MutableList<ImageCategory>, private val context: Context): RecyclerView.Adapter<ImageViewHolder>() {
 
 
-    init {
-        data.apply {
-            for (i in 0..10) {
-                add(ImageCategory().apply { cover = BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher) })
-            }
-        }
+    fun replaceData(imageCategories: List<ImageCategory>) {
+        data = mutableListOf(*imageCategories.toTypedArray())
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {

@@ -1,6 +1,6 @@
 package online.mengchen.collectionhelper.user
 
-class User {
+class UserInfo {
     private var username: String? = null
     private var avatar: String? = null
     private var phoneNumber: String? = null

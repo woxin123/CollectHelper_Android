@@ -1,9 +1,6 @@
 package online.mengchen.collectionhelper.user
 
 import android.app.Application
-import android.content.Context
-import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ObservableField
 import androidx.lifecycle.AndroidViewModel
@@ -13,13 +10,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import online.mengchen.collectionhelper.common.ApiResult
-import online.mengchen.collectionhelper.common.Constant
 import online.mengchen.collectionhelper.data.network.RetrofitClient
-import online.mengchen.collectionhelper.data.network.SessionInterceptor
 import online.mengchen.collectionhelper.utils.HttpExceptionProcess
-import online.mengchen.collectionhelper.utils.LoginUtils
 import retrofit2.HttpException
-import java.lang.Exception
 
 class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -33,7 +26,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     lateinit var activity: AppCompatActivity
     val mLoginRes by lazy { MutableLiveData<ApiResult<UserData>>() }
     val mLoginError by lazy { MutableLiveData<ApiResult<Unit>>() }
-    val user = User()
+    val user = UserInfo()
 
 
     private val loginService = RetrofitClient.loginService

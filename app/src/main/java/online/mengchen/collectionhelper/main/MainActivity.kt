@@ -41,9 +41,9 @@ class MainActivity : AppCompatActivity() {
 //            startActivity(Intent(this, QiniuConfigActivity::class.java))
 //        }
 //        if (!mainVideoModel.isLogin()) {
-            startActivity(Intent(this, LoginActivity::class.java))
+//            startActivity(Intent(this, LoginActivity::class.java))
 //        }
-        Log.d(TAG, SessionInterceptor.cookieSir ?: "出错")
+//        Log.d(TAG, SessionInterceptor.cookieSir ?: "出错")
         viewPager = findViewById(R.id.viewPager)
         tabLayout = findViewById(R.id.tabLayout)
         val titleList = mutableListOf("首页", "最近浏览", "我的")

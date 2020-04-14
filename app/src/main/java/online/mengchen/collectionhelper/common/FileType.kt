@@ -10,7 +10,7 @@ object FileType {
     const val VIDEO = 3
 
     @IntDef(value = [DOCUMENT, IMAGE, MUSIC, VIDEO])
-    @Retention(AnnotationRetention.SOURCE)  
+    @Retention(AnnotationRetention.SOURCE)
     annotation class TypeFile {
 
     }

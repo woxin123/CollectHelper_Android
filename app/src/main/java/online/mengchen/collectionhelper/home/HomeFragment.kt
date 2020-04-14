@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import online.mengchen.collectionhelper.R
 import online.mengchen.collectionhelper.bookmark.BookMarkFragment
 import online.mengchen.collectionhelper.databinding.LayoutHomeBinding
-import online.mengchen.collectionhelper.image.ImageFragment
+import online.mengchen.collectionhelper.ui.image.ImageFragment
 
 class HomeFragment: Fragment() {
 

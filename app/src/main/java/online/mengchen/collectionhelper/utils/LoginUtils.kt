@@ -1,17 +1,25 @@
 package online.mengchen.collectionhelper.utils
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import okhttp3.Cookie
 import okhttp3.internal.cookieToString
 import online.mengchen.collectionhelper.common.Constant
+import online.mengchen.collectionhelper.data.network.RetrofitClient
 import online.mengchen.collectionhelper.data.network.SessionInterceptor
 import online.mengchen.collectionhelper.user.UserData
+import retrofit2.HttpException
 
 import java.util.*
 
 object LoginUtils {
+
+    const val TAG = "LoginUtils"
 
     var user: UserData? = null
 
@@ -37,6 +45,29 @@ object LoginUtils {
         sp.edit().putString(Constant.COOKIE, sessionCookieStr)
             .putLong("SESSION_TIME", System.currentTimeMillis())
             .apply()
+    }
+
+    /**
+     * 初始化用户数据，检测 session 是否可用，同时 set user info
+     */
+    fun initUser(context: Context ,scope: CoroutineScope): LiveData<Boolean> {
+        val needLogin = MutableLiveData<Boolean>()
+        if (isNeedLogin(context)) {
+            Log.d(TAG, "需要登录")
+            needLogin.value = true
+            return needLogin
+        }
+        scope.launch {
+            try {
+                val userInfoRes = RetrofitClient.userService.getUserInfo()
+                user = userInfoRes.data
+                needLogin.value = false
+            } catch (e: HttpException) {
+                e.printStackTrace()
+                needLogin.value = true
+            }
+        }
+        return needLogin
     }
 
 

@@ -1,10 +1,9 @@
-package online.mengchen.collectionhelper.image
+package online.mengchen.collectionhelper.ui.image.share
 
 import android.app.Application
 import android.content.Context
 import android.net.Uri
 import android.os.Build
-import android.os.Looper
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
@@ -37,7 +36,7 @@ import java.time.LocalDateTime
 class ImageShareViewModel(application: Application) : AndroidViewModel(application) {
 
     companion object {
-        const val TAG = "ImageShreViewModel"
+        const val TAG = "ImageShareViewModel"
     }
 
     lateinit var cloudStore: CloudStore

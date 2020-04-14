@@ -47,4 +47,6 @@
     <string name="file_upload_fail">文件上传失败</string>
     <string name="file_upload_success">文件上传成功</string>
 
+    <string name="category_text">分类</string>
+
 </resources>
