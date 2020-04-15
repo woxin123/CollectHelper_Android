@@ -15,14 +15,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".ui.image.list.ImageListActivity"></activity>
         <activity android:name=".ui.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="online.mengchen.collectionhelper.ui.image.share.ImageShareActivity"
+            android:name=".ui.image.share.ImageShareActivity"
             android:label="收藏图片"
             android:theme="@style/Theme.CollectHelpShare">
             <intent-filter>
@@ -46,13 +48,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".bookmark.BookMarkViewActivity" />
-        <activity android:name=".config.QiniuConfigActivity" />
-        <!-- 以 singleTask 启动 -->
-        <activity android:name=".user.LoginActivity"
-            android:launchMode="singleTask">
-        </activity>
-        <activity android:name=".main.MainActivity">
-        </activity>
+        <activity android:name=".config.QiniuConfigActivity" /> <!-- 以 singleTask 启动 -->
+        <activity
+            android:name=".user.LoginActivity"
+            android:launchMode="singleTask"></activity>
+        <activity android:name=".main.MainActivity"></activity>
     </application>
 
 </manifest>

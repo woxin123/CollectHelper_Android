@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import online.mengchen.collectionhelper.R
 
 
-class ImageRecyclerViewAdapter(var data: MutableList<ImageCategory>, private val context: Context): RecyclerView.Adapter<ImageViewHolder>() {
+class ImageRecyclerViewAdapter(var data: MutableList<ImageCategory>, private val viewModel: ImageViewModel): RecyclerView.Adapter<ImageViewHolder>() {
 
 
     fun replaceData(imageCategories: List<ImageCategory>) {
@@ -33,6 +33,9 @@ class ImageRecyclerViewAdapter(var data: MutableList<ImageCategory>, private val
         val imageImageViewHolder = holder as ImageImageViewHolder
         val category = data[position]
         imageImageViewHolder.categoryName.text = category.name
+        holder.itemView.setOnClickListener {
+            viewModel.openImageCategory(data[position])
+        }
     }
 
 }

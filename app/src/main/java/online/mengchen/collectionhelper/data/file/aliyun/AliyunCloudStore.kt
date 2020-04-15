@@ -7,6 +7,7 @@ import com.alibaba.sdk.android.oss.ServiceException
 import com.alibaba.sdk.android.oss.callback.OSSCompletedCallback
 import com.alibaba.sdk.android.oss.callback.OSSProgressCallback
 import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvider
+import com.alibaba.sdk.android.oss.internal.OSSAsyncTask
 import com.alibaba.sdk.android.oss.model.*
 import online.mengchen.collectionhelper.CollectHelperApplication
 import online.mengchen.collectionhelper.data.file.CloudStore
@@ -95,7 +96,7 @@ class AliyunCloudStore(
                     override fun onSuccess(request: PutObjectRequest?, result: PutObjectResult?) {
                         Log.d(TAG, "上传成功")
                         Log.d(TAG, result.toString())
-                        callback?.onSuccess()
+                        callback?.onSuccess(Unit)
                     }
 
                     override fun onFailure(
@@ -111,13 +112,39 @@ class AliyunCloudStore(
         }
     }
 
+    /**
+     * 异步的方式下载文件
+     */
     override fun downloadFile(
         bucketName: String,
         key: String,
+        callback: CloudStoreCallback,
         progressListener: CloudStoreProgressListener?,
         isBigFile: Boolean
-    ): CloudStoreObject? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    ) {
+        val getObject = GetObjectRequest(bucketName, key)
+        getObject.setProgressListener { _, currentSize, totalSize ->
+            val progress = currentSize.times(100.0).div(totalSize).toInt()
+            Log.d(TAG, "下载进度: currentSize = $currentSize, totalSize = $totalSize, progress = $progress")
+            progressListener?.progressChange(progress, currentSize, totalSize)
+        }
+        ossClient.asyncGetObject(getObject, object: OSSCompletedCallback<GetObjectRequest, GetObjectResult> {
+            override fun onSuccess(request: GetObjectRequest?, result: GetObjectResult?) {
+                Log.d(TAG, "下载成功")
+                val cloudStoreObject = CloudStoreObject(key, bucketName, result?.objectContent)
+                callback.onSuccess(cloudStoreObject)
+            }
+
+            override fun onFailure(
+                request: GetObjectRequest?,
+                clientException: ClientException?,
+                serviceException: ServiceException?
+            ) {
+                Log.d(TAG, "下载失败")
+                callback.onFailed()
+            }
+
+        })
     }
 
     override fun downloadFile(
@@ -128,6 +155,10 @@ class AliyunCloudStore(
         isBigFile: Boolean
     ) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getFileUrl(key: String): String? {
+        return ossClient.presignConstrainedObjectURL(cfg.bucket, key, 12 * 60)
     }
 
 

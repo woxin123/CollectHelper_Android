@@ -19,9 +19,10 @@ interface CloudStore {
     fun downloadFile(
         bucketName: String,
         key: String,
+        callback: CloudStoreCallback,
         progressListener: CloudStoreProgressListener? = null,
         isBigFile: Boolean
-    ): CloudStoreObject?
+    )
 
     fun downloadFile(
         bucketName: String,
@@ -30,4 +31,6 @@ interface CloudStore {
         progressListener: CloudStoreProgressListener? = null,
         isBigFile: Boolean
     )
+
+    fun getFileUrl(key: String): String?
 }

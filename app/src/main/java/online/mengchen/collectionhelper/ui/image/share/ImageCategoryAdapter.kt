@@ -1,15 +1,21 @@
 package online.mengchen.collectionhelper.ui.image.share
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.layout_category_item.view.*
 import online.mengchen.collectionhelper.R
 import online.mengchen.collectionhelper.bookmark.CategoryInfo
 
 class ImageCategoryAdapter(categories: List<CategoryInfo>, private val viewModel: ImageShareViewModel) :
     RecyclerView.Adapter<ImageCategoryAdapter.ImageCategoryViewHolder>() {
+
+    companion object {
+        private const val TAG = "ImageCategoryAdapter"
+    }
 
     private var data: MutableList<CategoryInfo> = mutableListOf(*categories.toTypedArray())
 
@@ -43,11 +49,8 @@ class ImageCategoryAdapter(categories: List<CategoryInfo>, private val viewModel
 
     override fun onBindViewHolder(holder: ImageCategoryViewHolder, position: Int) {
         holder.categoryCb.text = data[position].categoryName
-        holder.itemView.setOnClickListener {
-            val isChecked = holder.categoryCb.isChecked
-            if (isChecked) {
-                viewModel.checkedCategory(isChecked, data[position])
-            }
+        holder.itemView.categoryCb.setOnClickListener {
+            viewModel.checkedCategory(holder.categoryCb.isChecked, data[position])
         }
     }
 

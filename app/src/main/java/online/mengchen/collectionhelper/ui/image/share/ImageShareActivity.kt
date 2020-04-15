@@ -125,7 +125,6 @@ class ImageShareActivity : AppCompatActivity() {
             mViewModel.addNewCategory()
         }
         commit.setOnClickListener {
-            progressDialog.show()
             mViewModel.uploadImage(this, imageUri!!, selectCategory)
         }
     }
@@ -149,7 +148,6 @@ class ImageShareActivity : AppCompatActivity() {
             }
         })
         mViewModel.uploadCompleted.observe(this, Observer { event ->
-            Log.d(TAG, "aaaaaaaaaaa")
             event.getContentIfNotHandled()?.let {
                 progressDialog.dismiss()
             }
@@ -161,6 +159,11 @@ class ImageShareActivity : AppCompatActivity() {
                 } else {
                     selectCategory.remove(p.second)
                 }
+            }
+        })
+        mViewModel.startUploadImage.observe(this, Observer { event ->
+            event.getContentIfNotHandled().let {
+                progressDialog.show()
             }
         })
     }

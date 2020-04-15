@@ -75,6 +75,9 @@ class ImageShareViewModel(application: Application) : AndroidViewModel(applicati
     val selectCategory: LiveData<Event<Pair<Boolean, CategoryInfo>>>
         get() = _selectCategory
 
+    private val _startUploadImage = MutableLiveData<Event<Unit>>()
+    val startUploadImage: LiveData<Event<Unit>>
+        get() = _startUploadImage
     /**
      * true 上传成功
      * false 上传失败
@@ -88,7 +91,7 @@ class ImageShareViewModel(application: Application) : AndroidViewModel(applicati
         val aliyunDao = db.aliyunConfigDao()
         aliyunConfigRepository = AliyunConfigRepository(aliyunDao)
         fileInfoRepository = FileInfoRepository(db.fileInfoDao())
-            aliyunConfig = aliyunConfigRepository.aliyunConfig
+        aliyunConfig = aliyunConfigRepository.aliyunConfig
     }
 
 
@@ -137,6 +140,10 @@ class ImageShareViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     fun uploadImage(context: Context, imageUri: Uri, categories: List<CategoryInfo>) {
+        if (categories.isEmpty()) {
+            _toastText.value = Event(R.string.category_is_not_empty)
+            return
+        }
         val parcFd = context.contentResolver.openFileDescriptor(imageUri, "r")
         val fd = parcFd?.fileDescriptor
         val dir = context.filesDir
@@ -153,6 +160,8 @@ class ImageShareViewModel(application: Application) : AndroidViewModel(applicati
         val file = File(dir, fileName)
         FileHelper.saveFile(FileInputStream(fd!!), file)
         val imagePath = file.absolutePath
+        // 开始上传
+        _startUploadImage.value = Event(Unit)
         cloudStore.uploadFile("", fileName, imagePath, { progress, _, _ ->
             // java.lang.IllegalStateException: Cannot invoke setValue on a background thread
             viewModelScope.launch(Dispatchers.Main) {
@@ -160,7 +169,7 @@ class ImageShareViewModel(application: Application) : AndroidViewModel(applicati
             }
         }, object : CloudStoreCallback {
             @RequiresApi(Build.VERSION_CODES.O)
-            override fun onSuccess() {
+            override fun <T> onSuccess(t: T) {
                 Log.d(TAG, "上传成功")
                 viewModelScope.launch(Dispatchers.Main) {
                     _toastText.value = Event(R.string.file_upload_success)
@@ -195,10 +204,17 @@ class ImageShareViewModel(application: Application) : AndroidViewModel(applicati
     fun saveImage(fileInfo: FileInfo) {
         viewModelScope.launch {
             fileInfoRepository.insert(fileInfo)
+            val fi = fileInfoRepository.getFileInfoByKey(fileInfo.key)
+            if (fi != null) {
+                Log.d(TAG, fi.toString())
+            } else {
+                Log.d(TAG, "卧槽")
+            }
         }
     }
 
     fun checkedCategory(checked: Boolean, category: CategoryInfo) {
+        Log.d(TAG, "选择了分类 ${category.categoryName}")
         _selectCategory.value = Event(Pair(checked, category))
     }
 }

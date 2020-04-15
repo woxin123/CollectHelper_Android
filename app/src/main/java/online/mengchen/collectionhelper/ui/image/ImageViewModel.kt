@@ -19,6 +19,10 @@ class ImageViewModel : ViewModel() {
     val items: LiveData<List<ImageCategory>>
         get() = _items
 
+    private val _openImageCategory = MutableLiveData<ImageCategory>()
+    val openImageCategory: LiveData<ImageCategory>
+        get() = _openImageCategory
+
     private val categoryService = RetrofitClient.categoryService
 
     init {
@@ -32,13 +36,19 @@ class ImageViewModel : ViewModel() {
     private fun getImageCategory() {
         viewModelScope.launch {
             try {
-                val categoriesRes = categoryService.getBookMarkCategories()
+                val categoriesRes = categoryService.getImageCategory()
                 Log.d(TAG, categoriesRes.data.toString())
-                _items.value = categoriesRes.data!!.map { ImageCategory(name = it.categoryName) }
+                _items.value = categoriesRes.data!!.map { ImageCategory(
+                    categoryId = it.categoryId,
+                    name = it.categoryName) }
             } catch (e: HttpException) {
                 e.printStackTrace()
             }
         }
+    }
+
+    fun openImageCategory(imageCategory: ImageCategory) {
+        _openImageCategory.value = imageCategory
     }
 
 }
