@@ -50,4 +50,8 @@
     <string name="category_text">分类</string>
     <string name="category_is_not_empty">没有选择分类</string>
 
+    <string name="share_content_empty">没有获取到分享的内容</string>
+    <string name="get_file_path_error">获取文件路径出错</string>
+    <string name="get_file_content_error">获取文件内容出错</string>
+
 </resources>

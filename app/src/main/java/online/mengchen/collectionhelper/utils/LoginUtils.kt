@@ -49,6 +49,8 @@ object LoginUtils {
 
     /**
      * 初始化用户数据，检测 session 是否可用，同时 set user info
+     * true 表示需要登录
+     * false 表示不需要登录
      */
     fun initUser(context: Context ,scope: CoroutineScope): LiveData<Boolean> {
         val needLogin = MutableLiveData<Boolean>()

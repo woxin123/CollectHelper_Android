@@ -7,7 +7,7 @@
         <import type="android.view.View" />
         <variable
             name="viewModel"
-            type="online.mengchen.collectionhelper.ui.image.share.ImageShareViewModel" />
+            type="online.mengchen.collectionhelper.ui.share.common.ShareViewModel" />
     </data>
 
     <FrameLayout
@@ -74,7 +74,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="15dp"
                     android:layout_weight="1"
-                    app:image_share_items="@{viewModel.items}"
+                    app:items="@{viewModel.items}"
                     tools:ignore="NestedWeights" />
 
 

@@ -21,7 +21,7 @@ class CustomProgressDialog(context: Context, theme: Int, string: String) : Dialo
         setContentView(R.layout.layout_custom_progress_dialog)
         messageTv = findViewById(R.id.tv_message)
         progressBar = findViewById(R.id.progressBar1)
-        progressBar.setQMUIProgressBarTextGenerator { qmuiProgressBar: QMUIProgressBar, value: Int, maxValue: Int ->
+        progressBar.setQMUIProgressBarTextGenerator { _: QMUIProgressBar, value: Int, maxValue: Int ->
             value.times(100.0).div(maxValue).toInt().toString() + "%"
         }
         messageTv.text = string
@@ -31,6 +31,10 @@ class CustomProgressDialog(context: Context, theme: Int, string: String) : Dialo
 
     fun setProgress(progress: Int) {
         progressBar.progress = progress
+    }
+
+    fun setMaxProgress(maxProgress: Int) {
+        progressBar.maxValue = maxProgress
     }
 
 }

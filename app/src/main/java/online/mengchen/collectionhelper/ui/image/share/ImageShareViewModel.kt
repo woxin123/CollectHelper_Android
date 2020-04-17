@@ -131,12 +131,16 @@ class ImageShareViewModel(application: Application) : AndroidViewModel(applicati
         try {
             val addCategoryRes = categoryService.addCategory(addCategory)
             if (addCategoryRes.status == HTTPStatus.CREATED.code) {
-                _addCategory.value = Event(addCategoryRes.data!!)
+                addCategoryEvent(addCategoryRes.data!!)
             }
         } catch (e: HttpException) {
             e.printStackTrace()
             HttpExceptionProcess.process(e)
         }
+    }
+
+    private fun addCategoryEvent(category: CategoryInfo) {
+        _addCategory.value = Event(category)
     }
 
     fun uploadImage(context: Context, imageUri: Uri, categories: List<CategoryInfo>) {
