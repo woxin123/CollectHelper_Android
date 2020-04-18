@@ -1,4 +1,4 @@
-package online.mengchen.collectionhelper.dao
+package online.mengchen.collectionhelper.data.db.dao
 
 import androidx.room.Dao
 import androidx.room.Delete

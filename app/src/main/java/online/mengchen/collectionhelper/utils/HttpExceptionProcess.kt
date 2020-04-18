@@ -6,7 +6,7 @@ import okhttp3.ResponseBody
 import online.mengchen.collectionhelper.CollectHelperApplication
 import online.mengchen.collectionhelper.common.ApiResult
 import online.mengchen.collectionhelper.common.HTTPStatus
-import online.mengchen.collectionhelper.user.LoginActivity
+import online.mengchen.collectionhelper.ui.user.LoginActivity
 import retrofit2.HttpException
 
 object HttpExceptionProcess {

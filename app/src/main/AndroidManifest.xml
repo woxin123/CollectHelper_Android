@@ -15,20 +15,27 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.share.music.MusicShareActivity"
+        <activity android:name=".ui.user.register.RegisterActivity"></activity>
+        <activity
+            android:name=".ui.share.music.MusicShareActivity"
             android:label="收藏音乐"
             android:theme="@style/Theme.CollectHelpShare">
+
             <!-- 注册收藏音乐 -->
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="audio/*" />
             </intent-filter>
 
             <!-- 注册收藏多个音乐 -->
             <intent-filter>
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="audio/*" />
             </intent-filter>
         </activity>
@@ -67,9 +74,9 @@
         <activity android:name=".bookmark.BookMarkViewActivity" />
         <activity android:name=".config.QiniuConfigActivity" /> <!-- 以 singleTask 启动 -->
         <activity
-            android:name=".user.LoginActivity"
+            android:name=".ui.user.LoginActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".main.MainActivity" />
+        <activity android:name=".ui.main.MainActivity" />
     </application>
 
 </manifest>

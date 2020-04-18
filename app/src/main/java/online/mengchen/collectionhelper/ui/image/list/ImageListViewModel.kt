@@ -1,17 +1,15 @@
 package online.mengchen.collectionhelper.ui.image.list
 
 import android.app.Application
-import android.telephony.mbms.FileInfo
 import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import online.mengchen.collectionhelper.common.StoreType
 import online.mengchen.collectionhelper.data.db.CollectHelpDatabase
 import online.mengchen.collectionhelper.data.file.CloudStore
-import online.mengchen.collectionhelper.data.network.RetrofitClient
 import online.mengchen.collectionhelper.domain.entity.AliyunConfig
-import online.mengchen.collectionhelper.repository.AliyunConfigRepository
-import online.mengchen.collectionhelper.repository.FileInfoRepository
+import online.mengchen.collectionhelper.data.repository.AliyunConfigRepository
+import online.mengchen.collectionhelper.data.repository.FileInfoRepository
 import online.mengchen.collectionhelper.ui.image.ImageCategory
 
 class ImageListViewModel(application: Application) : AndroidViewModel(application) {

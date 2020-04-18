@@ -4,12 +4,10 @@ import android.content.Context
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import online.mengchen.collectionhelper.common.Constant
-import online.mengchen.collectionhelper.dao.*
+import online.mengchen.collectionhelper.data.db.dao.*
 import online.mengchen.collectionhelper.domain.entity.*
 import online.mengchen.collectionhelper.utils.LocalDateTypeConverter
-import online.mengchen.collectionhelper.utils.LoginUtils
 
 @Database(
     entities = [BookMark::class, BookMarkDetail::class, Category::class, User::class, AliyunConfig::class, FileInfo::class],

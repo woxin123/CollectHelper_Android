@@ -18,12 +18,11 @@ import kotlinx.android.synthetic.main.activity_image_share.*
 import online.mengchen.collectionhelper.R
 import online.mengchen.collectionhelper.bookmark.CategoryInfo
 import online.mengchen.collectionhelper.data.file.CloudStoreInstance
-import online.mengchen.collectionhelper.data.file.aliyun.AliyunCloudStore
 import online.mengchen.collectionhelper.data.file.aliyun.AliyunConfiguration
 import online.mengchen.collectionhelper.databinding.ActivityShareBinding
 import online.mengchen.collectionhelper.ui.custom.CustomProgressDialog
 import online.mengchen.collectionhelper.ui.image.share.ImageShareActivity
-import online.mengchen.collectionhelper.user.LoginActivity
+import online.mengchen.collectionhelper.ui.user.LoginActivity
 import online.mengchen.collectionhelper.utils.LoginUtils
 
 abstract class ShareActivity: AppCompatActivity() {

@@ -1,4 +1,4 @@
-package online.mengchen.collectionhelper.user
+package online.mengchen.collectionhelper.ui.user
 
 enum class LoginType {
     USERNAME,

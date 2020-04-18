@@ -1,8 +1,7 @@
-package online.mengchen.collectionhelper.repository
+package online.mengchen.collectionhelper.data.repository
 
-import online.mengchen.collectionhelper.common.StoreType
 import online.mengchen.collectionhelper.common.StoreType.TypeStore
-import online.mengchen.collectionhelper.dao.FileInfoDao
+import online.mengchen.collectionhelper.data.db.dao.FileInfoDao
 import online.mengchen.collectionhelper.domain.entity.FileInfo
 import online.mengchen.collectionhelper.utils.LoginUtils
 

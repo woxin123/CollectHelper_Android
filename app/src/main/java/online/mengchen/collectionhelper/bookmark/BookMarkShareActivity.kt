@@ -19,8 +19,7 @@ import kotlinx.android.synthetic.main.activity_book_mark_share.*
 import online.mengchen.collectionhelper.R
 import online.mengchen.collectionhelper.common.Constant
 import online.mengchen.collectionhelper.data.network.SessionInterceptor
-import online.mengchen.collectionhelper.user.LoginActivity
-import java.time.LocalDateTime
+import online.mengchen.collectionhelper.ui.user.LoginActivity
 
 
 class BookMarkShareActivity : AppCompatActivity() {

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="loginModel"
-            type="online.mengchen.collectionhelper.user.LoginViewModel" />
+            type="online.mengchen.collectionhelper.ui.user.LoginViewModel" />
 
     </data>
 

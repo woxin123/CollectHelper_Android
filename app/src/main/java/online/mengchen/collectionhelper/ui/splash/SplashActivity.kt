@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.lifecycle.*
 import online.mengchen.collectionhelper.R
-import online.mengchen.collectionhelper.main.MainActivity
-import online.mengchen.collectionhelper.user.LoginActivity
+import online.mengchen.collectionhelper.ui.main.MainActivity
+import online.mengchen.collectionhelper.ui.user.LoginActivity
 import online.mengchen.collectionhelper.utils.LoginUtils
 
 class SplashActivity : AppCompatActivity() {

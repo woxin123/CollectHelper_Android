@@ -10,8 +10,7 @@ import online.mengchen.collectionhelper.common.ApiResult
 import online.mengchen.collectionhelper.common.Page
 import online.mengchen.collectionhelper.data.db.CollectHelpDatabase
 import online.mengchen.collectionhelper.data.network.RetrofitClient
-import online.mengchen.collectionhelper.domain.entity.BookMarkDetail
-import online.mengchen.collectionhelper.repository.BookMarkRepository
+import online.mengchen.collectionhelper.data.repository.BookMarkRepository
 import online.mengchen.collectionhelper.utils.HttpExceptionProcess
 import retrofit2.HttpException
 

@@ -1,6 +1,5 @@
-package online.mengchen.collectionhelper.dao
+package online.mengchen.collectionhelper.data.db.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert

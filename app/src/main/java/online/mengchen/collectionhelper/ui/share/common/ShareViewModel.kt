@@ -12,8 +12,8 @@ import online.mengchen.collectionhelper.data.db.CollectHelpDatabase
 import online.mengchen.collectionhelper.data.file.CloudStore
 import online.mengchen.collectionhelper.domain.entity.AliyunConfig
 import online.mengchen.collectionhelper.domain.entity.FileInfo
-import online.mengchen.collectionhelper.repository.AliyunConfigRepository
-import online.mengchen.collectionhelper.repository.FileInfoRepository
+import online.mengchen.collectionhelper.data.repository.AliyunConfigRepository
+import online.mengchen.collectionhelper.data.repository.FileInfoRepository
 import online.mengchen.collectionhelper.ui.image.share.ImageShareViewModel
 import online.mengchen.collectionhelper.utils.HttpExceptionProcess
 import retrofit2.HttpException

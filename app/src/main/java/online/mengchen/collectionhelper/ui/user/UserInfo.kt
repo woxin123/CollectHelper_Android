@@ -1,4 +1,4 @@
-package online.mengchen.collectionhelper.user
+package online.mengchen.collectionhelper.ui.user
 
 class UserInfo {
     private var username: String? = null
@@ -18,4 +18,12 @@ data class UserData(
     var phone: String = "",
     var avatar: String = ""
 
+)
+
+/**
+ * 注册时的用户
+ */
+data class RegisterUser (
+    val username: String,
+    var password: String
 )

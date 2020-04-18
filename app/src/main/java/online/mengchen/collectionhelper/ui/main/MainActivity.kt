@@ -1,23 +1,13 @@
-package online.mengchen.collectionhelper.main
+package online.mengchen.collectionhelper.ui.main
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import online.mengchen.collectionhelper.MyPageAdapter
 import online.mengchen.collectionhelper.R
 import online.mengchen.collectionhelper.RecentFragment
-import online.mengchen.collectionhelper.config.QiniuConfigActivity
-import online.mengchen.collectionhelper.data.file.qiniu.QiniuConfig
-import online.mengchen.collectionhelper.data.file.qiniu.QiniuFileOperator
-import online.mengchen.collectionhelper.data.network.SessionInterceptor
 import online.mengchen.collectionhelper.home.HomeFragment
-import online.mengchen.collectionhelper.user.LoginActivity
 
 class MainActivity : AppCompatActivity() {
 

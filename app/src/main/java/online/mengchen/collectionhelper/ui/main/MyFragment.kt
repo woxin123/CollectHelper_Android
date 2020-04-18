@@ -1,4 +1,4 @@
-package online.mengchen.collectionhelper.main
+package online.mengchen.collectionhelper.ui.main
 
 import android.os.Bundle
 import android.view.LayoutInflater

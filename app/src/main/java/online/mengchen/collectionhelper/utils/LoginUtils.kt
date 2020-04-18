@@ -4,18 +4,13 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import okhttp3.Cookie
-import okhttp3.internal.cookieToString
 import online.mengchen.collectionhelper.common.Constant
 import online.mengchen.collectionhelper.data.network.RetrofitClient
 import online.mengchen.collectionhelper.data.network.SessionInterceptor
-import online.mengchen.collectionhelper.user.UserData
+import online.mengchen.collectionhelper.ui.user.UserData
 import retrofit2.HttpException
-
-import java.util.*
 
 object LoginUtils {
 

@@ -1,20 +1,20 @@
-package online.mengchen.collectionhelper.user
+package online.mengchen.collectionhelper.ui.user
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.layout_login.*
-import online.mengchen.collectionhelper.CollectHelperApplication
 import online.mengchen.collectionhelper.R
 import online.mengchen.collectionhelper.common.Constant
 import online.mengchen.collectionhelper.common.HTTPStatus
 import online.mengchen.collectionhelper.data.network.SessionInterceptor
 import online.mengchen.collectionhelper.databinding.LayoutLoginBinding
+import online.mengchen.collectionhelper.ui.user.register.RegisterActivity
 import online.mengchen.collectionhelper.utils.LoginUtils
 
 class LoginActivity : AppCompatActivity() {
@@ -42,6 +42,11 @@ class LoginActivity : AppCompatActivity() {
         loginButton.setOnClickListener {
             mLoginViewModel.login()
         }
+
+        btn_register.setOnClickListener {
+            startActivity(Intent(this, RegisterActivity::class.java))
+        }
+
         mLoginViewModel.mLoginRes.observe(this, Observer {
             // 存储登录状态
             this.getSharedPreferences(Constant.SP_STATUS_KEY, Context.MODE_PRIVATE)

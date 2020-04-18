@@ -23,8 +23,8 @@ import online.mengchen.collectionhelper.data.network.RetrofitClient
 import online.mengchen.collectionhelper.domain.entity.AliyunConfig
 import online.mengchen.collectionhelper.domain.entity.Category
 import online.mengchen.collectionhelper.domain.entity.FileInfo
-import online.mengchen.collectionhelper.repository.AliyunConfigRepository
-import online.mengchen.collectionhelper.repository.FileInfoRepository
+import online.mengchen.collectionhelper.data.repository.AliyunConfigRepository
+import online.mengchen.collectionhelper.data.repository.FileInfoRepository
 import online.mengchen.collectionhelper.utils.FileHelper
 import online.mengchen.collectionhelper.utils.HttpExceptionProcess
 import online.mengchen.collectionhelper.utils.UriHelper

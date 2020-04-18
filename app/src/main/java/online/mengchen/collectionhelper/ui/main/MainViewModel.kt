@@ -1,7 +1,6 @@
-package online.mengchen.collectionhelper.main
+package online.mengchen.collectionhelper.ui.main
 
 import android.content.Context
-import android.content.SharedPreferences
 import online.mengchen.collectionhelper.common.Constant
 
 class MainViewModel {

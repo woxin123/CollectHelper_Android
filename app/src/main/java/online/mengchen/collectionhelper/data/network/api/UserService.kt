@@ -1,8 +1,11 @@
 package online.mengchen.collectionhelper.data.network.api
 
 import online.mengchen.collectionhelper.common.ApiResult
-import online.mengchen.collectionhelper.user.UserData
+import online.mengchen.collectionhelper.ui.user.RegisterUser
+import online.mengchen.collectionhelper.ui.user.UserData
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 
 interface UserService {
 
@@ -12,5 +15,8 @@ interface UserService {
 
     @GET(USER)
     suspend fun getUserInfo(): ApiResult<UserData>
+
+    @POST(USER)
+    suspend fun registerUser(@Body registerUser: RegisterUser): ApiResult<UserData>
 
 }

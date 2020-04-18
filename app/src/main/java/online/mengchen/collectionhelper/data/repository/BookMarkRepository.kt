@@ -1,12 +1,9 @@
-package online.mengchen.collectionhelper.repository
+package online.mengchen.collectionhelper.data.repository
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import online.mengchen.collectionhelper.bookmark.BookMarkInfo
-import online.mengchen.collectionhelper.dao.BookMarkDao
-import online.mengchen.collectionhelper.dao.BookMarkDetailDao
-import online.mengchen.collectionhelper.dao.CategoryDao
+import online.mengchen.collectionhelper.data.db.dao.BookMarkDao
+import online.mengchen.collectionhelper.data.db.dao.BookMarkDetailDao
+import online.mengchen.collectionhelper.data.db.dao.CategoryDao
 import online.mengchen.collectionhelper.domain.entity.BookMark
 
 class BookMarkRepository(

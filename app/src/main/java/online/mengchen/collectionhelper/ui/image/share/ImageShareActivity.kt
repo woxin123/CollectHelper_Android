@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
@@ -31,7 +30,7 @@ import online.mengchen.collectionhelper.data.file.aliyun.AliyunConfiguration
 import online.mengchen.collectionhelper.data.network.SessionInterceptor
 import online.mengchen.collectionhelper.databinding.ActivityImageShareBinding
 import online.mengchen.collectionhelper.ui.custom.CustomProgressDialog
-import online.mengchen.collectionhelper.user.LoginActivity
+import online.mengchen.collectionhelper.ui.user.LoginActivity
 
 class ImageShareActivity : AppCompatActivity() {
 
