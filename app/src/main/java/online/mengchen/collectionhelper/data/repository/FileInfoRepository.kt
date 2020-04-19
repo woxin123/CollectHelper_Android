@@ -1,5 +1,6 @@
 package online.mengchen.collectionhelper.data.repository
 
+import online.mengchen.collectionhelper.common.FileType
 import online.mengchen.collectionhelper.common.StoreType.TypeStore
 import online.mengchen.collectionhelper.data.db.dao.FileInfoDao
 import online.mengchen.collectionhelper.domain.entity.FileInfo
@@ -17,6 +18,10 @@ class FileInfoRepository(private val fileInfoDao: FileInfoDao) {
 
     suspend fun getFileInfoByKey(key: String): FileInfo? {
         return fileInfoDao.findByKey(key)
+    }
+
+    suspend fun getFileInfoByFileTypeAndStoreType(@FileType.TypeFile fileType: Int, @TypeStore storeType: Int): List<FileInfo> {
+        return fileInfoDao.findByFileTypeAndStoreType(fileType, storeType, LoginUtils.user?.userId!!)
     }
 
 }

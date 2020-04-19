@@ -11,6 +11,7 @@ import online.mengchen.collectionhelper.R
 import online.mengchen.collectionhelper.bookmark.BookMarkFragment
 import online.mengchen.collectionhelper.databinding.LayoutHomeBinding
 import online.mengchen.collectionhelper.ui.image.ImageFragment
+import online.mengchen.collectionhelper.ui.music.MusicFragment
 
 class HomeFragment: Fragment() {
 
@@ -31,8 +32,8 @@ class HomeFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         mBinding.viewPager.adapter = HomePagerAdapter(childFragmentManager,
-            listOf(BookMarkFragment(), ImageFragment(), ImageFragment()),
-            listOf("书签", "图片", "图片"))
+            listOf(BookMarkFragment(), ImageFragment(), MusicFragment.newInstance()),
+            listOf("书签", "图片", "音乐"))
         mBinding.tabLayout.setupWithViewPager(mBinding.viewPager)
     }
 
