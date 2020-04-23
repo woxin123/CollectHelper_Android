@@ -33,6 +33,7 @@ class AliyunCloudStore(
     init {
         val credentialsProvider =
             OSSPlainTextAKSKCredentialProvider(cfg.accessKey, cfg.secretKey)
+        Log.d(TAG, "accessKey = ${cfg.accessKey} accessKeySecret = ${cfg.secretKey}")
         ossClient = OSSClient(CollectHelperApplication.context, endpoint, credentialsProvider)
         val request = GetBucketInfoRequest(cfg.bucket)
         ossClient.asyncGetBucketInfo(

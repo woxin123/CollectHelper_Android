@@ -98,19 +98,23 @@ abstract class ShareActivity: AppCompatActivity() {
     open fun initObserver() {
         val mViewModel = getViewModel()
         mViewModel.aliyunConfig.observe(this, Observer {
-            CloudStoreInstance.getAliyunInstance(
-                AliyunConfiguration(
-                    it.accessKey,
-                    it.secretKey,
-                    it.bucket
-                ), mViewModel.viewModelScope
-            ).observe(this, Observer {
-                if (it == null) {
-                    Toast.makeText(this, "阿里云OSS初始化失败", Toast.LENGTH_SHORT).show()
-                } else {
-                    mViewModel.cloudStore = it
-                }
-            })
+            if (it == null) {
+                Toast.makeText(this, "阿里云OSS初始化失败", Toast.LENGTH_SHORT).show()
+            } else {
+                CloudStoreInstance.getAliyunInstance(
+                    AliyunConfiguration(
+                        it.accessKey,
+                        it.secretKey,
+                        it.bucket
+                    ), mViewModel.viewModelScope
+                ).observe(this, Observer {
+                    if (it == null) {
+                        Toast.makeText(this, "阿里云OSS初始化失败", Toast.LENGTH_SHORT).show()
+                    } else {
+                        mViewModel.cloudStore = it
+                    }
+                })
+            }
         })
         mViewModel.toastTextMessage.observe(this, Observer { event ->
             event.getContentIfNotHandled()?.let {

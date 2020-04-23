@@ -21,6 +21,8 @@ class LoginActivity : AppCompatActivity() {
 
     companion object {
         const val TAG = "LoginActivity"
+        const val REQUEST_CODE_LOGIN = 100
+        const val LOGIN_STATUS = "login_status"
     }
 
     private lateinit var mLoginViewModel: LoginViewModel
@@ -54,6 +56,7 @@ class LoginActivity : AppCompatActivity() {
             LoginUtils.writeSession(this, SessionInterceptor.cookieSir!!)
             LoginUtils.user = it.data
             Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show()
+            setResult(REQUEST_CODE_LOGIN, Intent().apply { putExtra(LOGIN_STATUS, true) })
             this.finish()
         })
         mLoginViewModel.mLoginError.observe(this, Observer {

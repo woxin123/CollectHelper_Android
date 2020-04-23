@@ -73,15 +73,19 @@ class ImageShareActivity : AppCompatActivity() {
         val imageUri = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
         this.imageUri = imageUri
         mViewModel.aliyunConfig.observe(this, Observer { it ->
-            mViewModel.viewModelScope.launch {
-                withContext(Dispatchers.IO) {
-                    mViewModel.cloudStore = AliyunCloudStore(
-                        AliyunConfiguration(it.accessKey, it.secretKey, it.bucket), /*{ success: String ->
+            if (it == null) {
+                Toast.makeText(this, "阿里云OOS 初始化失败", Toast.LENGTH_SHORT).show()
+            } else {
+                mViewModel.viewModelScope.launch {
+                    withContext(Dispatchers.IO) {
+                        mViewModel.cloudStore = AliyunCloudStore(
+                            AliyunConfiguration(it.accessKey, it.secretKey, it.bucket), /*{ success: String ->
                         Toast.makeText(this, success, Toast.LENGTH_SHORT).show()
                     }, { s: String, _: Throwable ->
                         Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
                     }*/ null, null
-                    )
+                        )
+                    }
                 }
             }
         })

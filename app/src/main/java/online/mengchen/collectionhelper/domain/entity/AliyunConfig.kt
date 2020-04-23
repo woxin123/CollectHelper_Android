@@ -6,9 +6,9 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "aliyun_config")
 data class AliyunConfig (
-    @PrimaryKey val id: Long,
-    @ColumnInfo(name = "access_key") val accessKey: String,
-    @ColumnInfo(name = "secret_key") val secretKey: String,
-    @ColumnInfo(name = "bucket") val bucket: String,
-    @ColumnInfo(name = "uid") val uid: Long
+    @PrimaryKey var id: Long? = null,
+    @ColumnInfo(name = "access_key") var accessKey: String,
+    @ColumnInfo(name = "secret_key") var secretKey: String,
+    @ColumnInfo(name = "bucket") var bucket: String,
+    @ColumnInfo(name = "uid") var uid: Long
 )

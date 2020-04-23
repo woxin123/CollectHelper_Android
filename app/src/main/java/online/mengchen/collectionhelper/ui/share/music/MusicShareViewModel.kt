@@ -34,24 +34,13 @@ class MusicShareViewModel(application: Application) : ShareViewModel(application
 
     private val categoryService = RetrofitClient.categoryService
 
-    override fun saveCategory(categoryName: String) {
-        val addCategory =
-            AddOrUpdateCategory(categoryType = Category.MUSIC, categoryName = categoryName)
-        viewModelScope.launch {
-            try {
-                val addCategoryRes = categoryService.addCategory(addCategory)
-                if (addCategoryRes.status == HTTPStatus.CREATED.code) {
-                    addCategoryEvent(addCategoryRes.data!!)
-                }
-            } catch (e: HttpException) {
-                e.printStackTrace()
-                HttpExceptionProcess.process(e)
-            }
-        }
-    }
 
     override suspend fun getCategories(): ApiResult<List<CategoryInfo>> {
         return categoryService.getMusicCategory()
+    }
+
+    override fun getAddOrUpdateCategory(categoryName: String): AddOrUpdateCategory {
+        return AddOrUpdateCategory(categoryType = Category.MUSIC, categoryName = categoryName)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -149,27 +138,5 @@ class MusicShareViewModel(application: Application) : ShareViewModel(application
                 _uploadCompleted.value = Event(true)
             }
         }
-    }
-
-
-
-    /**
-     * 上传任务的 task
-     */
-    class UploadTask {
-        /**
-         * 上传任务的进度
-         */
-        var progress = 0
-
-        /**
-         * 是否完成了任务
-         */
-        val complete: Boolean
-            get() = succeed || failed
-
-        var succeed: Boolean = false
-
-        var failed: Boolean = false
     }
 }

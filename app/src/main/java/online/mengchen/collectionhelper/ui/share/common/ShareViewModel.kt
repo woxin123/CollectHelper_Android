@@ -6,14 +6,18 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import online.mengchen.collectionhelper.Event
 import online.mengchen.collectionhelper.R
+import online.mengchen.collectionhelper.bookmark.AddOrUpdateCategory
 import online.mengchen.collectionhelper.bookmark.CategoryInfo
 import online.mengchen.collectionhelper.common.ApiResult
+import online.mengchen.collectionhelper.common.HTTPStatus
 import online.mengchen.collectionhelper.data.db.CollectHelpDatabase
 import online.mengchen.collectionhelper.data.file.CloudStore
+import online.mengchen.collectionhelper.data.network.RetrofitClient
 import online.mengchen.collectionhelper.domain.entity.AliyunConfig
 import online.mengchen.collectionhelper.domain.entity.FileInfo
 import online.mengchen.collectionhelper.data.repository.AliyunConfigRepository
 import online.mengchen.collectionhelper.data.repository.FileInfoRepository
+import online.mengchen.collectionhelper.domain.entity.Category
 import online.mengchen.collectionhelper.ui.image.share.ImageShareViewModel
 import online.mengchen.collectionhelper.utils.HttpExceptionProcess
 import retrofit2.HttpException
@@ -23,7 +27,9 @@ abstract class ShareViewModel(application: Application): AndroidViewModel(applic
     lateinit var cloudStore: CloudStore
     private val aliyunConfigRepository: AliyunConfigRepository
     private val fileInfoRepository: FileInfoRepository
-    val aliyunConfig: LiveData<AliyunConfig>
+    val aliyunConfig: LiveData<AliyunConfig?>
+
+    private val categoryService = RetrofitClient.categoryService
 
     private val _items = MutableLiveData<List<CategoryInfo>>(emptyList())
     val items: LiveData<List<CategoryInfo>>
@@ -115,8 +121,23 @@ abstract class ShareViewModel(application: Application): AndroidViewModel(applic
         _toastText.value = Event(string)
     }
 
-    abstract fun saveCategory(categoryName: String)
+    private fun saveCategory(categoryName: String) {
+        val addCategory = getAddOrUpdateCategory(categoryName)
+        viewModelScope.launch {
+            try {
+                val addCategoryRes = categoryService.addCategory(addCategory)
+                if (addCategoryRes.status == HTTPStatus.CREATED.code) {
+                    addCategoryEvent(addCategoryRes.data!!)
+                }
+            } catch (e: HttpException) {
+                e.printStackTrace()
+                HttpExceptionProcess.process(e)
+            }
+        }
+    }
+
     abstract suspend fun getCategories(): ApiResult<List<CategoryInfo>>
+    abstract fun getAddOrUpdateCategory(categoryName: String): AddOrUpdateCategory
 
 
 
@@ -127,5 +148,25 @@ abstract class ShareViewModel(application: Application): AndroidViewModel(applic
 
     protected fun saveFileInfo(fileInfo: FileInfo) = viewModelScope.launch {
         fileInfoRepository.insert(fileInfo)
+    }
+
+    /**
+     * 上传任务的 task
+     */
+    class UploadTask {
+        /**
+         * 上传任务的进度
+         */
+        var progress = 0
+
+        /**
+         * 是否完成了任务
+         */
+        val complete: Boolean
+            get() = succeed || failed
+
+        var succeed: Boolean = false
+
+        var failed: Boolean = false
     }
 }

@@ -14,6 +14,7 @@ interface CategoryService {
         const val BOOKMARK = "BOOKMARK"
         const val IMAGE = "IMAGE"
         const val MUSIC = "MUSIC"
+        const val DOCUMENT = "DOCUMENT"
     }
 
     @GET("$CATEGORIES/$BOOKMARK")
@@ -27,4 +28,7 @@ interface CategoryService {
 
     @GET("$CATEGORIES/$MUSIC")
     suspend fun getMusicCategory(): ApiResult<List<CategoryInfo>>
+
+    @GET("$CATEGORIES/$DOCUMENT")
+    suspend fun getDocumentCategory(): ApiResult<List<CategoryInfo>>
 }

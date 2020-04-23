@@ -15,7 +15,43 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.user.register.RegisterActivity"></activity>
+        <activity android:name=".ui.cloudstore.CloudStoreChooseActivity"></activity>
+        <activity android:name=".ui.cloudstore.CloudStoreConfigActivity"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".ui.share.document.DocumentShareActivity"
+            android:label="收藏文档"
+            android:theme="@style/Theme.CollectHelpShare">
+
+            <!-- 注册收藏 word ppt excel pdf 等文档格式 -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <!-- pdf -->
+                <data android:mimeType="application/pdf" />
+                <!-- word -->
+                <data android:mimeType="application/msword" />
+                <!-- excel -->
+                <data android:mimeType="application/vnd.ms-excel" />
+                <!-- ppt -->
+                <data android:mimeType="application/vnd.ms-powerpoint" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <!-- pdf -->
+                <data android:mimeType="application/pdf" />
+                <!-- word -->
+                <data android:mimeType="application/msword" />
+                <!-- excel -->
+                <data android:mimeType="application/vnd.ms-excel" />
+                <!-- ppt -->
+                <data android:mimeType="application/vnd.ms-powerpoint" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.user.register.RegisterActivity" />
         <activity
             android:name=".ui.share.music.MusicShareActivity"
             android:label="收藏音乐"

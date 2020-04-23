@@ -10,7 +10,7 @@ import online.mengchen.collectionhelper.R
 import online.mengchen.collectionhelper.domain.model.MusicInfo
 import online.mengchen.collectionhelper.ui.music.MusicAdapter.*
 
-class MusicAdapter :
+class MusicAdapter(private val mViewModel: MusicViewModel) :
     RecyclerView.Adapter<MusicViewHolder>() {
 
     private var data = mutableListOf<MusicInfo>()
@@ -37,12 +37,14 @@ class MusicAdapter :
     override fun onBindViewHolder(holder: MusicViewHolder, position: Int) {
         holder.musicName.text = data[position].musicName
         holder.musicCategory.text = data[position].categoryName
+        holder.itemView.setOnClickListener {
+            mViewModel.changeMusic(holder.adapterPosition)
+        }
     }
 
     class MusicViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val musicName: TextView = itemView.findViewById(R.id.musicName)
         val musicCategory: TextView = itemView.findViewById(R.id.musicCategory)
-        val start: ImageView = itemView.findViewById(R.id.start)
         val more: ImageView = itemView.findViewById(R.id.more)
     }
 }

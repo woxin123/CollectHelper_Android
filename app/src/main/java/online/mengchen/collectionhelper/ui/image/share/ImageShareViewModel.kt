@@ -42,7 +42,7 @@ class ImageShareViewModel(application: Application) : AndroidViewModel(applicati
     lateinit var cloudStore: CloudStore
     private val aliyunConfigRepository: AliyunConfigRepository
     private val fileInfoRepository: FileInfoRepository
-    val aliyunConfig: LiveData<AliyunConfig>
+    val aliyunConfig: LiveData<AliyunConfig?>
     private val categoryService = RetrofitClient.categoryService
 
     private val _items = MutableLiveData<List<CategoryInfo>>(emptyList())

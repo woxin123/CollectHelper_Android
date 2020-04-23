@@ -22,7 +22,7 @@ class ImageListViewModel(application: Application) : AndroidViewModel(applicatio
     lateinit var imageCategory: ImageCategory
     lateinit var cloudStore: CloudStore
     private val aliyunConfigRepository: AliyunConfigRepository
-    val aliyunConfig: LiveData<AliyunConfig>
+    val aliyunConfig: LiveData<AliyunConfig?>
 
     init {
         val db = CollectHelpDatabase.getDatabase(application, viewModelScope)

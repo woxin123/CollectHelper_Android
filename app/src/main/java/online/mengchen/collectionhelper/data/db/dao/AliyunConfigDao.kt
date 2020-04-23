@@ -1,20 +1,20 @@
 package online.mengchen.collectionhelper.data.db.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import online.mengchen.collectionhelper.domain.entity.AliyunConfig
 
 @Dao
 interface AliyunConfigDao {
 
     @Query("SELECT * FROM aliyun_config WHERE uid = :uid")
-    fun findByUid(uid: Long): LiveData<AliyunConfig>
+    fun findByUid(uid: Long): LiveData<AliyunConfig?>
 
     @Insert
     suspend fun insert(aliyunConfig: AliyunConfig)
+
+    @Update
+    suspend fun update(aliyunConfig: AliyunConfig)
 
     @Delete
     suspend fun delete(aliyunConfig: AliyunConfig)

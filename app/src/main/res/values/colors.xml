@@ -17,4 +17,7 @@
     <color name="blue">#043CA3</color>
 
     <color name="pure_black">#C0000000</color>
+
+    <color name="background_gravity">#F5F6FA</color>
+
 </resources>

@@ -12,13 +12,73 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.music.MusicFragment">
+        tools:context=".ui.music.MusicFragment"
+        android:background="@color/background_gravity">
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:music_items="@{viewModel.items}"/>
+            app:music_items="@{viewModel.items}" />
+
+        <com.qmuiteam.qmui.layout.QMUILinearLayout
+            android:id="@+id/playBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/musicName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/musicCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/curTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="00:00" />
+
+            <online.mengchen.collectionhelper.ui.custom.ProgressToggleButton
+                android:id="@+id/musicProgress"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/transparent"/>
+
+            <ImageView
+                android:id="@+id/more"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_more_vert_black_24dp" />
+
+
+        </com.qmuiteam.qmui.layout.QMUILinearLayout>
 
     </FrameLayout>
 </layout>

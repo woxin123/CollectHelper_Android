@@ -50,20 +50,24 @@ class ImageListActivity : AppCompatActivity() {
 
     private fun initObserver() {
         mViewModel.aliyunConfig.observe(this, Observer { it ->
-            CloudStoreInstance.getAliyunInstance(
-                AliyunConfiguration(
-                    it.accessKey,
-                    it.secretKey,
-                    it.bucket
-                ), mViewModel.viewModelScope
-            ).observe(this, Observer {
-                if (it == null) {
-                    Toast.makeText(this, "阿里云OSS初始化失败", Toast.LENGTH_SHORT).show()
-                } else {
-                    mViewModel.cloudStore = it
-                    mViewModel.start()
-                }
-            })
+            if (it == null) {
+                Toast.makeText(this, "阿里云OSS初始化失败", Toast.LENGTH_SHORT).show()
+            } else {
+                CloudStoreInstance.getAliyunInstance(
+                    AliyunConfiguration(
+                        it.accessKey,
+                        it.secretKey,
+                        it.bucket
+                    ), mViewModel.viewModelScope
+                ).observe(this, Observer {
+                    if (it == null) {
+                        Toast.makeText(this, "阿里云OSS初始化失败", Toast.LENGTH_SHORT).show()
+                    } else {
+                        mViewModel.cloudStore = it
+                        mViewModel.start()
+                    }
+                })
+            }
         })
     }
 }

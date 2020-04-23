@@ -11,7 +11,7 @@ import online.mengchen.collectionhelper.utils.LocalDateTypeConverter
 
 @Database(
     entities = [BookMark::class, BookMarkDetail::class, Category::class, User::class, AliyunConfig::class, FileInfo::class],
-    version = 3
+    version = 4
 )
 @TypeConverters(LocalDateTypeConverter::class)
 abstract class CollectHelpDatabase : RoomDatabase() {

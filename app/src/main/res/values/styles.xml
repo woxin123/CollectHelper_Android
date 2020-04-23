@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="QMUI.Compat">
+    <style name="AppTheme" parent="QMUI.Compat.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -32,5 +32,9 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
-
+    <declare-styleable name="ProgressToggleButton">
+        <attr name="progress_total_width" format="dimension" />
+        <attr name="progress_current_width" format="dimension" />
+        <attr name="main_color" format="color" />
+    </declare-styleable>
 </resources>
