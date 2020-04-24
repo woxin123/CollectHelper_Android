@@ -1,7 +1,10 @@
 package online.mengchen.collectionhelper.ui.main
 
+import android.Manifest
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.app.ActivityCompat
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import online.mengchen.collectionhelper.MyPageAdapter
@@ -27,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
+        requestPermission()
         viewPager = findViewById(R.id.viewPager)
         tabLayout = findViewById(R.id.tabLayout)
         val titleList = mutableListOf("首页", "最近浏览", "我的")
@@ -42,6 +46,19 @@ class MainActivity : AppCompatActivity() {
         )
         viewPager.adapter = pageAdapter
         tabLayout.setupWithViewPager(viewPager)
+    }
+
+    private val PERMISSON = arrayOf(
+        Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.INTERNET)
+
+
+    private fun requestPermission() {
+        val permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, PERMISSON, 1);
+        }
     }
 
 }

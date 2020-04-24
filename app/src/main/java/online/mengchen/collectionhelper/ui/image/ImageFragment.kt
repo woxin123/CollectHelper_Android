@@ -16,7 +16,7 @@ import online.mengchen.collectionhelper.R
 import online.mengchen.collectionhelper.databinding.FragmentImageBinding
 import online.mengchen.collectionhelper.ui.image.list.ImageListActivity
 
-class ImageFragment: Fragment() {
+class ImageFragment : Fragment() {
 
     companion object {
         private const val TAG = "ImageFragment"
@@ -45,15 +45,18 @@ class ImageFragment: Fragment() {
 
     private fun initView() {
         val recyclerViewAdapter = ImageRecyclerViewAdapter(mutableListOf(), mViewModel)
-        imageCategories.layoutManager = GridLayoutManager(context, 3, LinearLayoutManager.VERTICAL, false)
+        imageCategories.layoutManager =
+            GridLayoutManager(context, 3, LinearLayoutManager.VERTICAL, false)
         imageCategories.adapter = recyclerViewAdapter
     }
 
     private fun initObserver() {
-        mViewModel.openImageCategory.observe(this.viewLifecycleOwner, Observer {
-            val intent = Intent(this.activity, ImageListActivity::class.java)
-            intent.putExtras(Bundle().apply {  putParcelable(IMAGE_CATEGORY, it) })
-            startActivity(intent)
+        mViewModel.openImageCategory.observe(this.viewLifecycleOwner, Observer { event ->
+            event?.getContentIfNotHandled()?.let {
+                val intent = Intent(this.activity, ImageListActivity::class.java)
+                intent.putExtras(Bundle().apply { putParcelable(IMAGE_CATEGORY, it) })
+                startActivity(intent)
+            }
         })
     }
 

@@ -123,7 +123,7 @@ class AliyunCloudStore(
         progressListener: CloudStoreProgressListener?,
         isBigFile: Boolean
     ) {
-        val getObject = GetObjectRequest(bucketName, key)
+        val getObject = GetObjectRequest(cfg.bucket, key)
         getObject.setProgressListener { _, currentSize, totalSize ->
             val progress = currentSize.times(100.0).div(totalSize).toInt()
             Log.d(TAG, "下载进度: currentSize = $currentSize, totalSize = $totalSize, progress = $progress")

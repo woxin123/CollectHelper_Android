@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import online.mengchen.collectionhelper.Event
 import online.mengchen.collectionhelper.data.network.RetrofitClient
 import retrofit2.HttpException
 
@@ -19,8 +20,8 @@ class ImageViewModel : ViewModel() {
     val items: LiveData<List<ImageCategory>>
         get() = _items
 
-    private val _openImageCategory = MutableLiveData<ImageCategory>()
-    val openImageCategory: LiveData<ImageCategory>
+    private val _openImageCategory = MutableLiveData<Event<ImageCategory>>()
+    val openImageCategory: LiveData<Event<ImageCategory>>
         get() = _openImageCategory
 
     private val categoryService = RetrofitClient.categoryService
@@ -48,7 +49,7 @@ class ImageViewModel : ViewModel() {
     }
 
     fun openImageCategory(imageCategory: ImageCategory) {
-        _openImageCategory.value = imageCategory
+        _openImageCategory.value = Event(imageCategory)
     }
 
 }

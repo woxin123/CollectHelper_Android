@@ -1,4 +1,4 @@
-package online.mengchen.collectionhelper.ui.share.document
+package online.mengchen.collectionhelper.ui.share.video
 
 import android.app.Application
 import android.net.Uri
@@ -27,28 +27,27 @@ import java.io.File
 import java.io.FileInputStream
 import java.time.LocalDateTime
 
-class DocumentShareViewModel(application: Application) : ShareViewModel(application) {
+class VideoShareVideoModel(application: Application) : ShareViewModel(application) {
 
     private val categoryService = RetrofitClient.categoryService
 
-
     override suspend fun getCategories(): ApiResult<List<CategoryInfo>> {
-        return categoryService.getDocumentCategory()
+        return  categoryService.getVideoCategory()
     }
 
     override fun getAddOrUpdateCategory(categoryName: String): AddOrUpdateCategory {
-        return AddOrUpdateCategory(categoryType = Category.DOCUMENT, categoryName = categoryName)
+        return AddOrUpdateCategory(categoryType = Category.VIDEO, categoryName = categoryName)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun saveDocument(uris: List<Uri>, categories: MutableList<CategoryInfo>) {
+    fun saveVideo(uris: List<Uri>, categories: MutableList<CategoryInfo>) {
         if (uris.isEmpty()) {
             sendMessage(R.string.share_content_empty)
             return
         }
         // 如果没有分类，就构造一个未分类
         if (categories.isEmpty()) {
-            categories.add(CategoryInfo.unCategorized(Category.DOCUMENT))
+            categories.add(CategoryInfo.unCategorized(Category.MUSIC))
         }
         _startUpload.value = Event(uris.size * 100)
         val uploadTasks = Array(uris.size) { UploadTask() }
@@ -62,7 +61,7 @@ class DocumentShareViewModel(application: Application) : ShareViewModel(applicat
                 val fileName: String = if (filePath != null) {
                     FileHelper.getFileName(filePath)!!
                 } else {
-                    System.currentTimeMillis().toString() + ".doc"
+                    System.currentTimeMillis().toString() + ".mp3"
                 }
                 // 将文件保存到本地
                 val application = getApplication<CollectHelperApplication>()
@@ -88,7 +87,7 @@ class DocumentShareViewModel(application: Application) : ShareViewModel(applicat
                                         null,
                                         fileName,
                                         null,
-                                        FileType.DOCUMENT,
+                                        FileType.VIDEO,
                                         StoreType.ALIYUN,
                                         categoryInfo.categoryId,
                                         LoginUtils.user?.userId!!,

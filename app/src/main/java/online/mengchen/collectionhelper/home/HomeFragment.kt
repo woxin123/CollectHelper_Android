@@ -10,8 +10,10 @@ import androidx.lifecycle.ViewModelProvider
 import online.mengchen.collectionhelper.R
 import online.mengchen.collectionhelper.bookmark.BookMarkFragment
 import online.mengchen.collectionhelper.databinding.LayoutHomeBinding
+import online.mengchen.collectionhelper.ui.document.DocumentFragment
 import online.mengchen.collectionhelper.ui.image.ImageFragment
 import online.mengchen.collectionhelper.ui.music.MusicFragment
+import online.mengchen.collectionhelper.ui.video.VideoFragment
 
 class HomeFragment: Fragment() {
 
@@ -32,8 +34,8 @@ class HomeFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         mBinding.viewPager.adapter = HomePagerAdapter(childFragmentManager,
-            listOf(BookMarkFragment(), ImageFragment(), MusicFragment.newInstance()),
-            listOf("书签", "图片", "音乐"))
+            listOf(BookMarkFragment(), ImageFragment(), DocumentFragment(), MusicFragment.newInstance(), VideoFragment()),
+            listOf("书签", "图片", "文档", "音乐", "视频"))
         mBinding.tabLayout.setupWithViewPager(mBinding.viewPager)
     }
 

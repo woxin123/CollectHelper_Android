@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.lifecycle.*
+import kotlinx.android.synthetic.main.activity_splash.*
 import online.mengchen.collectionhelper.R
 import online.mengchen.collectionhelper.data.sp.StatusProperties
 import online.mengchen.collectionhelper.ui.cloudstore.CloudStoreConfigActivity
@@ -26,6 +27,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
         supportActionBar?.hide()
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+//        webView.loadUrl("http://debugtbs.qq.com")
         mViewModel = ViewModelProvider(this).get(SplashViewModel::class.java)
         mViewModel.start()
         initObserver()

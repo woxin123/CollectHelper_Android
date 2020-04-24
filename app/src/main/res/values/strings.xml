@@ -84,4 +84,6 @@
     <string name="cloud_store_init_error">云存储初始化失败</string>
     <string name="music_play_error">播放出错</string>
 
+    <string name="file_download_error">文件下载失败</string>
+
 </resources>

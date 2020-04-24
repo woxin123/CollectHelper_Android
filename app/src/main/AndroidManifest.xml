@@ -2,9 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="online.mengchen.collectionhelper">
 
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".CollectHelperApplication"
@@ -15,9 +17,29 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.cloudstore.CloudStoreChooseActivity"></activity>
-        <activity android:name=".ui.cloudstore.CloudStoreConfigActivity"
-            android:theme="@style/AppTheme"/>
+
+
+        <activity android:name=".ui.document.DisplayDocumentActivity" />
+        <activity android:name=".ui.cloudstore.CloudStoreChooseActivity" />
+        <activity
+            android:name=".ui.cloudstore.CloudStoreConfigActivity"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".ui.share.video.VideoShareActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="video/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="video/*" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.share.document.DocumentShareActivity"
             android:label="收藏文档"
@@ -36,6 +58,12 @@
                 <data android:mimeType="application/vnd.ms-excel" />
                 <!-- ppt -->
                 <data android:mimeType="application/vnd.ms-powerpoint" />
+                <!-- docx -->
+                <data android:mimeType="application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+                <!-- xlsx -->
+                <data android:mimeType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+                <!-- pptx -->
+                <data android:mimeType="application/vnd.openxmlformats-officedocument.presentationml.presentation" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
@@ -108,11 +136,22 @@
             </intent-filter>
         </activity>
         <activity android:name=".bookmark.BookMarkViewActivity" />
-        <activity android:name=".config.QiniuConfigActivity" /> <!-- 以 singleTask 启动 -->
         <activity
             android:name=".ui.user.LoginActivity"
             android:launchMode="singleTask" />
         <activity android:name=".ui.main.MainActivity" />
+
+        <!-- 视频播放的 activity 注册 -->
+        <activity android:name="com.tencent.smtt.sdk.VideoActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="com.tencent.smtt.tbs.video.PLAY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
