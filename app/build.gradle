@@ -48,11 +48,11 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation "com.qiniu:qiniu-android-sdk:$qiniu_version"
     implementation "com.qiniu:qiniu-java-sdk:$qiniu_java_version"
-    implementation "com.squareup.okhttp3:okhttp:${kotlin_version}"
-    implementation "com.bytedance.scene:scene:${latest_version}"
-    implementation "com.bytedance.scene:scene-ui:${latest_version}"
-    implementation "com.bytedance.scene:scene-shared-element-animation:${latest_version}"
-    implementation "com.bytedance.scene:scene-ktx:${latest_version}"
+    implementation "com.squareup.okhttp3:okhttp:$kotlin_version"
+    implementation "com.bytedance.scene:scene:$latest_version"
+    implementation "com.bytedance.scene:scene-ui:$latest_version"
+    implementation "com.bytedance.scene:scene-shared-element-animation:$latest_version"
+    implementation "com.bytedance.scene:scene-ktx:$latest_version"
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     implementation "androidx.lifecycle:lifecycle-common-java8:2.2.0"
@@ -82,5 +82,10 @@ dependencies {
 
     // tbs
     implementation 'com.tencent.tbs.tbssdk:sdk:43903'
+
+    //
+    implementation "com.squareup.leakcanary:leakcanary-android:$leakcony_version"
+    implementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakcony_no_op_version"
+    implementation "com.squareup.leakcanary:leakcanary-support-fragment:$leakcony_support_fragment_version"
 
 }

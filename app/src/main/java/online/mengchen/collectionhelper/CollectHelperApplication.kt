@@ -4,6 +4,7 @@ import android.R.attr
 import android.app.Application
 import android.content.Context
 import android.util.Log
+import com.squareup.leakcanary.LeakCanary
 import com.tencent.smtt.sdk.QbSdk
 import online.mengchen.collectionhelper.data.file.CloudStore
 
@@ -31,6 +32,11 @@ class CollectHelperApplication : Application() {
         }
         // x5内核预加载，异步初始化x5 webview所需环境
         QbSdk.initX5Environment(applicationContext, pcb)
+
+        // 内存泄漏检测
+        if (!LeakCanary.isInAnalyzerProcess(this))   {
+            LeakCanary.install(this)
+        }
 
     }
 
