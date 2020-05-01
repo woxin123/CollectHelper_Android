@@ -4,10 +4,9 @@ import android.app.Application
 import androidx.lifecycle.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import online.mengchen.collectionhelper.Event
+import online.mengchen.collectionhelper.base.Event
+import online.mengchen.collectionhelper.base.SingleLiveEvent
 import online.mengchen.collectionhelper.data.network.RetrofitClient
-import online.mengchen.collectionhelper.utils.LoginUtils
-import retrofit2.HttpException
 
 class SplashViewModel(application: Application): AndroidViewModel(application) {
     companion object {
@@ -17,6 +16,8 @@ class SplashViewModel(application: Application): AndroidViewModel(application) {
 
     private val userService = RetrofitClient.userService
 
+    val initStatus: SingleLiveEvent<Boolean> = SingleLiveEvent(false)
+
     private val _complete = MutableLiveData<Event<Unit>>()
     val complete: LiveData<Event<Unit>>
         get() = _complete
@@ -25,12 +26,18 @@ class SplashViewModel(application: Application): AndroidViewModel(application) {
     val needLogin: LiveData<Boolean>
         get() = _needLogin
 
+    var delayComplete: Boolean = false
+
     fun start() {
         viewModelScope.launch {
             delay(TIME * 1000L)
-            _complete.value = Event(Unit)
+            delayComplete = true
+            if (initStatus.value == true) {
+                _complete.value = Event(Unit)
+            }
         }
     }
+
 
 
 

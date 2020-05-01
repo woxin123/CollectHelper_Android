@@ -8,18 +8,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import online.mengchen.collectionhelper.Event
+import online.mengchen.collectionhelper.base.Event
 import online.mengchen.collectionhelper.bookmark.CategoryInfo
 import online.mengchen.collectionhelper.common.FileType
 import online.mengchen.collectionhelper.common.StoreType
 import online.mengchen.collectionhelper.data.db.CollectHelpDatabase
 import online.mengchen.collectionhelper.data.file.CloudStore
+import online.mengchen.collectionhelper.data.file.CloudStoreInstance
 import online.mengchen.collectionhelper.data.network.RetrofitClient
 import online.mengchen.collectionhelper.data.repository.AliyunConfigRepository
 import online.mengchen.collectionhelper.data.repository.FileInfoRepository
 import online.mengchen.collectionhelper.domain.entity.AliyunConfig
 import online.mengchen.collectionhelper.domain.entity.Category
-import online.mengchen.collectionhelper.domain.model.DocumentInfo
 import online.mengchen.collectionhelper.domain.model.VideoInfo
 import online.mengchen.collectionhelper.utils.HttpExceptionProcess
 import retrofit2.HttpException
@@ -29,19 +29,19 @@ class VideoViewModel(application: Application) : AndroidViewModel(application) {
 
     private var categories: List<CategoryInfo>? = null
     private val categoryService = RetrofitClient.categoryService
-    private val aliyunConfigRepository: AliyunConfigRepository
+//    private val aliyunConfigRepository: AliyunConfigRepository
     private val fileInfoRepository: FileInfoRepository
-    lateinit var cloudStore: CloudStore
-    val aliyunConfig: LiveData<AliyunConfig?>
+    val cloudStore: CloudStore = CloudStoreInstance.getCloudStore()
+//    val aliyunConfig: LiveData<AliyunConfig?>
 
     @RequiresApi(Build.VERSION_CODES.O)
     private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd ")
 
     init {
         val db = CollectHelpDatabase.getDatabase(getApplication(), viewModelScope)
-        aliyunConfigRepository = AliyunConfigRepository(db.aliyunConfigDao())
+//        aliyunConfigRepository = AliyunConfigRepository(db.aliyunConfigDao())
         fileInfoRepository = FileInfoRepository(db.fileInfoDao())
-        aliyunConfig = aliyunConfigRepository.aliyunConfig
+//        aliyunConfig = aliyunConfigRepository.aliyunConfig
     }
 
     private val _item = MutableLiveData<List<VideoInfo>>(emptyList())

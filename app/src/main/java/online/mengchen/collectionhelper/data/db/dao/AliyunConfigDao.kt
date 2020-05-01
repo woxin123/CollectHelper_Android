@@ -10,6 +10,9 @@ interface AliyunConfigDao {
     @Query("SELECT * FROM aliyun_config WHERE uid = :uid")
     fun findByUid(uid: Long): LiveData<AliyunConfig?>
 
+    @Query("SELECT * FROM aliyun_config WHERE uid = :uid")
+    suspend fun findByUid2(uid: Long): AliyunConfig
+
     @Insert
     suspend fun insert(aliyunConfig: AliyunConfig)
 

@@ -17,7 +17,7 @@ class QiniuFileOperatorTest {
 
     @Before
     fun setUp() {
-        token = QiniuConfig.getToken(BUCKET_NAME)
+        token = QiniuConfiguration.getToken(BUCKET_NAME)
         qiniuFileOPerator = QiniuFileOperator(token)
     }
 

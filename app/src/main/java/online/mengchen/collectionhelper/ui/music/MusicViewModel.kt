@@ -3,12 +3,13 @@ package online.mengchen.collectionhelper.ui.music
 import android.app.Application
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
-import online.mengchen.collectionhelper.Event
+import online.mengchen.collectionhelper.base.Event
 import online.mengchen.collectionhelper.R
 import online.mengchen.collectionhelper.common.FileType
 import online.mengchen.collectionhelper.common.StoreType
 import online.mengchen.collectionhelper.data.db.CollectHelpDatabase
 import online.mengchen.collectionhelper.data.file.CloudStore
+import online.mengchen.collectionhelper.data.file.CloudStoreInstance
 import online.mengchen.collectionhelper.data.network.RetrofitClient
 import online.mengchen.collectionhelper.data.repository.AliyunConfigRepository
 import online.mengchen.collectionhelper.data.repository.FileInfoRepository
@@ -22,9 +23,9 @@ class MusicViewModel(application: Application) : AndroidViewModel(application), 
     private val fileInfoRepository: FileInfoRepository
     private val categoryService = RetrofitClient.categoryService
     private val audioController: AudioController by lazy { AudioController(getApplication()) }
-    lateinit var cloudStore: CloudStore
-    private val aliyunConfigRepository: AliyunConfigRepository
-    val aliyunConfig: LiveData<AliyunConfig?>
+    val cloudStore: CloudStore = CloudStoreInstance.getCloudStore()
+//    private val aliyunConfigRepository: AliyunConfigRepository
+//    val aliyunConfig: LiveData<AliyunConfig?>
 
     private val _items = MutableLiveData<List<MusicInfo>>(emptyList())
     val items: LiveData<List<MusicInfo>>
@@ -41,12 +42,15 @@ class MusicViewModel(application: Application) : AndroidViewModel(application), 
     private var position = 0
     var curMusicInfo: MusicInfo? = null
 
+    val curMusicName = MutableLiveData<String>()
+    val curMusicCategory = MutableLiveData<String>()
+
 
     init {
         val db = CollectHelpDatabase.getDatabase(getApplication(), viewModelScope)
         fileInfoRepository = FileInfoRepository(db.fileInfoDao())
-        aliyunConfigRepository = AliyunConfigRepository(db.aliyunConfigDao())
-        aliyunConfig = aliyunConfigRepository.aliyunConfig
+//        aliyunConfigRepository = AliyunConfigRepository(db.aliyunConfigDao())
+//        aliyunConfig = aliyunConfigRepository.aliyunConfig
     }
 
     fun start() {
@@ -67,19 +71,27 @@ class MusicViewModel(application: Application) : AndroidViewModel(application), 
                     map[it.categoryId] = it.categoryName
                 }
                 _items.value = musicIfs.map { MusicInfo(it.key, map[it.categoryId] ?: "未分类", cloudStore.getFileUrl(it.key)) }
+                curMusicInfo = _items.value!![0]
+                setCurMusic()
             } catch (e: HttpException) {
                 e.printStackTrace()
                 HttpExceptionProcess.process(e)
             }
-
         }
+    }
+
+    private fun setCurMusic() {
+        curMusicName.value = curMusicInfo?.musicName
+        curMusicCategory.value = curMusicInfo?.categoryName
     }
 
     fun changeMusic(position: Int) {
         this.position = position
-        _musicInfoChangeEvent.value = Event(position)
+        _musicInfoChangeEvent.value =
+            Event(position)
         val musicUrl = getMusicInfo(position).musicUrl
         curMusicInfo = getMusicInfo(position)
+        setCurMusic()
         if (musicUrl == null) {
             sendMessage(R.string.music_play_error)
             return

@@ -1,6 +1,5 @@
 package online.mengchen.collectionhelper.ui.music
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -48,6 +47,7 @@ class MusicFragment : Fragment() {
         initView()
         initObserver()
         initListener()
+        mViewModel.start()
     }
 
 
@@ -104,23 +104,23 @@ class MusicFragment : Fragment() {
     }
 
     private fun initObserver() {
-        mViewModel.aliyunConfig.observe(this.viewLifecycleOwner, Observer {
-            if (it == null) {
-                mViewModel.sendMessage(R.string.cloud_store_config_get_error)
-            } else {
-                CloudStoreInstance.getAliyunInstance(
-                    AliyunConfiguration(it.accessKey, it.secretKey, it.bucket),
-                    mViewModel.viewModelScope
-                ).observe(this.viewLifecycleOwner, Observer {
-                    if (it == null) {
-                        mViewModel.sendMessage(R.string.cloud_store_init_error)
-                    } else {
-                        mViewModel.cloudStore = it
-                        mViewModel.start()
-                    }
-                })
-            }
-        })
+//        mViewModel.aliyunConfig.observe(this.viewLifecycleOwner, Observer {
+//            if (it == null) {
+//                mViewModel.sendMessage(R.string.cloud_store_config_get_error)
+//            } else {
+//                CloudStoreInstance.getAliyunInstance(
+//                    AliyunConfiguration(it.accessKey, it.secretKey, it.bucket),
+//                    mViewModel.viewModelScope
+//                ).observe(this.viewLifecycleOwner, Observer {
+//                    if (it == null) {
+//                        mViewModel.sendMessage(R.string.cloud_store_init_error)
+//                    } else {
+//                        mViewModel.cloudStore = it
+//                        mViewModel.start()
+//                    }
+//                })
+//            }
+//        })
         mViewModel.musicInfoChangeEvent.observe(this.viewLifecycleOwner, Observer { event ->
             event.getContentIfNotHandled()?.let {
                 val musicInfo = mViewModel.getMusicInfo(it)
@@ -137,14 +137,18 @@ class MusicFragment : Fragment() {
     }
 
 
-    override fun onResume() {
-        super.onResume()
-        Log.d(TAG, "onResume")
-        if (mViewModel.curMusicInfo != null) {
-            musicName.text = mViewModel.curMusicInfo?.musicName
-            musicCategory.text = mViewModel.curMusicInfo?.categoryName
-        }
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        Log.d(TAG, "onResume")
+//        if (mViewModel.curMusicInfo != null) {
+//            musicName.text = mViewModel.curMusicInfo?.musicName
+//            musicCategory.text = mViewModel.curMusicInfo?.categoryName
+//        }
+//    }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mBinding.unbind()
+    }
 
 }

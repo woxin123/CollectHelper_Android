@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import online.mengchen.collectionhelper.Event
+import online.mengchen.collectionhelper.base.Event
 import online.mengchen.collectionhelper.data.network.RetrofitClient
 import retrofit2.HttpException
 
@@ -49,7 +49,8 @@ class ImageViewModel : ViewModel() {
     }
 
     fun openImageCategory(imageCategory: ImageCategory) {
-        _openImageCategory.value = Event(imageCategory)
+        _openImageCategory.value =
+            Event(imageCategory)
     }
 
 }

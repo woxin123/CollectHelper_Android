@@ -1,4 +1,4 @@
-package online.mengchen.collectionhelper.data
+package online.mengchen.collectionhelper.data.file
 
 interface CloudStoreConfiguration {
     val accessKey: String

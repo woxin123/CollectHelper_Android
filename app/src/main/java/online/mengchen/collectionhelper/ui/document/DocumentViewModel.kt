@@ -2,9 +2,6 @@ package online.mengchen.collectionhelper.ui.document
 
 import android.app.Application
 import android.os.Build
-import android.os.Bundle
-import android.os.Environment
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -13,17 +10,13 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import online.mengchen.collectionhelper.CollectHelperApplication
-import online.mengchen.collectionhelper.Event
+import online.mengchen.collectionhelper.base.Event
 import online.mengchen.collectionhelper.R
 import online.mengchen.collectionhelper.bookmark.CategoryInfo
 import online.mengchen.collectionhelper.common.FileType
 import online.mengchen.collectionhelper.common.StoreType
 import online.mengchen.collectionhelper.data.db.CollectHelpDatabase
-import online.mengchen.collectionhelper.data.file.CloudStore
-import online.mengchen.collectionhelper.data.file.CloudStoreCallback
-import online.mengchen.collectionhelper.data.file.CloudStoreObject
-import online.mengchen.collectionhelper.data.file.CloudStoreProgressListener
-import online.mengchen.collectionhelper.data.file.aliyun.AliyunConfiguration
+import online.mengchen.collectionhelper.data.file.*
 import online.mengchen.collectionhelper.data.network.RetrofitClient
 import online.mengchen.collectionhelper.data.repository.AliyunConfigRepository
 import online.mengchen.collectionhelper.data.repository.FileInfoRepository
@@ -40,13 +33,14 @@ class DocumentViewModel(application: Application) : AndroidViewModel(application
 
     private var categories: List<CategoryInfo>? = null
     private val categoryService = RetrofitClient.categoryService
-    private val aliyunConfigRepository: AliyunConfigRepository
+
+    //    private val aliyunConfigRepository: AliyunConfigRepository
     private val fileInfoRepository: FileInfoRepository
     private val _clickItem = MutableLiveData<Event<DocumentInfo>>()
     val clickItem: LiveData<Event<DocumentInfo>>
         get() = _clickItem
-    lateinit var cloudStore: CloudStore
-    val aliyunConfig: LiveData<AliyunConfig?>
+    val cloudStore: CloudStore = CloudStoreInstance.getCloudStore()
+//    val aliyunConfig: LiveData<AliyunConfig?>
 
     private val _updateProgress = MutableLiveData<Int>()
     val updateProgress: LiveData<Int>
@@ -61,9 +55,9 @@ class DocumentViewModel(application: Application) : AndroidViewModel(application
 
     init {
         val db = CollectHelpDatabase.getDatabase(getApplication(), viewModelScope)
-        aliyunConfigRepository = AliyunConfigRepository(db.aliyunConfigDao())
+//        aliyunConfigRepository = AliyunConfigRepository(db.aliyunConfigDao())
         fileInfoRepository = FileInfoRepository(db.fileInfoDao())
-        aliyunConfig = aliyunConfigRepository.aliyunConfig
+//        aliyunConfig = aliyunConfigRepository.aliyunConfig
     }
 
     private val _item = MutableLiveData<List<DocumentInfo>>(emptyList())
@@ -130,32 +124,41 @@ class DocumentViewModel(application: Application) : AndroidViewModel(application
 
     fun clickItem(documentInfo: DocumentInfo) {
         _showProgress.value = Event(Unit)
-        val file = File(getApplication<CollectHelperApplication>().filesDir, documentInfo.documentName)
-        cloudStore.downloadFile("", documentInfo.documentName, object : CloudStoreCallback {
-            override fun <T> onSuccess(t: T) {
-                if (t is CloudStoreObject) {
-                    FileHelper.saveFile(t.objectContent!!, file)
+        val file =
+            File(getApplication<CollectHelperApplication>().filesDir, documentInfo.documentName)
+        cloudStore.downloadFile(
+            "",
+            documentInfo.documentName,
+            file.absolutePath,
+            object : CloudStoreCallback {
+                override fun <T> onSuccess(t: T) {
                     documentInfo.filePath = file.absolutePath
                     viewModelScope.launch(Dispatchers.Main) {
-                        _clickItem.value = Event(documentInfo)
+                        _clickItem.value =
+                            Event(
+                                documentInfo
+                            )
+
                     }
                 }
-            }
 
-            override fun onFailed() {
-                viewModelScope.launch(Dispatchers.Main) {
-                    sendMessage(R.string.file_download_error)
+                override fun onFailed() {
+                    viewModelScope.launch(Dispatchers.Main) {
+                        sendMessage(R.string.file_download_error)
+                    }
                 }
-            }
 
-        }, object : CloudStoreProgressListener {
-            override fun progressChange(progress: Int, currentBytes: Long?, totalBytes: Long?) {
-                viewModelScope.launch(Dispatchers.Main) {
-                    _updateProgress.value = progress
+            },
+            object : CloudStoreProgressListener {
+                override fun progressChange(progress: Int, currentBytes: Long?, totalBytes: Long?) {
+                    viewModelScope.launch(Dispatchers.Main) {
+                        _updateProgress.value = progress
+                    }
                 }
-            }
 
-        }, false)
+            },
+            false
+        )
 
 
     }

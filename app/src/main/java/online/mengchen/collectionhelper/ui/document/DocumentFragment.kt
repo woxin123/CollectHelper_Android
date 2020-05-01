@@ -51,6 +51,7 @@ class DocumentFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initView()
         initObserver()
+        mViewModel.start()
     }
 
     private fun initView() {
@@ -62,23 +63,23 @@ class DocumentFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initObserver() {
-        mViewModel.aliyunConfig.observe(this.viewLifecycleOwner, Observer {
-            if (it == null) {
-                mViewModel.sendMessage(R.string.cloud_store_config_get_error)
-            } else {
-                CloudStoreInstance.getAliyunInstance(
-                    AliyunConfiguration(it.accessKey, it.secretKey, it.bucket),
-                    mViewModel.viewModelScope
-                ).observe(this.viewLifecycleOwner, Observer {
-                    if (it == null) {
-                        mViewModel.sendMessage(R.string.cloud_store_init_error)
-                    } else {
-                        mViewModel.cloudStore = it
-                        mViewModel.start()
-                    }
-                })
-            }
-        })
+//        mViewModel.aliyunConfig.observe(this.viewLifecycleOwner, Observer {
+//            if (it == null) {
+//                mViewModel.sendMessage(R.string.cloud_store_config_get_error)
+//            } else {
+//                CloudStoreInstance.getAliyunInstance(
+//                    AliyunConfiguration(it.accessKey, it.secretKey, it.bucket),
+//                    mViewModel.viewModelScope
+//                ).observe(this.viewLifecycleOwner, Observer {
+//                    if (it == null) {
+//                        mViewModel.sendMessage(R.string.cloud_store_init_error)
+//                    } else {
+//                        mViewModel.cloudStore = it
+//                        mViewModel.start()
+//                    }
+//                })
+//            }
+//        })
 
         mViewModel.toastMessage.observe(this.viewLifecycleOwner, Observer { event ->
             event.getContentIfNotHandled()?.let {

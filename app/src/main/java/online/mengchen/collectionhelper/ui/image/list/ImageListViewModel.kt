@@ -7,6 +7,7 @@ import kotlinx.coroutines.launch
 import online.mengchen.collectionhelper.common.StoreType
 import online.mengchen.collectionhelper.data.db.CollectHelpDatabase
 import online.mengchen.collectionhelper.data.file.CloudStore
+import online.mengchen.collectionhelper.data.file.CloudStoreInstance
 import online.mengchen.collectionhelper.domain.entity.AliyunConfig
 import online.mengchen.collectionhelper.data.repository.AliyunConfigRepository
 import online.mengchen.collectionhelper.data.repository.FileInfoRepository
@@ -20,16 +21,16 @@ class ImageListViewModel(application: Application) : AndroidViewModel(applicatio
 
     private val fileInfoRepository: FileInfoRepository
     lateinit var imageCategory: ImageCategory
-    lateinit var cloudStore: CloudStore
-    private val aliyunConfigRepository: AliyunConfigRepository
-    val aliyunConfig: LiveData<AliyunConfig?>
+    val cloudStore: CloudStore = CloudStoreInstance.getCloudStore()
+//    private val aliyunConfigRepository: AliyunConfigRepository
+//    val aliyunConfig: LiveData<AliyunConfig?>
 
     init {
         val db = CollectHelpDatabase.getDatabase(application, viewModelScope)
         fileInfoRepository = FileInfoRepository(db.fileInfoDao())
         val aliyunDao = db.aliyunConfigDao()
-        aliyunConfigRepository = AliyunConfigRepository(aliyunDao)
-        aliyunConfig = aliyunConfigRepository.aliyunConfig
+//        aliyunConfigRepository = AliyunConfigRepository(aliyunDao)
+//        aliyunConfig = aliyunConfigRepository.aliyunConfig
     }
 
     private val _items = MutableLiveData<List<String>>(emptyList())

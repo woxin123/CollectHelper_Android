@@ -1,4 +1,4 @@
-package online.mengchen.collectionhelper
+package online.mengchen.collectionhelper.base
 
 /**
  * Used as a wrapper for data that is exposed via a LiveData that represents an event.

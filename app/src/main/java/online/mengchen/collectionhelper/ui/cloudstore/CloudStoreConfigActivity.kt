@@ -11,13 +11,14 @@ import online.mengchen.collectionhelper.R
 import online.mengchen.collectionhelper.common.StoreType
 import online.mengchen.collectionhelper.data.sp.StatusProperties
 import online.mengchen.collectionhelper.ui.cloudstore.config.AliyunConfigFragment
-import online.mengchen.collectionhelper.ui.cloudstore.config.QiNiuYunConfigFragment
+import online.mengchen.collectionhelper.ui.cloudstore.config.qiniu.QiNiuYunConfigFragment
 
 class CloudStoreConfigActivity : AppCompatActivity() {
 
     companion object {
         const val CHOOSE_CLOUD_STORE = 101
         const val CLOUD_STORE = "cloud_store"
+        const val CONFIG_SUCCESS = "config_success"
     }
 
     @StoreType.TypeStore
@@ -65,7 +66,8 @@ class CloudStoreConfigActivity : AppCompatActivity() {
             }
             StoreType.QNIUYUN -> {
                 cloudStoreTypeName = "七牛云"
-                fragment = QiNiuYunConfigFragment()
+                fragment =
+                    QiNiuYunConfigFragment()
             }
             StoreType.BAIDUWANGPAN -> {
                 cloudStoreTypeName = "百度网盘"
@@ -78,6 +80,10 @@ class CloudStoreConfigActivity : AppCompatActivity() {
                 .commitNow()
         }
 
+    }
+
+    fun configSuccessForResult() {
+        setResult(Activity.RESULT_OK, Intent().apply { putExtra(CONFIG_SUCCESS, true) })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

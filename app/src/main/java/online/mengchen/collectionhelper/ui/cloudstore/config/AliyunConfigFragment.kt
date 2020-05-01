@@ -1,5 +1,7 @@
 package online.mengchen.collectionhelper.ui.cloudstore.config
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,6 +17,7 @@ import online.mengchen.collectionhelper.R
 import online.mengchen.collectionhelper.common.StoreType
 import online.mengchen.collectionhelper.data.sp.StatusProperties
 import online.mengchen.collectionhelper.databinding.FragmentAliyunConfigBinding
+import online.mengchen.collectionhelper.ui.cloudstore.CloudStoreConfigActivity
 
 class AliyunConfigFragment : Fragment() {
 
@@ -54,6 +57,10 @@ class AliyunConfigFragment : Fragment() {
             if (it) {
                 mViewModel.sendMessage(R.string.save_success)
                 StatusProperties.setCloudStore(this.activity!!, StoreType.ALIYUN)
+                val activity = this.activity
+                if (activity is CloudStoreConfigActivity) {
+                    activity.configSuccessForResult()
+                }
                 this.activity?.finish()
             } else {
                 mViewModel.sendMessage(R.string.save_fail)

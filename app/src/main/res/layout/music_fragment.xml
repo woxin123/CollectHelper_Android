@@ -9,25 +9,28 @@
             type="online.mengchen.collectionhelper.ui.music.MusicViewModel" />
     </data>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.music.MusicFragment"
-        android:background="@color/background_gravity">
+        android:background="@color/background_gravity"
+        android:orientation="vertical">
 
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             app:music_items="@{viewModel.items}" />
 
-        <com.qmuiteam.qmui.layout.QMUILinearLayout
+        <LinearLayout
             android:id="@+id/playBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:background="@color/white">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -43,14 +46,16 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:text="@{viewModel.curMusicName}"/>
                 <TextView
                     android:id="@+id/musicCategory"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="3dp"
                     android:paddingBottom="3dp"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    android:text="@{viewModel.curMusicCategory}"/>
 
             </LinearLayout>
 
@@ -67,7 +72,6 @@
                 android:layout_height="36dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
-                android:layout_alignParentBottom="true"
                 android:background="@color/transparent"/>
 
             <ImageView
@@ -78,7 +82,7 @@
                 android:src="@drawable/ic_more_vert_black_24dp" />
 
 
-        </com.qmuiteam.qmui.layout.QMUILinearLayout>
+        </LinearLayout>
 
-    </FrameLayout>
+    </LinearLayout>
 </layout>

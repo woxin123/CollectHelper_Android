@@ -1,7 +1,6 @@
 package online.mengchen.collectionhelper.data.file
 
-import online.mengchen.collectionhelper.data.CloudStoreConfiguration
-import java.io.InputStream
+import online.mengchen.collectionhelper.common.FileType
 
 interface CloudStore {
 
@@ -11,6 +10,7 @@ interface CloudStore {
         bucketName: String,
         key: String,
         filePath: String,
+        fileType: Int = FileType.IMAGE,
         progressListener: ((Int, Long, Long) -> Unit)? = null,
         callback: CloudStoreCallback? = null,
         isBigFile: Boolean = false
@@ -27,7 +27,8 @@ interface CloudStore {
     fun downloadFile(
         bucketName: String,
         key: String,
-        fileName: String,
+        filePath: String,
+        callback: CloudStoreCallback?,
         progressListener: CloudStoreProgressListener? = null,
         isBigFile: Boolean
     )

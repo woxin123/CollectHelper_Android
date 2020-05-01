@@ -4,7 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
-import online.mengchen.collectionhelper.Event
+import online.mengchen.collectionhelper.base.Event
 import online.mengchen.collectionhelper.R
 import online.mengchen.collectionhelper.bookmark.AddOrUpdateCategory
 import online.mengchen.collectionhelper.bookmark.CategoryInfo
@@ -17,7 +17,6 @@ import online.mengchen.collectionhelper.domain.entity.AliyunConfig
 import online.mengchen.collectionhelper.domain.entity.FileInfo
 import online.mengchen.collectionhelper.data.repository.AliyunConfigRepository
 import online.mengchen.collectionhelper.data.repository.FileInfoRepository
-import online.mengchen.collectionhelper.domain.entity.Category
 import online.mengchen.collectionhelper.ui.image.share.ImageShareViewModel
 import online.mengchen.collectionhelper.utils.HttpExceptionProcess
 import retrofit2.HttpException
@@ -107,14 +106,16 @@ abstract class ShareViewModel(application: Application): AndroidViewModel(applic
     fun addNewCategory() {
         val categoryName = newCategory.value
         if (categoryName == null || categoryName.trim().isEmpty()) {
-            _toastText.value = Event(R.string.new_category_empty)
+            _toastText.value =
+                Event(R.string.new_category_empty)
             return
         }
         saveCategory(categoryName)
     }
 
     internal fun addCategoryEvent(category: CategoryInfo) {
-        _addCategory.value = Event(category)
+        _addCategory.value =
+            Event(category)
     }
 
     fun sendMessage(string: Int) {
@@ -143,7 +144,8 @@ abstract class ShareViewModel(application: Application): AndroidViewModel(applic
 
     fun checkedCategory(checked: Boolean, category: CategoryInfo) {
         Log.d(ImageShareViewModel.TAG, "选择了分类 ${category.categoryName}")
-        _selectCategory.value = Event(Pair(checked, category))
+        _selectCategory.value =
+            Event(Pair(checked, category))
     }
 
     protected fun saveFileInfo(fileInfo: FileInfo) = viewModelScope.launch {

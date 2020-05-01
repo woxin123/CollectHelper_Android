@@ -10,10 +10,14 @@ import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvide
 import com.alibaba.sdk.android.oss.internal.OSSAsyncTask
 import com.alibaba.sdk.android.oss.model.*
 import online.mengchen.collectionhelper.CollectHelperApplication
+import online.mengchen.collectionhelper.common.FileType
+import online.mengchen.collectionhelper.common.FileType.TypeFile
 import online.mengchen.collectionhelper.data.file.CloudStore
 import online.mengchen.collectionhelper.data.file.CloudStoreCallback
 import online.mengchen.collectionhelper.data.file.CloudStoreObject
 import online.mengchen.collectionhelper.data.file.CloudStoreProgressListener
+import online.mengchen.collectionhelper.utils.FileHelper
+import java.io.File
 
 class AliyunCloudStore(
     override val cfg: AliyunConfiguration,
@@ -78,6 +82,7 @@ class AliyunCloudStore(
         bucketName: String,
         key: String,
         filePath: String,
+        @TypeFile fileType: Int,
         progressListener: ((Int, Long, Long) -> Unit)?,
         callback: CloudStoreCallback?,
         isBigFile: Boolean
@@ -151,11 +156,35 @@ class AliyunCloudStore(
     override fun downloadFile(
         bucketName: String,
         key: String,
-        fileName: String,
+        filePath: String,
+        callback: CloudStoreCallback?,
         progressListener: CloudStoreProgressListener?,
         isBigFile: Boolean
     ) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val getObject = GetObjectRequest(cfg.bucket, key)
+        getObject.setProgressListener { _, currentSize, totalSize ->
+            val progress = currentSize.times(100.0).div(totalSize).toInt()
+            Log.d(TAG, "下载进度: currentSize = $currentSize, totalSize = $totalSize, progress = $progress")
+            progressListener?.progressChange(progress, currentSize, totalSize)
+        }
+        ossClient.asyncGetObject(getObject, object: OSSCompletedCallback<GetObjectRequest, GetObjectResult> {
+            override fun onSuccess(request: GetObjectRequest?, result: GetObjectResult?) {
+                Log.d(TAG, "下载成功")
+                val cloudStoreObject = CloudStoreObject(key, bucketName, result?.objectContent)
+                FileHelper.saveFile(result?.objectContent!!, File(filePath))
+                callback?.onSuccess(cloudStoreObject)
+            }
+
+            override fun onFailure(
+                request: GetObjectRequest?,
+                clientException: ClientException?,
+                serviceException: ServiceException?
+            ) {
+                Log.d(TAG, "下载失败")
+                callback?.onFailed()
+            }
+
+        })
     }
 
     override fun getFileUrl(key: String): String? {

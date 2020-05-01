@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.qmuiteam.qmui.util.QMUIKeyboardHelper
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper
+import kotlinx.android.synthetic.main.activity_cloud_store_choose.*
 import kotlinx.android.synthetic.main.activity_image_share.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,6 +26,7 @@ import kotlinx.coroutines.withContext
 import online.mengchen.collectionhelper.R
 import online.mengchen.collectionhelper.bookmark.CategoryInfo
 import online.mengchen.collectionhelper.common.Constant
+import online.mengchen.collectionhelper.data.file.CloudStoreInstance
 import online.mengchen.collectionhelper.data.file.aliyun.AliyunCloudStore
 import online.mengchen.collectionhelper.data.file.aliyun.AliyunConfiguration
 import online.mengchen.collectionhelper.data.network.SessionInterceptor
@@ -65,30 +67,31 @@ class ImageShareActivity : AppCompatActivity() {
         }
         mViewModel = ViewModelProvider(this).get(ImageShareViewModel::class.java)
         mBinding.viewModel = mViewModel
-
+        CloudStoreInstance.init(this, mViewModel.viewModelScope)
+        mViewModel.cloudStore = CloudStoreInstance.getCloudStore()
         // 动态权限获取
         checkAndRequestPermission()
 
         // 获取分享的图片
         val imageUri = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
         this.imageUri = imageUri
-        mViewModel.aliyunConfig.observe(this, Observer { it ->
-            if (it == null) {
-                Toast.makeText(this, "阿里云OOS 初始化失败", Toast.LENGTH_SHORT).show()
-            } else {
-                mViewModel.viewModelScope.launch {
-                    withContext(Dispatchers.IO) {
-                        mViewModel.cloudStore = AliyunCloudStore(
-                            AliyunConfiguration(it.accessKey, it.secretKey, it.bucket), /*{ success: String ->
-                        Toast.makeText(this, success, Toast.LENGTH_SHORT).show()
-                    }, { s: String, _: Throwable ->
-                        Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
-                    }*/ null, null
-                        )
-                    }
-                }
-            }
-        })
+//        mViewModel.aliyunConfig.observe(this, Observer { it ->
+//            if (it == null) {
+//                Toast.makeText(this, "阿里云OOS 初始化失败", Toast.LENGTH_SHORT).show()
+//            } else {
+//                mViewModel.viewModelScope.launch {
+//                    withContext(Dispatchers.IO) {
+//                        mViewModel.cloudStore = AliyunCloudStore(
+//                            AliyunConfiguration(it.accessKey, it.secretKey, it.bucket), /*{ success: String ->
+//                        Toast.makeText(this, success, Toast.LENGTH_SHORT).show()
+//                    }, { s: String, _: Throwable ->
+//                        Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
+//                    }*/ null, null
+//                        )
+//                    }
+//                }
+//            }
+//        })
         initView()
         initListener()
         initObserver()

@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import online.mengchen.collectionhelper.Event
+import online.mengchen.collectionhelper.base.Event
 import online.mengchen.collectionhelper.R
 import online.mengchen.collectionhelper.common.HTTPStatus
 import online.mengchen.collectionhelper.data.network.RetrofitClient
@@ -48,23 +48,28 @@ class RegisterViewModel : ViewModel() {
         Log.d(TAG, "username = $username password = $password confirmPassword = $confirmPassword")
 
         if (username.isNullOrBlank()) {
-            _toastText.value = Event(R.string.username_is_not_empty)
+            _toastText.value =
+                Event(R.string.username_is_not_empty)
             return
         }
         if (password.isNullOrBlank()) {
-            _toastText.value = Event(R.string.password_is_not_empty)
+            _toastText.value =
+                Event(R.string.password_is_not_empty)
             return
         }
         if (confirmPassword.isNullOrBlank()) {
-            _toastText.value = Event(R.string.confirm_password_is_not_empty)
+            _toastText.value =
+                Event(R.string.confirm_password_is_not_empty)
             return
         }
         if (password != confirmPassword) {
-            _toastText.value = Event(R.string.password_is_inconsistent)
+            _toastText.value =
+                Event(R.string.password_is_inconsistent)
             return
         }
         if (password.length < 6) {
-            _toastText.value = Event(R.string.password_must_big_six)
+            _toastText.value =
+                Event(R.string.password_must_big_six)
             return
         }
 
@@ -73,11 +78,13 @@ class RegisterViewModel : ViewModel() {
                 val userRes = userService.registerUser(RegisterUser(username, password))
                 if (userRes.status == HTTPStatus.CREATED.code) {
                     sendMessage(R.string.register_success)
-                    _registerRes.value = Event(true)
+                    _registerRes.value =
+                        Event(true)
                 }
             } catch (e: HttpException) {
                 sendMessage(R.string.register_fail)
-                _registerRes.value = Event(false)
+                _registerRes.value =
+                    Event(false)
                 e.printStackTrace()
             }
         }

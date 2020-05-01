@@ -8,13 +8,12 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import online.mengchen.collectionhelper.CollectHelperApplication
-import online.mengchen.collectionhelper.Event
+import online.mengchen.collectionhelper.base.Event
 import online.mengchen.collectionhelper.R
 import online.mengchen.collectionhelper.bookmark.AddOrUpdateCategory
 import online.mengchen.collectionhelper.bookmark.CategoryInfo
 import online.mengchen.collectionhelper.common.ApiResult
 import online.mengchen.collectionhelper.common.FileType
-import online.mengchen.collectionhelper.common.HTTPStatus
 import online.mengchen.collectionhelper.common.StoreType
 import online.mengchen.collectionhelper.data.file.CloudStoreCallback
 import online.mengchen.collectionhelper.data.network.RetrofitClient
@@ -22,10 +21,8 @@ import online.mengchen.collectionhelper.domain.entity.Category
 import online.mengchen.collectionhelper.domain.entity.FileInfo
 import online.mengchen.collectionhelper.ui.share.common.ShareViewModel
 import online.mengchen.collectionhelper.utils.FileHelper
-import online.mengchen.collectionhelper.utils.HttpExceptionProcess
 import online.mengchen.collectionhelper.utils.LoginUtils
 import online.mengchen.collectionhelper.utils.UriHelper
-import retrofit2.HttpException
 import java.io.File
 import java.io.FileInputStream
 import java.time.LocalDateTime
@@ -53,7 +50,8 @@ class MusicShareViewModel(application: Application) : ShareViewModel(application
         if (categories.isEmpty()) {
             categories.add(CategoryInfo.unCategorized(Category.MUSIC))
         }
-        _startUpload.value = Event(uris.size * 100)
+        _startUpload.value =
+            Event(uris.size * 100)
         val uploadTasks = Array(uris.size) { UploadTask() }
         viewModelScope.launch {
             for (i in uris.indices) {
@@ -122,7 +120,8 @@ class MusicShareViewModel(application: Application) : ShareViewModel(application
             progress += it.progress
         }
         viewModelScope.launch(Dispatchers.Main) {
-            _uploadProgress.value = Event(progress)
+            _uploadProgress.value =
+                Event(progress)
         }
     }
 
@@ -133,7 +132,8 @@ class MusicShareViewModel(application: Application) : ShareViewModel(application
         }
         viewModelScope.launch {
             if (completed) {
-                _uploadCompleted.value = Event(true)
+                _uploadCompleted.value =
+                    Event(true)
             }
         }
     }

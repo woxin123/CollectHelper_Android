@@ -1,9 +1,12 @@
 package online.mengchen.collectionhelper.data.file.aliyun
 
-import online.mengchen.collectionhelper.data.CloudStoreConfiguration
-import javax.crypto.SecretKey
+import online.mengchen.collectionhelper.data.file.CloudStoreConfiguration
 
 class AliyunConfiguration(override val accessKey: String,
                           override val secretKey: String,
-                          val bucket: String) : CloudStoreConfiguration {
+                          val bucket: String) :
+    CloudStoreConfiguration {
+
+
+
 }

@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import online.mengchen.collectionhelper.CollectHelperApplication
-import online.mengchen.collectionhelper.Event
+import online.mengchen.collectionhelper.base.Event
 import online.mengchen.collectionhelper.R
 import online.mengchen.collectionhelper.bookmark.AddOrUpdateCategory
 import online.mengchen.collectionhelper.bookmark.CategoryInfo
@@ -49,7 +49,8 @@ class VideoShareVideoModel(application: Application) : ShareViewModel(applicatio
         if (categories.isEmpty()) {
             categories.add(CategoryInfo.unCategorized(Category.MUSIC))
         }
-        _startUpload.value = Event(uris.size * 100)
+        _startUpload.value =
+            Event(uris.size * 100)
         val uploadTasks = Array(uris.size) { UploadTask() }
         viewModelScope.launch {
             for (i in uris.indices) {
@@ -118,7 +119,8 @@ class VideoShareVideoModel(application: Application) : ShareViewModel(applicatio
             progress += it.progress
         }
         viewModelScope.launch(Dispatchers.Main) {
-            _uploadProgress.value = Event(progress)
+            _uploadProgress.value =
+                Event(progress)
         }
     }
 
@@ -129,7 +131,8 @@ class VideoShareVideoModel(application: Application) : ShareViewModel(applicatio
         }
         viewModelScope.launch {
             if (completed) {
-                _uploadCompleted.value = Event(true)
+                _uploadCompleted.value =
+                    Event(true)
             }
         }
     }

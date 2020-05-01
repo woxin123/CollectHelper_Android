@@ -10,7 +10,7 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import online.mengchen.collectionhelper.R
-import online.mengchen.collectionhelper.Event
+import online.mengchen.collectionhelper.base.Event
 import online.mengchen.collectionhelper.bookmark.AddOrUpdateCategory
 import online.mengchen.collectionhelper.bookmark.CategoryInfo
 import online.mengchen.collectionhelper.common.FileType
@@ -40,9 +40,9 @@ class ImageShareViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     lateinit var cloudStore: CloudStore
-    private val aliyunConfigRepository: AliyunConfigRepository
+//    private val aliyunConfigRepository: AliyunConfigRepository
     private val fileInfoRepository: FileInfoRepository
-    val aliyunConfig: LiveData<AliyunConfig?>
+//    val aliyunConfig: LiveData<AliyunConfig?>
     private val categoryService = RetrofitClient.categoryService
 
     private val _items = MutableLiveData<List<CategoryInfo>>(emptyList())
@@ -89,9 +89,9 @@ class ImageShareViewModel(application: Application) : AndroidViewModel(applicati
     init {
         val db = CollectHelpDatabase.getDatabase(application, viewModelScope)
         val aliyunDao = db.aliyunConfigDao()
-        aliyunConfigRepository = AliyunConfigRepository(aliyunDao)
+//        aliyunConfigRepository = AliyunConfigRepository(aliyunDao)
         fileInfoRepository = FileInfoRepository(db.fileInfoDao())
-        aliyunConfig = aliyunConfigRepository.aliyunConfig
+//        aliyunConfig = aliyunConfigRepository.aliyunConfig
     }
 
 
@@ -119,7 +119,8 @@ class ImageShareViewModel(application: Application) : AndroidViewModel(applicati
     fun addNewCategory() {
         val categoryName = newCategory.value
         if (categoryName == null || categoryName.trim().isEmpty()) {
-            _toastText.value = Event(R.string.new_category_empty)
+            _toastText.value =
+                Event(R.string.new_category_empty)
             return
         }
         val addCategory =
@@ -140,12 +141,14 @@ class ImageShareViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     private fun addCategoryEvent(category: CategoryInfo) {
-        _addCategory.value = Event(category)
+        _addCategory.value =
+            Event(category)
     }
 
     fun uploadImage(context: Context, imageUri: Uri, categories: List<CategoryInfo>) {
         if (categories.isEmpty()) {
-            _toastText.value = Event(R.string.category_is_not_empty)
+            _toastText.value =
+                Event(R.string.category_is_not_empty)
             return
         }
         val parcFd = context.contentResolver.openFileDescriptor(imageUri, "r")
@@ -153,31 +156,37 @@ class ImageShareViewModel(application: Application) : AndroidViewModel(applicati
         val dir = context.filesDir
         val filePath = UriHelper.getImagePath(imageUri, context)
         if (filePath == null) {
-            _toastText.value = Event(R.string.internal_error)
+            _toastText.value =
+                Event(R.string.internal_error)
             return
         }
         val fileName = FileHelper.getFileName(filePath)
         if (fileName == null) {
-            _toastText.value = Event(R.string.internal_error)
+            _toastText.value =
+                Event(R.string.internal_error)
             return
         }
         val file = File(dir, fileName)
         FileHelper.saveFile(FileInputStream(fd!!), file)
         val imagePath = file.absolutePath
         // 开始上传
-        _startUploadImage.value = Event(Unit)
-        cloudStore.uploadFile("", fileName, imagePath, { progress, _, _ ->
+        _startUploadImage.value =
+            Event(Unit)
+        cloudStore.uploadFile("", fileName, imagePath, FileType.IMAGE,{ progress, _, _ ->
             // java.lang.IllegalStateException: Cannot invoke setValue on a background thread
             viewModelScope.launch(Dispatchers.Main) {
-                _uploadProgress.value = Event(progress)
+                _uploadProgress.value =
+                    Event(progress)
             }
         }, object : CloudStoreCallback {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun <T> onSuccess(t: T) {
                 Log.d(TAG, "上传成功")
                 viewModelScope.launch(Dispatchers.Main) {
-                    _toastText.value = Event(R.string.file_upload_success)
-                    _uploadCompleted.value = Event(true)
+                    _toastText.value =
+                        Event(R.string.file_upload_success)
+                    _uploadCompleted.value =
+                        Event(true)
                     FileHelper.deleteFile(file)
                     categories.forEach {
                         val fileInfo = FileInfo(
@@ -196,8 +205,10 @@ class ImageShareViewModel(application: Application) : AndroidViewModel(applicati
             }
 
             override fun onFailed() {
-                _toastText.value = Event(R.string.file_upload_fail)
-                _uploadCompleted.value = Event(false)
+                _toastText.value =
+                    Event(R.string.file_upload_fail)
+                _uploadCompleted.value =
+                    Event(false)
                 FileHelper.deleteFile(file)
             }
 
@@ -219,6 +230,7 @@ class ImageShareViewModel(application: Application) : AndroidViewModel(applicati
 
     fun checkedCategory(checked: Boolean, category: CategoryInfo) {
         Log.d(TAG, "选择了分类 ${category.categoryName}")
-        _selectCategory.value = Event(Pair(checked, category))
+        _selectCategory.value =
+            Event(Pair(checked, category))
     }
 }
