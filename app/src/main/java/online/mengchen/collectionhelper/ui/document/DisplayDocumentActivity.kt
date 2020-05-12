@@ -33,7 +33,7 @@ class DisplayDocumentActivity : AppCompatActivity() {
             Toast.makeText(this, "文件不存在", Toast.LENGTH_LONG).show()
         }
 
-        Log.d(TAG, filePath!!)
+        Log.d(TAG, filePath)
         val bundle = Bundle()
         bundle.putString("filePath", filePath)
         bundle.putString("tempPath", filesDir.absolutePath)

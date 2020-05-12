@@ -14,6 +14,7 @@ import online.mengchen.collectionhelper.data.network.RetrofitClient
 import online.mengchen.collectionhelper.data.repository.AliyunConfigRepository
 import online.mengchen.collectionhelper.data.repository.FileInfoRepository
 import online.mengchen.collectionhelper.domain.entity.AliyunConfig
+import online.mengchen.collectionhelper.domain.entity.Category
 import online.mengchen.collectionhelper.domain.model.MusicInfo
 import online.mengchen.collectionhelper.utils.HttpExceptionProcess
 import retrofit2.HttpException
@@ -24,8 +25,7 @@ class MusicViewModel(application: Application) : AndroidViewModel(application), 
     private val categoryService = RetrofitClient.categoryService
     private val audioController: AudioController by lazy { AudioController(getApplication()) }
     val cloudStore: CloudStore = CloudStoreInstance.getCloudStore()
-//    private val aliyunConfigRepository: AliyunConfigRepository
-//    val aliyunConfig: LiveData<AliyunConfig?>
+    val cloudStoreType = CloudStoreInstance.getCloudStoreType()
 
     private val _items = MutableLiveData<List<MusicInfo>>(emptyList())
     val items: LiveData<List<MusicInfo>>
@@ -60,10 +60,10 @@ class MusicViewModel(application: Application) : AndroidViewModel(application), 
     private fun loadMusics() {
         viewModelScope.launch {
             try {
-                val categoryRes = categoryService.getMusicCategory()
+                val categoryRes = categoryService.getCategory(Category.MUSIC, cloudStoreType)
                 val musicIfs = fileInfoRepository.getFileInfoByFileTypeAndStoreType(
                     FileType.MUSIC,
-                    StoreType.ALIYUN
+                    CloudStoreInstance.getCloudStoreType()
                 )
                 val categories = categoryRes.data!!
                 val map = mutableMapOf<Long, String>()
@@ -71,13 +71,19 @@ class MusicViewModel(application: Application) : AndroidViewModel(application), 
                     map[it.categoryId] = it.categoryName
                 }
                 _items.value = musicIfs.map { MusicInfo(it.key, map[it.categoryId] ?: "未分类", cloudStore.getFileUrl(it.key)) }
-                curMusicInfo = _items.value!![0]
-                setCurMusic()
+                if (_items.value!!.isNotEmpty()) {
+                    curMusicInfo = _items.value!![0]
+                    setCurMusic()
+                }
             } catch (e: HttpException) {
                 e.printStackTrace()
                 HttpExceptionProcess.process(e)
             }
         }
+    }
+
+    fun refresh() {
+        loadMusics()
     }
 
     private fun setCurMusic() {

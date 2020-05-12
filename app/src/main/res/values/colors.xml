@@ -18,6 +18,8 @@
 
     <color name="pure_black">#C0000000</color>
 
-    <color name="background_gravity">#F5F6FA</color>
+    <color name="background_gray">#F5F6FA</color>
+
+    <color name="background_gray_2">#F3F3F3</color>
 
 </resources>

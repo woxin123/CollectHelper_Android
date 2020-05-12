@@ -9,9 +9,10 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import java.lang.reflect.ParameterizedType
+import java.lang.reflect.Type
 import kotlin.properties.Delegates
 
-abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel> : AppCompatActivity() {
+abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel> : AppCompatActivity(), BaseView {
 
     private lateinit var mBinding: V
     private lateinit var mViewModel: VM
@@ -29,16 +30,17 @@ abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel> : AppCompat
     private fun initViewDataBinding(savedInstanceState: Bundle?) {
         mBinding = DataBindingUtil.setContentView(this, initContentView(savedInstanceState))
         val viewModel = initViewModel()
-        if (viewModel == null) {
-            val type = javaClass.genericSuperclass
-            val modelClass: Class<*> = if (type is ParameterizedType) {
-                type.actualTypeArguments[1] as Class<*>
+        mViewModel = if (viewModel == null) {
+
+            val type: Type = javaClass.genericSuperclass!!
+            val modelClass = if (type is ParameterizedType) {
+                type.actualTypeArguments[1] as Class<VM>
             } else {
                 BaseViewModel::class.java
             }
-            mViewModel = createViewModel(this, modelClass as Class<BaseViewModel>) as VM
+            createViewModel(this, modelClass) as VM
         } else {
-            mViewModel = viewModel
+            viewModel
         }
         mViewModelId = initViewModelId()
         mBinding.setVariable(mViewModelId, mViewModel)
@@ -49,19 +51,19 @@ abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel> : AppCompat
     /**
      * 初始化参数
      */
-    open fun initParam() {
+    override fun initParam() {
 
     }
 
     /**
      * 初始化数据
      */
-    open fun initData() {
+    override fun initData() {
 
     }
 
 
-    open fun initViewObserver() {
+    override fun initViewObserver() {
         mViewModel.toastMessage.observe(this, Observer {
             Toast.makeText(this, getString(it), Toast.LENGTH_SHORT).show()
         })

@@ -1,10 +1,10 @@
 package online.mengchen.collectionhelper.domain.model
 
 import androidx.annotation.IntDef
-import online.mengchen.collectionhelper.bookmark.CategoryInfo
 
 data class DocumentInfo (
     var documentName: String,
+    var key: String,
     var categoryInfo: CategoryInfo,
     var createTime: String,
     var documentUrl: String,

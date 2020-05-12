@@ -1,4 +1,4 @@
-package online.mengchen.collectionhelper.bookmark
+package online.mengchen.collectionhelper.domain.model
 
 import online.mengchen.collectionhelper.domain.entity.BookMark
 import online.mengchen.collectionhelper.domain.entity.BookMarkDetail
@@ -18,7 +18,7 @@ data class BookMarkInfo(
 }
 
 data class BookMarkDetailInfo (
-    var id: Long,
+    var id: Long? = null,
     var title: String,
     var summary: String,
     var icon: String

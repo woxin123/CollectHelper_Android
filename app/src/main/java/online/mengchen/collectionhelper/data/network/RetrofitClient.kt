@@ -8,11 +8,13 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import online.mengchen.collectionhelper.CollectHelperApplication
 import online.mengchen.collectionhelper.common.Constant
 import online.mengchen.collectionhelper.data.network.api.BookMarkService
 import online.mengchen.collectionhelper.data.network.api.CategoryService
 import online.mengchen.collectionhelper.data.network.api.LoginService
 import online.mengchen.collectionhelper.data.network.api.UserService
+import online.mengchen.collectionhelper.data.network.cookie.CookieJarImpl
 import online.mengchen.collectionhelper.utils.LocalDateDeserializer
 import online.mengchen.collectionhelper.utils.LocalDateSerializer
 import retrofit2.Retrofit
@@ -33,6 +35,7 @@ object RetrofitClient {
             OkHttpClient.Builder()
                 .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .addInterceptor(SessionInterceptor())
+//                .cookieJar(CookieJarImpl(CollectHelperApplication.context))
                 .build()
         )
         .addConverterFactory(GsonConverterFactory.create(gson))

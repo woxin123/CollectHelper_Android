@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="online.mengchen.collectionhelper.ui.cloudstore.config.tencentyun.TencentCOSConfigViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.cloudstore.config.tencentyun.TencentCOSConfigFragment">
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/qmui_config_color_white"
+            android:columnCount="2"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            tools:ignore="UselessParent">
+            <!--bucket-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/qmui_list_item_height"
+                android:layout_gravity="fill_horizontal"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="@string/secret_id"
+                android:textColor="?attr/qmui_config_color_gray_1"
+                android:textSize="?attr/qmui_common_list_item_title_h_text_size" />
+            <!--AK输入框-->
+            <EditText
+                android:id="@+id/accessKey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:autofillHints=""
+                android:background="@drawable/qmui_divider_bottom_bitmap"
+                android:hint="@string/secret_id_hint"
+                android:textColor="?attr/qmui_config_color_gray_5"
+                android:textSize="?attr/qmui_common_list_item_detail_h_text_size"
+                android:text="@={viewModel.secretId}"
+                android:scrollbars="horizontal"
+                android:inputType="text" />
+            <!--SK-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/qmui_list_item_height"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="@string/secret_key"
+                android:textColor="?attr/qmui_config_color_gray_1"
+                android:textSize="?attr/qmui_common_list_item_title_h_text_size" />
+            <!--SK输入框-->
+            <EditText
+                android:id="@+id/accessKeySecret"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="150dp"
+                android:layout_gravity="fill"
+                android:autofillHints=""
+                android:background="@drawable/qmui_divider_bottom_bitmap"
+                android:hint="@string/secret_key_hint"
+                android:text="@={viewModel.secretKey}"
+                android:scrollbars="horizontal"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="?attr/qmui_config_color_gray_5"
+                android:textSize="?attr/qmui_common_list_item_detail_h_text_size" />
+            <!--Bucket-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/qmui_list_item_height"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="@string/bucket"
+                android:textColor="?attr/qmui_config_color_gray_1"
+                android:textSize="?attr/qmui_common_list_item_title_h_text_size" />
+
+            <EditText
+                android:id="@+id/bucket"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:autofillHints=""
+                android:background="@drawable/qmui_divider_bottom_bitmap"
+                android:hint="@string/bucket_hint"
+                android:textColor="?attr/qmui_config_color_gray_5"
+                android:textSize="?attr/qmui_common_list_item_detail_h_text_size"
+                android:inputType="text"
+                android:text="@={viewModel.bucket}"
+                android:scrollHorizontally="true"/>
+
+            <!--Region-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/qmui_list_item_height"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="@string/region"
+                android:textColor="?attr/qmui_config_color_gray_1"
+                android:textSize="?attr/qmui_common_list_item_title_h_text_size" />
+
+            <EditText
+                android:id="@+id/region"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:autofillHints=""
+                android:background="@drawable/qmui_divider_bottom_bitmap"
+                android:hint="@string/region_hint"
+                android:textColor="?attr/qmui_config_color_gray_5"
+                android:textSize="?attr/qmui_common_list_item_detail_h_text_size"
+                android:inputType="text"
+                android:text="@={viewModel.region}"
+                android:scrollHorizontally="true"/>
+        </GridLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/qmui_config_color_white"
+            android:orientation="horizontal"
+            android:padding="20dp">
+
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                android:id="@+id/commit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:clickable="true"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/commit"
+                android:onClick="@{() -> viewModel.commit()}"
+                android:textSize="?attr/qmui_common_list_item_title_h_text_size"
+                app:qmui_isRadiusAdjustBounds="true"
+                android:focusable="true" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

@@ -1,4 +1,4 @@
-package online.mengchen.collectionhelper.bookmark
+package online.mengchen.collectionhelper.ui.bookmark
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

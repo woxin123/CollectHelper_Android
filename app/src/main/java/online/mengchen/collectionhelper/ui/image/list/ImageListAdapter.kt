@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.layout_image_lsit.view.*
 import online.mengchen.collectionhelper.R
 import online.mengchen.collectionhelper.ui.image.ImageViewHolder
 
-class ImageListAdapter(private var data: List<String>, private val context: Context) :
+class ImageListAdapter(private var data: List<String>, private val context: Context, private val viewModel: ImageListViewModel) :
     RecyclerView.Adapter<ImageListAdapter.ImageListViewHolder>() {
 
     fun replaceData(urlList: List<String>) {
@@ -36,6 +36,9 @@ class ImageListAdapter(private var data: List<String>, private val context: Cont
     override fun onBindViewHolder(holder: ImageListViewHolder, position: Int) {
         Glide.with(context).load(data[position])
             .error(R.mipmap.ic_launcher).into(holder.itemView.imageView)
+        holder.itemView.setOnClickListener {
+            viewModel.clickItem(holder.adapterPosition)
+        }
     }
 
     class ImageListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

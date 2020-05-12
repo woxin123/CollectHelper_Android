@@ -6,14 +6,14 @@
     <data>
         <variable
             name="viewModel"
-            type="online.mengchen.collectionhelper.ui.cloudstore.config.AliyunConfigViewModel" />
+            type="online.mengchen.collectionhelper.ui.cloudstore.config.aliyun.AliyunConfigViewModel" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:context=".ui.cloudstore.config.AliyunConfigFragment">
+        tools:context=".ui.cloudstore.config.aliyun.AliyunConfigFragment">
 
         <GridLayout
             android:layout_width="match_parent"
@@ -31,7 +31,7 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:text="@string/qiniu_AK"
+                android:text="@string/access_key"
                 android:textColor="?attr/qmui_config_color_gray_1"
                 android:textSize="?attr/qmui_common_list_item_title_h_text_size" />
             <!--AK输入框-->

@@ -17,6 +17,9 @@ interface BookMarkDetailDao {
     @Query("SELeCT * FROM book_mark_detail WHERE id = :id")
     suspend fun findById(id: Long): BookMarkDetail?
 
+    @Query("SELECT * FROM book_mark_detail WHERE bid = :bid")
+    suspend fun findByBookMarkId(bid: Long): BookMarkDetail?
+
     @Insert
     suspend fun insert(bookMarkDetail: BookMarkDetail)
 
@@ -25,5 +28,8 @@ interface BookMarkDetailDao {
 
     @Delete
     suspend fun delete(bookMarkDetail: BookMarkDetail)
+
+    @Query("DELETE FROM book_mark_detail")
+    suspend fun deleteAll()
 
 }

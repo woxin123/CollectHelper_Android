@@ -1,20 +1,24 @@
-package online.mengchen.collectionhelper.bookmark
+package online.mengchen.collectionhelper.ui.share.bookmark
 
+import android.app.Application
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import online.mengchen.collectionhelper.domain.model.AddBookMark
+import online.mengchen.collectionhelper.domain.model.AddOrUpdateCategory
+import online.mengchen.collectionhelper.domain.model.BookMarkInfo
+import online.mengchen.collectionhelper.domain.model.CategoryInfo
 import online.mengchen.collectionhelper.common.ApiResult
+import online.mengchen.collectionhelper.common.StoreType
 import online.mengchen.collectionhelper.data.network.RetrofitClient
 import online.mengchen.collectionhelper.domain.entity.Category
-import retrofit2.HttpException
+import online.mengchen.collectionhelper.ui.share.common.ShareViewModel
 
-class BookMarkShareViewModel : ViewModel() {
+class BookMarkShareViewModel(application: Application) : ShareViewModel(application) {
 
     companion object {
         const val TAG = "BookMarkShareViewModel"
@@ -22,32 +26,37 @@ class BookMarkShareViewModel : ViewModel() {
 
     private val bookMarkService = RetrofitClient.bookMarkService
     private val categoryService = RetrofitClient.categoryService
+
+    override suspend fun getCategories(): ApiResult<List<CategoryInfo>> {
+        return categoryService.getCategory(Category.BOOKMARK, StoreType.ALIYUN)
+    }
+
+    override fun getAddOrUpdateCategory(categoryName: String): AddOrUpdateCategory {
+        return AddOrUpdateCategory(
+            categoryType = Category.BOOKMARK,
+            categoryName = categoryName,
+            storeType = StoreType.ALIYUN
+        )
+    }
+
     val addBookMarkInfoStatus: MutableLiveData<ApiResult<BookMarkInfo>> = MutableLiveData()
     val categories: MutableLiveData<ApiResult<List<CategoryInfo>>> = MutableLiveData()
     val addBookMarkCategory by lazy { MutableLiveData<ApiResult<CategoryInfo>>() }
 
 
-    fun getBookMarkCategories() {
-        viewModelScope.launch {
-            try {
-                val bookMarkCategoriesRes = withContext(Dispatchers.IO) {
-                    categoryService.getBookMarkCategories()
-                }
-                categories.value = bookMarkCategoriesRes
-            } catch (e: HttpException) {
-                val status = e.code()
-                val message = e.message()
-                Log.d(TAG, "HTTP Exception status = $status And message = $message")
-            }
-        }
-    }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun addBookMark(categoryIfs: MutableList<CategoryInfo>, url: String) {
         viewModelScope.launch {
-            val bookMark = AddBookMark(url = url)
+            val bookMark =
+                AddBookMark(url = url)
             if (categoryIfs.isEmpty()) {
-                categoryIfs.add(CategoryInfo.unCategorized(Category.BOOKMARK))
+                categoryIfs.add(
+                    CategoryInfo.unCategorized(
+                        Category.BOOKMARK
+                    )
+                )
             }
             var addBookMarkInfoRes: ApiResult<BookMarkInfo>? = null
             withContext(Dispatchers.IO) {
@@ -57,21 +66,6 @@ class BookMarkShareViewModel : ViewModel() {
                 }
             }
             addBookMarkInfoStatus.value = addBookMarkInfoRes
-        }
-    }
-
-    fun addBookMarkCategory(bookMarkCategoryName: String) {
-        try {
-            viewModelScope.launch {
-                val addBookMarkCategoryRes = withContext(Dispatchers.IO) {
-                    categoryService.addCategory(AddOrUpdateCategory(categoryName = bookMarkCategoryName, categoryType = Category.BOOKMARK))
-                }
-                addBookMarkCategory.value = addBookMarkCategoryRes
-            }
-        } catch (e: HttpException) {
-            val status = e.code()
-            val message = e.message()
-            Log.d(TAG, "HTTP Exception status = $status message = $message")
         }
     }
 

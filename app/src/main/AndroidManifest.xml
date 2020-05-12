@@ -17,14 +17,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
-
+        <activity android:name=".ui.image.detail.ImageDetailActivity"></activity>
         <activity android:name=".ui.document.DisplayDocumentActivity" />
         <activity android:name=".ui.cloudstore.CloudStoreChooseActivity" />
         <activity
             android:name=".ui.cloudstore.CloudStoreConfigActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ui.share.video.VideoShareActivity">
+        <activity
+            android:name=".ui.share.video.VideoShareActivity"
+            android:label="收藏视频">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
@@ -77,6 +78,12 @@
                 <data android:mimeType="application/vnd.ms-excel" />
                 <!-- ppt -->
                 <data android:mimeType="application/vnd.ms-powerpoint" />
+                <!-- docx -->
+                <data android:mimeType="application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+                <!-- xlsx -->
+                <data android:mimeType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+                <!-- pptx -->
+                <data android:mimeType="application/vnd.openxmlformats-officedocument.presentationml.presentation" />
             </intent-filter>
         </activity>
         <activity android:name=".ui.user.register.RegisterActivity" />
@@ -112,7 +119,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.image.share.ImageShareActivity"
+            android:name=".ui.share.image.ImageShareActivity"
             android:label="收藏图片"
             android:theme="@style/Theme.CollectHelpShare">
             <intent-filter>
@@ -122,9 +129,16 @@
 
                 <data android:mimeType="image/*" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="image/*" />
+            </intent-filter>
         </activity>
         <activity
-            android:name=".bookmark.BookMarkShareActivity"
+            android:name=".ui.share.bookmark.BookMarkShareActivity"
             android:label="收藏书签"
             android:theme="@style/Theme.CollectHelpShare">
             <intent-filter>
@@ -135,20 +149,20 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
-        <activity android:name=".bookmark.BookMarkViewActivity" />
+        <activity android:name="online.mengchen.collectionhelper.ui.bookmark.BookMarkViewActivity" />
         <activity
             android:name=".ui.user.LoginActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".ui.main.MainActivity" />
-
-        <!-- 视频播放的 activity 注册 -->
-        <activity android:name="com.tencent.smtt.sdk.VideoActivity"
+        <activity android:name=".ui.main.MainActivity" /> <!-- 视频播放的 activity 注册 -->
+        <activity
+            android:name="com.tencent.smtt.sdk.VideoActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="com.tencent.smtt.tbs.video.PLAY" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

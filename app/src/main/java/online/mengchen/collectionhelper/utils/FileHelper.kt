@@ -37,6 +37,14 @@ object FileHelper {
         return fileName.substring(lastIndex + 1)
     }
 
+    fun getFileDir(filePath: String): String {
+        val lastIndex = filePath.lastIndexOf("/")
+        if (lastIndex == -1) {
+            return filePath
+        }
+        return filePath.substring(0, lastIndex)
+    }
+
     fun getFileSuffix(fileName: String): String? {
         val lastIndex = fileName.lastIndexOf(".")
         if (lastIndex == -1) {

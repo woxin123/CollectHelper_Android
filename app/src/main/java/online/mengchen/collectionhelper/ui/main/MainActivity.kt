@@ -1,18 +1,25 @@
 package online.mengchen.collectionhelper.ui.main
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.app.ActivityCompat
+import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_main.*
 import online.mengchen.collectionhelper.R
-import online.mengchen.collectionhelper.bookmark.BookMarkFragment
+import online.mengchen.collectionhelper.ui.bookmark.BookMarkFragment
+import online.mengchen.collectionhelper.ui.cloudstore.CloudStoreConfigActivity
 import online.mengchen.collectionhelper.ui.document.DocumentFragment
 import online.mengchen.collectionhelper.ui.image.ImageFragment
 import online.mengchen.collectionhelper.ui.music.MusicFragment
 import online.mengchen.collectionhelper.ui.video.VideoFragment
+import online.mengchen.collectionhelper.utils.LoginUtils
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,6 +38,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
         requestPermission()
+        initView()
+        navigationView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.cloud_store_config -> {
+                    startActivity(Intent(this, CloudStoreConfigActivity::class.java))
+                }
+            }
+            true
+        }
+    }
+
+    private fun initView() {
         val tabBuilder = tabSegment.tabBuilder().setGravity(Gravity.CENTER)
         tabSegment.addTab(tabBuilder.setText("书签").build(this))
         tabSegment.addTab(tabBuilder.setText("图片").build(this))
@@ -49,6 +68,16 @@ class MainActivity : AppCompatActivity() {
                 )
             )
         tabSegment.setupWithViewPager(contentViewPager, false)
+        val user = LoginUtils.user!!
+        val headerLayout = navigationView.inflateHeaderView(R.layout.layout_drawable)
+        val username = headerLayout.findViewById<TextView>(R.id.username)
+        val icon = headerLayout.findViewById<ImageView>(R.id.icon)
+        username.text = user.username
+        if (user.avatar.isBlank()) {
+            icon.setImageResource(R.drawable.collect)
+        } else {
+            Glide.with(this).load(user.avatar).into(icon)
+        }
     }
 
     private val PERMISSON = arrayOf(

@@ -14,14 +14,11 @@ import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.qmuiteam.qmui.util.QMUIKeyboardHelper
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper
-import kotlinx.android.synthetic.main.activity_image_share.*
+import kotlinx.android.synthetic.main.activity_share.*
 import online.mengchen.collectionhelper.R
-import online.mengchen.collectionhelper.bookmark.CategoryInfo
-import online.mengchen.collectionhelper.data.file.CloudStoreInstance
-import online.mengchen.collectionhelper.data.file.aliyun.AliyunConfiguration
+import online.mengchen.collectionhelper.domain.model.CategoryInfo
 import online.mengchen.collectionhelper.databinding.ActivityShareBinding
 import online.mengchen.collectionhelper.ui.custom.CustomProgressDialog
-import online.mengchen.collectionhelper.ui.image.share.ImageShareActivity
 import online.mengchen.collectionhelper.ui.user.LoginActivity
 import online.mengchen.collectionhelper.utils.LoginUtils
 
@@ -29,6 +26,7 @@ abstract class ShareActivity: AppCompatActivity() {
 
     companion object {
         private const val TAG = "ShareActivity"
+        private const val REQUEST_CODE_PERMISSION_STORAGE = 100
     }
 
     private lateinit var mBinding: ActivityShareBinding
@@ -97,25 +95,6 @@ abstract class ShareActivity: AppCompatActivity() {
 
     open fun initObserver() {
         val mViewModel = getViewModel()
-        mViewModel.aliyunConfig.observe(this, Observer {
-            if (it == null) {
-                Toast.makeText(this, "阿里云OSS初始化失败", Toast.LENGTH_SHORT).show()
-            } else {
-                CloudStoreInstance.getAliyunInstance(
-                    AliyunConfiguration(
-                        it.accessKey,
-                        it.secretKey,
-                        it.bucket
-                    ), mViewModel.viewModelScope
-                ).observe(this, Observer {
-                    if (it == null) {
-                        Toast.makeText(this, "阿里云OSS初始化失败", Toast.LENGTH_SHORT).show()
-                    } else {
-                        mViewModel.cloudStore = it
-                    }
-                })
-            }
-        })
         mViewModel.toastTextMessage.observe(this, Observer { event ->
             event.getContentIfNotHandled()?.let {
                 Toast.makeText(this, getString(it), Toast.LENGTH_SHORT).show()
@@ -193,7 +172,7 @@ abstract class ShareActivity: AppCompatActivity() {
                 ActivityCompat.requestPermissions(
                     this,
                     arrayOf(it),
-                    ImageShareActivity.REQUEST_CODE_PERMISSION_STORAGE
+                    REQUEST_CODE_PERMISSION_STORAGE
                 )
             }
         }
@@ -204,7 +183,7 @@ abstract class ShareActivity: AppCompatActivity() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        if (requestCode == ImageShareActivity.REQUEST_CODE_PERMISSION_STORAGE) {
+        if (requestCode == REQUEST_CODE_PERMISSION_STORAGE) {
             if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "权限获取失败", Toast.LENGTH_SHORT).show()
             }

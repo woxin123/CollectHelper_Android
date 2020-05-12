@@ -54,9 +54,18 @@ class VideoFragment : Fragment() {
         mViewModel.start()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun initView() {
         recyclerView.adapter = VideoAdapter(mViewModel)
         recyclerView.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
+        pullLayout.setActionListener { pullAction ->
+            // 刷新太快会导致出现  java.lang.NullPointerException: Attempt to invoke virtual method 'int com.qmuiteam.qmui.widget.pullLayout.QMUIPullLayout$PullAction.getTargetTriggerOffset()' on a null object reference
+            // 所以这里使用延时任务，给一个 300ms 的延时
+            pullLayout.postDelayed({
+                mViewModel.refresh()
+                pullLayout.finishActionRun(pullAction)
+            }, 300L)
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

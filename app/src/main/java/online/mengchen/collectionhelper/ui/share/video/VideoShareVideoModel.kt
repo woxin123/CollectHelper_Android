@@ -10,11 +10,10 @@ import kotlinx.coroutines.launch
 import online.mengchen.collectionhelper.CollectHelperApplication
 import online.mengchen.collectionhelper.base.Event
 import online.mengchen.collectionhelper.R
-import online.mengchen.collectionhelper.bookmark.AddOrUpdateCategory
-import online.mengchen.collectionhelper.bookmark.CategoryInfo
+import online.mengchen.collectionhelper.domain.model.AddOrUpdateCategory
+import online.mengchen.collectionhelper.domain.model.CategoryInfo
 import online.mengchen.collectionhelper.common.ApiResult
 import online.mengchen.collectionhelper.common.FileType
-import online.mengchen.collectionhelper.common.StoreType
 import online.mengchen.collectionhelper.data.file.CloudStoreCallback
 import online.mengchen.collectionhelper.data.network.RetrofitClient
 import online.mengchen.collectionhelper.domain.entity.Category
@@ -32,11 +31,15 @@ class VideoShareVideoModel(application: Application) : ShareViewModel(applicatio
     private val categoryService = RetrofitClient.categoryService
 
     override suspend fun getCategories(): ApiResult<List<CategoryInfo>> {
-        return  categoryService.getVideoCategory()
+        return  categoryService.getCategory(Category.VIDEO, cloudStoreType)
     }
 
     override fun getAddOrUpdateCategory(categoryName: String): AddOrUpdateCategory {
-        return AddOrUpdateCategory(categoryType = Category.VIDEO, categoryName = categoryName)
+        return AddOrUpdateCategory(
+            categoryType = Category.VIDEO,
+            categoryName = categoryName,
+            storeType = cloudStoreType
+        )
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -55,7 +58,7 @@ class VideoShareVideoModel(application: Application) : ShareViewModel(applicatio
         viewModelScope.launch {
             for (i in uris.indices) {
                 // 获取文件名
-                val filePath = UriHelper.getMusicPath(uris[i], getApplication())
+                val filePath = UriHelper.getVideoPath(uris[i], getApplication())
                 if (filePath == null) {
                     sendMessage(R.string.get_file_path_error)
                 }
@@ -81,15 +84,16 @@ class VideoShareVideoModel(application: Application) : ShareViewModel(applicatio
                     }, callback = object: CloudStoreCallback {
                         override fun <T> onSuccess(t: T) {
                             file.delete()
+                            val key = if (t is String) t else fileName
                             uploadTasks[i].succeed = true
                             categories.forEach {categoryInfo ->
                                 saveFileInfo(
                                     FileInfo(
                                         null,
-                                        fileName,
+                                        key,
                                         null,
                                         FileType.VIDEO,
-                                        StoreType.ALIYUN,
+                                        cloudStoreType,
                                         categoryInfo.categoryId,
                                         LoginUtils.user?.userId!!,
                                         LocalDateTime.now()

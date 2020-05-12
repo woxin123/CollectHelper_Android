@@ -1,4 +1,4 @@
-package online.mengchen.collectionhelper.bookmark
+package online.mengchen.collectionhelper.ui.bookmark
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import online.mengchen.collectionhelper.R
+import online.mengchen.collectionhelper.domain.model.BookMarkInfo
 
-class BookMarkAdapter : RecyclerView.Adapter<BookMarkViewHolder>() {
+class BookMarkAdapter : RecyclerView.Adapter<BookMarkAdapter.BookMarkViewHolder>() {
 
     var listener: OnItemClickListener? = null
 
@@ -54,10 +55,10 @@ class BookMarkAdapter : RecyclerView.Adapter<BookMarkViewHolder>() {
     interface OnItemClickListener {
         fun onClick(bookMarkInfo: BookMarkInfo)
     }
-}
 
-class BookMarkViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val title: TextView = itemView.findViewById(R.id.title)
-    val summary: TextView = itemView.findViewById(R.id.summary)
-    val category: TextView = itemView.findViewById(R.id.category)
+    class BookMarkViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val title: TextView = itemView.findViewById(R.id.title)
+        val summary: TextView = itemView.findViewById(R.id.summary)
+        val category: TextView = itemView.findViewById(R.id.category)
+    }
 }

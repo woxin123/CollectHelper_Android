@@ -2,6 +2,7 @@ package online.mengchen.collectionhelper.ui.document
 
 import android.app.Application
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -12,15 +13,12 @@ import kotlinx.coroutines.launch
 import online.mengchen.collectionhelper.CollectHelperApplication
 import online.mengchen.collectionhelper.base.Event
 import online.mengchen.collectionhelper.R
-import online.mengchen.collectionhelper.bookmark.CategoryInfo
+import online.mengchen.collectionhelper.domain.model.CategoryInfo
 import online.mengchen.collectionhelper.common.FileType
-import online.mengchen.collectionhelper.common.StoreType
 import online.mengchen.collectionhelper.data.db.CollectHelpDatabase
 import online.mengchen.collectionhelper.data.file.*
 import online.mengchen.collectionhelper.data.network.RetrofitClient
-import online.mengchen.collectionhelper.data.repository.AliyunConfigRepository
 import online.mengchen.collectionhelper.data.repository.FileInfoRepository
-import online.mengchen.collectionhelper.domain.entity.AliyunConfig
 import online.mengchen.collectionhelper.domain.entity.Category
 import online.mengchen.collectionhelper.domain.model.DocumentInfo
 import online.mengchen.collectionhelper.utils.FileHelper
@@ -31,6 +29,10 @@ import java.time.format.DateTimeFormatter
 
 class DocumentViewModel(application: Application) : AndroidViewModel(application) {
 
+    companion object {
+        const val TAG = "DocumentViewModel"
+    }
+
     private var categories: List<CategoryInfo>? = null
     private val categoryService = RetrofitClient.categoryService
 
@@ -40,6 +42,7 @@ class DocumentViewModel(application: Application) : AndroidViewModel(application
     val clickItem: LiveData<Event<DocumentInfo>>
         get() = _clickItem
     val cloudStore: CloudStore = CloudStoreInstance.getCloudStore()
+    val cloudStoreType: Int = CloudStoreInstance.getCloudStoreType()
 //    val aliyunConfig: LiveData<AliyunConfig?>
 
     private val _updateProgress = MutableLiveData<Int>()
@@ -79,10 +82,10 @@ class DocumentViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch {
             val docs = fileInfoRepository.getFileInfoByFileTypeAndStoreType(
                 FileType.DOCUMENT,
-                StoreType.ALIYUN
+                CloudStoreInstance.getCloudStoreType()
             )
             try {
-                val categoriesRes = categoryService.getDocumentCategory()
+                val categoriesRes = categoryService.getCategory(Category.DOCUMENT, cloudStoreType)
                 categories = categoriesRes.data
             } catch (e: HttpException) {
                 e.printStackTrace()
@@ -95,6 +98,7 @@ class DocumentViewModel(application: Application) : AndroidViewModel(application
             }
             val documentIfs = docs.map {
                 DocumentInfo(
+                    FileHelper.getFileName(it.key) ?: it.key,
                     it.key,
                     map[it.categoryId] ?: CategoryInfo.unCategorized(Category.DOCUMENT),
                     formatter.format(it.createTime),
@@ -108,6 +112,11 @@ class DocumentViewModel(application: Application) : AndroidViewModel(application
 
     fun sendMessage(messageId: Int) {
         _toastText.value = Event(messageId)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun refresh() {
+        loadData()
     }
 
     private fun getDocumentType(fileName: String): Int {
@@ -126,9 +135,10 @@ class DocumentViewModel(application: Application) : AndroidViewModel(application
         _showProgress.value = Event(Unit)
         val file =
             File(getApplication<CollectHelperApplication>().filesDir, documentInfo.documentName)
+        Log.d(TAG, file.absolutePath)
         cloudStore.downloadFile(
             "",
-            documentInfo.documentName,
+            documentInfo.key,
             file.absolutePath,
             object : CloudStoreCallback {
                 override fun <T> onSuccess(t: T) {

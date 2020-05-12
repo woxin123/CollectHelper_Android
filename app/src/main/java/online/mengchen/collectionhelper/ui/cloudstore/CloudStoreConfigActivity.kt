@@ -10,8 +10,9 @@ import kotlinx.android.synthetic.main.activity_cloud_store_config.*
 import online.mengchen.collectionhelper.R
 import online.mengchen.collectionhelper.common.StoreType
 import online.mengchen.collectionhelper.data.sp.StatusProperties
-import online.mengchen.collectionhelper.ui.cloudstore.config.AliyunConfigFragment
+import online.mengchen.collectionhelper.ui.cloudstore.config.aliyun.AliyunConfigFragment
 import online.mengchen.collectionhelper.ui.cloudstore.config.qiniu.QiNiuYunConfigFragment
+import online.mengchen.collectionhelper.ui.cloudstore.config.tencentyun.TencentCOSConfigFragment
 
 class CloudStoreConfigActivity : AppCompatActivity() {
 
@@ -58,11 +59,12 @@ class CloudStoreConfigActivity : AppCompatActivity() {
         when (cloudStoreType) {
             StoreType.ALIYUN -> {
                 cloudStoreTypeName = "阿里云"
-                fragment = AliyunConfigFragment()
+                fragment =
+                    AliyunConfigFragment()
             }
             StoreType.TENGXUNYUN -> {
                 cloudStoreTypeName = "腾讯云"
-
+                fragment = TencentCOSConfigFragment()
             }
             StoreType.QNIUYUN -> {
                 cloudStoreTypeName = "七牛云"

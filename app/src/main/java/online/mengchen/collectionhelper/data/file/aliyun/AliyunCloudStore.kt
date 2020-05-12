@@ -102,7 +102,7 @@ class AliyunCloudStore(
                     override fun onSuccess(request: PutObjectRequest?, result: PutObjectResult?) {
                         Log.d(TAG, "上传成功")
                         Log.d(TAG, result.toString())
-                        callback?.onSuccess(Unit)
+                        callback?.onSuccess(key)
                     }
 
                     override fun onFailure(

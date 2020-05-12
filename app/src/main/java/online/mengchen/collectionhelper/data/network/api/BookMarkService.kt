@@ -1,7 +1,7 @@
 package online.mengchen.collectionhelper.data.network.api
 
-import online.mengchen.collectionhelper.bookmark.AddBookMark
-import online.mengchen.collectionhelper.bookmark.BookMarkInfo
+import online.mengchen.collectionhelper.domain.model.AddBookMark
+import online.mengchen.collectionhelper.domain.model.BookMarkInfo
 import online.mengchen.collectionhelper.common.ApiResult
 import online.mengchen.collectionhelper.common.Page
 import retrofit2.http.Body

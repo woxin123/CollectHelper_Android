@@ -2,8 +2,7 @@ package online.mengchen.collectionhelper.ui.share.common
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import online.mengchen.collectionhelper.bookmark.CategoryInfo
-import online.mengchen.collectionhelper.ui.image.share.ImageCategoryAdapter
+import online.mengchen.collectionhelper.domain.model.CategoryInfo
 
 object CategoriesListBindings {
 

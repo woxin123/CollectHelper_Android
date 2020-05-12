@@ -3,8 +3,8 @@ package online.mengchen.collectionhelper.data.file.qiniu
 import online.mengchen.collectionhelper.data.file.CloudStoreConfiguration
 
 class QiniuConfiguration(
-    override val accessKey: String,
-    override val secretKey: String,
+    val accessKey: String,
+    val secretKey: String,
     val bucket: String,
     val imageBucket: String?,
     val documentBucket: String?,

@@ -12,8 +12,8 @@
 
     <!-- 七牛云配置 -->
     <string name="bucket">Bucket</string>
-    <string name="qiniu_AK">AccessKey</string>
-    <string name="qiniu_sk">SecretKey</string>\
+    <string name="access_key">AccessKey</string>
+    <string name="secret_key">SecretKey</string>\
     <string name="image_bucket">图片 Bucket</string>
     <string name="doc_bucket">文档 Bucket</string>
     <string name="music_bucket">音乐 Bucket</string>
@@ -30,7 +30,17 @@
     <string name="bucket_hint">请输入 bucket</string>
     <string name="other_bucket_hint">默认使用 bucket </string>
     <string name="bucket_path_hint">默认 /</string>
+    <string name="document_path_hint">默认 document/</string>
+    <string name="image_path_hint">默认 image/</string>
+    <string name="music_path_hint">默认 music/</string>
+    <string name="video_path_hint">默认 video/</string>
     <string name="store_region_hint">请输入存储区域</string>
+    <string name="domain">域名</string>
+    <string name="domain_hint">请输入域名</string>
+
+    <!--    <string name="access_key_is_not_empty"></string>-->
+    <string name="secret_key_is_not_empty">Secret key 不能为空</string>
+    <string name="domain_is_not_empty">域名不能为空</string>
     <!-- 七牛云配置 -->
 
     <!-- 阿里云配置 -->
@@ -85,5 +95,16 @@
     <string name="music_play_error">播放出错</string>
 
     <string name="file_download_error">文件下载失败</string>
+
+    <string name="cloud_store_config">云存储配置</string>
+
+    <string name="secret_id">SecretId</string>
+    <string name="region">Region</string>
+    <string name="secret_id_hint">请输入 secret id</string>
+    <string name="secret_key_hint">请输入 secret key</string>
+    <string name="region_hint">请输入 region</string>
+
+    <string name="secret_id_is_not_empty">SecretId 不能为空</string>
+    <string name="region_is_not_empty">Region 不能为空</string>
 
 </resources>

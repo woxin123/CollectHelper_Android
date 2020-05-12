@@ -1,5 +1,6 @@
 package online.mengchen.collectionhelper.ui.user
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -56,7 +57,7 @@ class LoginActivity : AppCompatActivity() {
             LoginUtils.writeSession(this, SessionInterceptor.cookieSir!!)
             LoginUtils.user = it.data
             Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show()
-            setResult(REQUEST_CODE_LOGIN, Intent().apply { putExtra(LOGIN_STATUS, true) })
+            setResult(Activity.RESULT_OK, Intent().apply { putExtra(LOGIN_STATUS, true) })
             this.finish()
         })
         mLoginViewModel.mLoginError.observe(this, Observer {

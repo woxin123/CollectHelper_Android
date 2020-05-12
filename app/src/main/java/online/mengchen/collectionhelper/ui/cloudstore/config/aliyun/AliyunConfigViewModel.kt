@@ -1,4 +1,4 @@
-package online.mengchen.collectionhelper.ui.cloudstore.config
+package online.mengchen.collectionhelper.ui.cloudstore.config.aliyun
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

@@ -10,11 +10,10 @@ import kotlinx.coroutines.launch
 import online.mengchen.collectionhelper.CollectHelperApplication
 import online.mengchen.collectionhelper.base.Event
 import online.mengchen.collectionhelper.R
-import online.mengchen.collectionhelper.bookmark.AddOrUpdateCategory
-import online.mengchen.collectionhelper.bookmark.CategoryInfo
+import online.mengchen.collectionhelper.domain.model.AddOrUpdateCategory
+import online.mengchen.collectionhelper.domain.model.CategoryInfo
 import online.mengchen.collectionhelper.common.ApiResult
 import online.mengchen.collectionhelper.common.FileType
-import online.mengchen.collectionhelper.common.StoreType
 import online.mengchen.collectionhelper.data.file.CloudStoreCallback
 import online.mengchen.collectionhelper.data.network.RetrofitClient
 import online.mengchen.collectionhelper.domain.entity.Category
@@ -33,11 +32,15 @@ class DocumentShareViewModel(application: Application) : ShareViewModel(applicat
 
 
     override suspend fun getCategories(): ApiResult<List<CategoryInfo>> {
-        return categoryService.getDocumentCategory()
+        return categoryService.getCategory(Category.DOCUMENT, cloudStoreType)
     }
 
     override fun getAddOrUpdateCategory(categoryName: String): AddOrUpdateCategory {
-        return AddOrUpdateCategory(categoryType = Category.DOCUMENT, categoryName = categoryName)
+        return AddOrUpdateCategory(
+            categoryType = Category.DOCUMENT,
+            categoryName = categoryName,
+            storeType = cloudStoreType
+        )
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -76,21 +79,27 @@ class DocumentShareViewModel(application: Application) : ShareViewModel(applicat
                     "",
                     fileName,
                     file.absolutePath,
+                    FileType.DOCUMENT,
                     progressListener = { progress: Int, current: Long, total: Long ->
                         uploadTasks[i].progress = progress
                         updateProgressDialog(uploadTasks)
-                    }, callback = object: CloudStoreCallback {
+                    }, callback = object : CloudStoreCallback {
                         override fun <T> onSuccess(t: T) {
                             file.delete()
                             uploadTasks[i].succeed = true
-                            categories.forEach {categoryInfo ->
+                            val key = if (t is String) {
+                                t
+                            } else {
+                                fileName
+                            }
+                            categories.forEach { categoryInfo ->
                                 saveFileInfo(
                                     FileInfo(
                                         null,
-                                        fileName,
+                                        key,
                                         null,
                                         FileType.DOCUMENT,
-                                        StoreType.ALIYUN,
+                                        cloudStoreType,
                                         categoryInfo.categoryId,
                                         LoginUtils.user?.userId!!,
                                         LocalDateTime.now()

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="online.mengchen.collectionhelper.bookmark.BookMarkViewModel" />
+            type="online.mengchen.collectionhelper.ui.bookmark.BookMarkViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

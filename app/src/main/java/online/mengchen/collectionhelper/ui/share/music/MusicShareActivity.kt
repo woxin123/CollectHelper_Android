@@ -3,13 +3,10 @@ package online.mengchen.collectionhelper.ui.share.music
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import online.mengchen.collectionhelper.R
-import online.mengchen.collectionhelper.ui.image.share.ImageShareViewModel
 import online.mengchen.collectionhelper.ui.share.common.ShareActivity
 import online.mengchen.collectionhelper.ui.share.common.ShareViewModel
 

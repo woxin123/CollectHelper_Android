@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/cloud_store_config"
+        android:icon="@drawable/ic_cloud_store"
+        android:title="@string/cloud_store_config" />
+</menu>

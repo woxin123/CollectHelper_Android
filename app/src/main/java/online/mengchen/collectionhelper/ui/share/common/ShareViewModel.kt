@@ -6,27 +6,29 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import online.mengchen.collectionhelper.base.Event
 import online.mengchen.collectionhelper.R
-import online.mengchen.collectionhelper.bookmark.AddOrUpdateCategory
-import online.mengchen.collectionhelper.bookmark.CategoryInfo
+import online.mengchen.collectionhelper.domain.model.AddOrUpdateCategory
+import online.mengchen.collectionhelper.domain.model.CategoryInfo
 import online.mengchen.collectionhelper.common.ApiResult
 import online.mengchen.collectionhelper.common.HTTPStatus
 import online.mengchen.collectionhelper.data.db.CollectHelpDatabase
 import online.mengchen.collectionhelper.data.file.CloudStore
+import online.mengchen.collectionhelper.data.file.CloudStoreInstance
 import online.mengchen.collectionhelper.data.network.RetrofitClient
-import online.mengchen.collectionhelper.domain.entity.AliyunConfig
 import online.mengchen.collectionhelper.domain.entity.FileInfo
-import online.mengchen.collectionhelper.data.repository.AliyunConfigRepository
 import online.mengchen.collectionhelper.data.repository.FileInfoRepository
-import online.mengchen.collectionhelper.ui.image.share.ImageShareViewModel
+import online.mengchen.collectionhelper.ui.share.image.ImageShareViewModel
 import online.mengchen.collectionhelper.utils.HttpExceptionProcess
 import retrofit2.HttpException
 
-abstract class ShareViewModel(application: Application): AndroidViewModel(application) {
+abstract class ShareViewModel(application: Application) : AndroidViewModel(application) {
 
-    lateinit var cloudStore: CloudStore
-    private val aliyunConfigRepository: AliyunConfigRepository
+    val cloudStore: CloudStore = CloudStoreInstance.getCloudStore()
+
+    //    private val aliyunConfigRepository: AliyunConfigRepository
     private val fileInfoRepository: FileInfoRepository
-    val aliyunConfig: LiveData<AliyunConfig?>
+
+    //    val aliyunConfig: LiveData<AliyunConfig?>
+    protected val cloudStoreType = CloudStoreInstance.getCloudStoreType()
 
     private val categoryService = RetrofitClient.categoryService
 
@@ -76,9 +78,9 @@ abstract class ShareViewModel(application: Application): AndroidViewModel(applic
     init {
         val db = CollectHelpDatabase.getDatabase(application, viewModelScope)
         val aliyunDao = db.aliyunConfigDao()
-        aliyunConfigRepository = AliyunConfigRepository(aliyunDao)
+//        aliyunConfigRepository = AliyunConfigRepository(aliyunDao)
         fileInfoRepository = FileInfoRepository(db.fileInfoDao())
-        aliyunConfig = aliyunConfigRepository.aliyunConfig
+//        aliyunConfig = aliyunConfigRepository.aliyunConfig
     }
 
 
@@ -139,7 +141,6 @@ abstract class ShareViewModel(application: Application): AndroidViewModel(applic
 
     abstract suspend fun getCategories(): ApiResult<List<CategoryInfo>>
     abstract fun getAddOrUpdateCategory(categoryName: String): AddOrUpdateCategory
-
 
 
     fun checkedCategory(checked: Boolean, category: CategoryInfo) {

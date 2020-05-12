@@ -10,7 +10,7 @@ object Constant {
     const val BOOK_MARK_URL = "BOOK_MARK_URL"
     const val SESSION_TIMEOUT = 7 * 24 * 60 * 60 * 1000
     const val DB_NAME = "Collection_Help"
-    const val FILE_TIME_OUT = 7 * 60 * 60 * 1000
+    const val FILE_TIME_OUT: Long = 7 * 60 * 60
     const val FILE_DOWNLOADER_CONNECT_TIME_OUT = 15_000
     const val FILE_DOWNLOADER_READ_TIME_OUT = 15_000
 }

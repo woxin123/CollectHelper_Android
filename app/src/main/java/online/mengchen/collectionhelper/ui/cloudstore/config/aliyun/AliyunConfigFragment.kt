@@ -1,7 +1,5 @@
-package online.mengchen.collectionhelper.ui.cloudstore.config
+package online.mengchen.collectionhelper.ui.cloudstore.config.aliyun
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater

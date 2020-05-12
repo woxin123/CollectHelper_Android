@@ -7,7 +7,7 @@ import android.widget.CheckBox
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.layout_category_item.view.*
 import online.mengchen.collectionhelper.R
-import online.mengchen.collectionhelper.bookmark.CategoryInfo
+import online.mengchen.collectionhelper.domain.model.CategoryInfo
 
 class CategoryAdapter(categories: List<CategoryInfo>, private val viewModel: ShareViewModel) :
     RecyclerView.Adapter<CategoryAdapter.ImageCategoryViewHolder>() {

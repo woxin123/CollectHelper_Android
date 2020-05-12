@@ -17,6 +17,7 @@ import online.mengchen.collectionhelper.data.file.CloudStoreCallback
 import online.mengchen.collectionhelper.data.file.CloudStoreObject
 import online.mengchen.collectionhelper.data.file.CloudStoreProgressListener
 import org.json.JSONObject
+import java.net.URLEncoder
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
@@ -33,6 +34,7 @@ class QiniuCloudStore(override val cfg: QiniuConfiguration) : CloudStore {
         .responseTimeout(60)
         .build()
     private val uploadManager = UploadManager(config)
+    private val auth = Auth.create(cfg.accessKey, cfg.secretKey)
 
     private val token: String
     private val imageToken: String
@@ -64,7 +66,7 @@ class QiniuCloudStore(override val cfg: QiniuConfiguration) : CloudStore {
             { key, info, _ ->
                 if (info.isOK) {
                     Log.d(TAG, "文件上传成功: $key")
-                    callback?.onSuccess(Unit)
+                    callback?.onSuccess(key)
                 } else {
                     Log.d(TAG, "文件上传失败: $key")
                     callback?.onFailed()
@@ -72,8 +74,9 @@ class QiniuCloudStore(override val cfg: QiniuConfiguration) : CloudStore {
             }, UploadOptions(
                 null, null, false,
                 UpProgressHandler { key, percent ->
+                    Log.d(TAG, percent.toString())
                     progressListener?.invoke(
-                        percent.toInt(),
+                        percent.plus(100).toInt(),
                         -1,
                         -1
                     )
@@ -92,6 +95,7 @@ class QiniuCloudStore(override val cfg: QiniuConfiguration) : CloudStore {
     ) {
         val url = getFileUrl(key)
         FileDownloader.getImpl().create(url)
+            .setPath(filePath)
             .setListener(object : FileDownloadListener() {
                 override fun warn(task: BaseDownloadTask?) {
 
@@ -130,17 +134,23 @@ class QiniuCloudStore(override val cfg: QiniuConfiguration) : CloudStore {
         progressListener: CloudStoreProgressListener?,
         isBigFile: Boolean
     ) {
-        val url = getFileUrl(key)
+
 
     }
 
     override fun getFileUrl(key: String): String? {
         val domain = cfg.domain
-        val fileTimeOut: Long = System.currentTimeMillis().plus(Constant.FILE_TIME_OUT)
-        val fileUrl = "$domain/$key?e=$fileTimeOut"
-        val sign = signUseHMACSHA1(cfg.secretKey, fileUrl)
-        val token = "${cfg.accessKey}.$sign"
-        return "$fileUrl&token=$token"
+        val encodeFileName = URLEncoder.encode(key, "utf-8").replace("+", "%20")
+        val publicUrl = String.format("%s/%s", domain, encodeFileName)
+        val finalFileUrl = auth.privateDownloadUrl(publicUrl, Constant.FILE_TIME_OUT)
+
+//        val fileTimeOut: Long = System.currentTimeMillis().plus(Constant.FILE_TIME_OUT)
+//        val fileUrl = "$domain/$key?e=$fileTimeOut"
+//        val sign = signUseHMACSHA1(cfg.secretKey, fileUrl)
+//        val token = "${cfg.accessKey}.$sign"
+//        val finalFileUrl =  "$fileUrl&token=$token"
+        Log.d(TAG, finalFileUrl)
+        return finalFileUrl
     }
 
     private fun getToken(@TypeFile type: Int): String {

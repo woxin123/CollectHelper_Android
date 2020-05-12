@@ -6,25 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.MainActivity">
 
-    <FrameLayout
-        android:id="@+id/config"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
     <include layout="@layout/layout_main" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigationView"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#FFFFFF">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Hello"/>
-
-    </LinearLayout>
+        android:fitsSystemWindows="true"
+        app:menu="@menu/drawer_action"/>
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

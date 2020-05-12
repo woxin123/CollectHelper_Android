@@ -9,16 +9,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import online.mengchen.collectionhelper.base.Event
-import online.mengchen.collectionhelper.bookmark.CategoryInfo
+import online.mengchen.collectionhelper.domain.model.CategoryInfo
 import online.mengchen.collectionhelper.common.FileType
-import online.mengchen.collectionhelper.common.StoreType
 import online.mengchen.collectionhelper.data.db.CollectHelpDatabase
 import online.mengchen.collectionhelper.data.file.CloudStore
 import online.mengchen.collectionhelper.data.file.CloudStoreInstance
 import online.mengchen.collectionhelper.data.network.RetrofitClient
-import online.mengchen.collectionhelper.data.repository.AliyunConfigRepository
 import online.mengchen.collectionhelper.data.repository.FileInfoRepository
-import online.mengchen.collectionhelper.domain.entity.AliyunConfig
 import online.mengchen.collectionhelper.domain.entity.Category
 import online.mengchen.collectionhelper.domain.model.VideoInfo
 import online.mengchen.collectionhelper.utils.HttpExceptionProcess
@@ -32,6 +29,7 @@ class VideoViewModel(application: Application) : AndroidViewModel(application) {
 //    private val aliyunConfigRepository: AliyunConfigRepository
     private val fileInfoRepository: FileInfoRepository
     val cloudStore: CloudStore = CloudStoreInstance.getCloudStore()
+    val cloudStoreType = CloudStoreInstance.getCloudStoreType()
 //    val aliyunConfig: LiveData<AliyunConfig?>
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -62,14 +60,19 @@ class VideoViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
+    fun refresh() {
+        loadData()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
     fun loadData() {
         viewModelScope.launch {
             val videos = fileInfoRepository.getFileInfoByFileTypeAndStoreType(
                 FileType.VIDEO,
-                StoreType.ALIYUN
+                CloudStoreInstance.getCloudStoreType()
             )
             try {
-                val categoriesRes = categoryService.getVideoCategory()
+                val categoriesRes = categoryService.getCategory(Category.VIDEO, cloudStoreType)
                 categories = categoriesRes.data
             } catch (e: HttpException) {
                 e.printStackTrace()

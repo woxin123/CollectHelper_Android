@@ -7,7 +7,6 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import online.mengchen.collectionhelper.R
-import online.mengchen.collectionhelper.bookmark.CategoryInfo
 import online.mengchen.collectionhelper.ui.share.common.ShareActivity
 import online.mengchen.collectionhelper.ui.share.common.ShareViewModel
 

@@ -21,7 +21,7 @@ abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel> : Fragment(
 
     protected lateinit var mBinding: V
     protected lateinit var mViewModel: VM
-    protected var mViewModelId by Delegates.notNull<Int>()
+    private var mViewModelId by Delegates.notNull<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +36,7 @@ abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel> : Fragment(
     ): View? {
         mBinding = DataBindingUtil.inflate(
             inflater,
-            initContentView(inflater, container!!, savedInstanceState!!),
+            initContentView(inflater, container, savedInstanceState),
             container,
             false
         )
@@ -64,8 +64,8 @@ abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel> : Fragment(
     // 抽象方法
     abstract fun initContentView(
         inflate: LayoutInflater,
-        container: ViewGroup,
-        savedInstanceState: Bundle
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): Int
 
     abstract fun initVariableId(): Int
@@ -91,7 +91,7 @@ abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel> : Fragment(
     // 私有方法
     private fun initViewDataBinding() {
         mViewModelId = initVariableId()
-        var viewModel = initViewModel()
+        val viewModel = initViewModel()
         if (viewModel == null) {
 
             val type: Type = javaClass.genericSuperclass!!
@@ -101,10 +101,12 @@ abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel> : Fragment(
                 BaseViewModel::class.java
             }
             mViewModel = createViewModel(this, modelClass) as VM
-            mBinding.setVariable(mViewModelId, mViewModel)
-            mBinding.lifecycleOwner = this
-            lifecycle.addObserver(mViewModel)
+        } else {
+            mViewModel = viewModel
         }
+        mBinding.setVariable(mViewModelId, mViewModel)
+        mBinding.lifecycleOwner = this
+        lifecycle.addObserver(mViewModel)
     }
 
     // 私有方法

@@ -1,5 +1,6 @@
 package online.mengchen.collectionhelper.ui.document
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +8,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.qmuiteam.qmui.recyclerView.QMUISwipeAction
+import com.qmuiteam.qmui.recyclerView.QMUISwipeViewHolder
+import com.qmuiteam.qmui.util.QMUIDisplayHelper
 import online.mengchen.collectionhelper.R
 import online.mengchen.collectionhelper.domain.model.DocumentInfo
 import online.mengchen.collectionhelper.domain.model.DocumentInfo.DocumentType
@@ -16,6 +20,16 @@ class DocumentAdapter(private val mViewModel: DocumentViewModel) :
     RecyclerView.Adapter<DocumentAdapter.DocumentViewHolder>() {
 
     private var data = mutableListOf<DocumentInfo>()
+
+    private val mDeleteAction: QMUISwipeAction
+
+    init {
+        val builder = QMUISwipeAction.ActionBuilder()
+            .textSize(QMUIDisplayHelper.sp2px(mViewModel.getApplication(), 14))
+            .textColor(Color.WHITE)
+            .paddingStartEnd(QMUIDisplayHelper.dp2px(mViewModel.getApplication(), 14))
+        mDeleteAction = builder.text("删除").backgroundColor(Color.RED).build()
+    }
 
     fun replace(musics: List<DocumentInfo>) {
         data = mutableListOf(*musics.toTypedArray())
@@ -29,7 +43,7 @@ class DocumentAdapter(private val mViewModel: DocumentViewModel) :
                 parent,
                 false
             )
-        )
+        ).apply { addSwipeAction(mDeleteAction) }
     }
 
     override fun getItemCount(): Int {
@@ -70,7 +84,7 @@ class DocumentAdapter(private val mViewModel: DocumentViewModel) :
         }
     }
 
-    class DocumentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class DocumentViewHolder(itemView: View) : QMUISwipeViewHolder(itemView) {
         val icon: ImageView = itemView.findViewById(R.id.icon)
         val fileName: TextView = itemView.findViewById(R.id.fileName)
         val categoryName: TextView = itemView.findViewById(R.id.categoryName)

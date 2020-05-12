@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="online.mengchen.collectionhelper.ui.cloudstore.config.qiniu.QiNiuYunConfigViewModel" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/colorPrimary">
+        android:background="@color/background_gray">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -43,7 +46,7 @@
                         android:gravity="center_vertical"
                         android:paddingLeft="20dp"
                         android:paddingRight="20dp"
-                        android:text="@string/qiniu_AK"
+                        android:text="@string/access_key"
                         android:textColor="?attr/qmui_config_color_gray_1"
                         android:textSize="?attr/qmui_common_list_item_title_h_text_size" />
                     <!--AK输入框-->
@@ -54,7 +57,7 @@
                         android:layout_gravity="fill"
                         android:background="@drawable/qmui_divider_bottom_bitmap"
                         android:hint="@string/qiniu_ak_hint"
-                        android:maxLength="20"
+                        android:text="@={viewModel.accessKey}"
                         android:textColor="?attr/qmui_config_color_gray_5"
                         android:textSize="?attr/qmui_common_list_item_detail_h_text_size"
                         android:autofillHints="" />
@@ -66,22 +69,23 @@
                         android:gravity="center_vertical"
                         android:paddingLeft="20dp"
                         android:paddingRight="20dp"
-                        android:text="@string/qiniu_sk"
+                        android:text="@string/secret_key"
                         android:textColor="?attr/qmui_config_color_gray_1"
                         android:textSize="?attr/qmui_common_list_item_title_h_text_size" />
                     <!--SK输入框-->
                     <EditText
-                        android:id="@+id/edittext_phonenumber"
+                        android:id="@+id/secretKey"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="fill"
                         android:background="@drawable/qmui_divider_bottom_bitmap"
                         android:hint="@string/qiniu_sk_hint"
-                        android:inputType="phone"
-                        android:maxLength="11"
+                        android:inputType="text"
+                        android:text="@={viewModel.secretKey}"
                         android:textColor="?attr/qmui_config_color_gray_5"
                         android:textSize="?attr/qmui_common_list_item_detail_h_text_size"
-                        android:autofillHints="" />
+                        android:autofillHints=""
+                        tools:ignore="TextFields" />
                     <!--Bucket-->
                     <TextView
                         android:layout_width="wrap_content"
@@ -101,34 +105,10 @@
                         android:layout_gravity="fill"
                         android:background="@drawable/qmui_divider_bottom_bitmap"
                         android:hint="@string/bucket_hint"
-                        android:maxLength="11"
+                        android:text="@={viewModel.bucket}"
                         android:textColor="?attr/qmui_config_color_gray_5"
                         android:textSize="?attr/qmui_common_list_item_detail_h_text_size"
                         android:autofillHints="" />
-
-                    <!--Doc Bucket-->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/qmui_list_item_height"
-                        android:layout_gravity="fill_horizontal"
-                        android:background="@drawable/qmui_s_list_item_bg_2"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:text="@string/doc_bucket"
-                        android:textColor="?attr/qmui_config_color_gray_1"
-                        android:textSize="?attr/qmui_common_list_item_title_h_text_size" />
-                    <!--Doc bucket输入框-->
-                    <EditText
-                        android:id="@+id/docBucket"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="fill"
-                        android:background="@drawable/qmui_divider_bottom_bitmap"
-                        android:hint="@string/other_bucket_hint"
-                        android:maxLength="20"
-                        android:textColor="?attr/qmui_config_color_gray_5"
-                        android:textSize="?attr/qmui_common_list_item_detail_h_text_size" />
 
                     <!--Doc Path-->
                     <TextView
@@ -149,36 +129,13 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="fill"
                         android:background="@drawable/qmui_divider_bottom_bitmap"
-                        android:hint="@string/bucket_path_hint"
-                        android:maxLength="20"
-                        android:inputType="textPassword"
+                        android:hint="@string/document_path_hint"
+                        android:inputType="text"
+                        android:text="@={viewModel.documentPath}"
                         android:textColor="?attr/qmui_config_color_gray_5"
                         android:textSize="?attr/qmui_common_list_item_detail_h_text_size"
                         android:autofillHints="" />
 
-                    <!--Image Bucket-->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/qmui_list_item_height"
-                        android:layout_gravity="fill_horizontal"
-                        android:background="@drawable/qmui_s_list_item_bg_2"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:text="@string/image_bucket"
-                        android:textColor="?attr/qmui_config_color_gray_1"
-                        android:textSize="?attr/qmui_common_list_item_title_h_text_size" />
-                    <!--Image bucket输入框-->
-                    <EditText
-                        android:id="@+id/imageBucket"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="fill"
-                        android:background="@drawable/qmui_divider_bottom_bitmap"
-                        android:hint="@string/other_bucket_hint"
-                        android:maxLength="20"
-                        android:textColor="?attr/qmui_config_color_gray_5"
-                        android:textSize="?attr/qmui_common_list_item_detail_h_text_size" />
 
                     <!--Image Path-->
                     <TextView
@@ -199,35 +156,12 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="fill"
                         android:background="@drawable/qmui_divider_bottom_bitmap"
-                        android:hint="@string/bucket_path_hint"
-                        android:maxLength="20"
-                        android:inputType="textPassword"
+                        android:hint="@string/image_path_hint"
+                        android:text="@={viewModel.imagePath}"
+                        android:inputType="text"
                         android:textColor="?attr/qmui_config_color_gray_5"
                         android:textSize="?attr/qmui_common_list_item_detail_h_text_size"
                         android:autofillHints="" />
-                    <!--Music Bucket-->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/qmui_list_item_height"
-                        android:layout_gravity="fill_horizontal"
-                        android:background="@drawable/qmui_s_list_item_bg_2"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:text="@string/music_bucket"
-                        android:textColor="?attr/qmui_config_color_gray_1"
-                        android:textSize="?attr/qmui_common_list_item_title_h_text_size" />
-                    <!--Image bucket输入框-->
-                    <EditText
-                        android:id="@+id/musicBucket"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="fill"
-                        android:background="@drawable/qmui_divider_bottom_bitmap"
-                        android:hint="@string/other_bucket_hint"
-                        android:maxLength="20"
-                        android:textColor="?attr/qmui_config_color_gray_5"
-                        android:textSize="?attr/qmui_common_list_item_detail_h_text_size" />
 
                     <!--Image Path-->
                     <TextView
@@ -248,35 +182,12 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="fill"
                         android:background="@drawable/qmui_divider_bottom_bitmap"
-                        android:hint="@string/bucket_path_hint"
-                        android:maxLength="20"
-                        android:inputType="textPassword"
+                        android:hint="@string/music_path_hint"
+                        android:text="@={viewModel.musicPath}"
+                        android:inputType="text"
                         android:textColor="?attr/qmui_config_color_gray_5"
                         android:textSize="?attr/qmui_common_list_item_detail_h_text_size"
                         android:autofillHints="" />
-                    <!--Image Bucket-->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/qmui_list_item_height"
-                        android:layout_gravity="fill_horizontal"
-                        android:background="@drawable/qmui_s_list_item_bg_2"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:text="@string/video_bucket"
-                        android:textColor="?attr/qmui_config_color_gray_1"
-                        android:textSize="?attr/qmui_common_list_item_title_h_text_size" />
-                    <!--Image bucket输入框-->
-                    <EditText
-                        android:id="@+id/videoBucket"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="fill"
-                        android:background="@drawable/qmui_divider_bottom_bitmap"
-                        android:hint="@string/other_bucket_hint"
-                        android:maxLength="20"
-                        android:textColor="?attr/qmui_config_color_gray_5"
-                        android:textSize="?attr/qmui_common_list_item_detail_h_text_size" />
 
                     <!--Image Path-->
                     <TextView
@@ -297,14 +208,13 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="fill"
                         android:background="@drawable/qmui_divider_bottom_bitmap"
-                        android:hint="@string/bucket_path_hint"
-                        android:maxLength="20"
-                        android:inputType="textPassword"
+                        android:hint="@string/video_path_hint"
+                        android:text="@={viewModel.videoPath}"
+                        android:inputType="text"
                         android:textColor="?attr/qmui_config_color_gray_5"
                         android:textSize="?attr/qmui_common_list_item_detail_h_text_size"
                         android:autofillHints="" />
 
-                    <!--Store Region-->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/qmui_list_item_height"
@@ -313,22 +223,23 @@
                         android:gravity="center_vertical"
                         android:paddingLeft="20dp"
                         android:paddingRight="20dp"
-                        android:text="@string/store_region"
+                        android:text="@string/domain"
                         android:textColor="?attr/qmui_config_color_gray_1"
                         android:textSize="?attr/qmui_common_list_item_title_h_text_size" />
-                    <!--Image Path输入框-->
+
                     <EditText
-                        android:id="@+id/storeRegion"
+                        android:id="@+id/domain"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="fill"
                         android:background="@drawable/qmui_divider_bottom_bitmap"
-                        android:hint="@string/store_region_hint"
-                        android:maxLength="20"
-                        android:inputType="textPassword"
-                        android:textColor="?attr/qmui_config_color_gray_5"
-                        android:textSize="?attr/qmui_common_list_item_detail_h_text_size"
-                        android:autofillHints="" />
+                        android:hint="@string/domain_hint"
+                        android:inputType="text"
+                        android:text="@={viewModel.domain}"
+                        android:textColor="?attr/qmui_config_color_gray_1"
+                        android:textSize="?attr/qmui_common_list_item_detail_h_text_size" />
+
+
 
                 </GridLayout>
                 <LinearLayout
@@ -354,6 +265,7 @@
                         android:padding="10dp"
                         android:text="@string/commit"
                         android:textSize="?attr/qmui_common_list_item_title_h_text_size"
+                        android:onClick="@{() -> viewModel.commit()}"
                         app:qmui_isRadiusAdjustBounds="true"
                         android:focusable="true" />
 

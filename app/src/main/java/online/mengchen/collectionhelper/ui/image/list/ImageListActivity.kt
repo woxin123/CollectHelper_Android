@@ -1,29 +1,26 @@
 package online.mengchen.collectionhelper.ui.image.list
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_image_list.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import online.mengchen.collectionhelper.R
-import online.mengchen.collectionhelper.data.file.CloudStoreInstance
-import online.mengchen.collectionhelper.data.file.aliyun.AliyunCloudStore
-import online.mengchen.collectionhelper.data.file.aliyun.AliyunConfiguration
 import online.mengchen.collectionhelper.databinding.ActivityImageListBinding
 import online.mengchen.collectionhelper.ui.image.ImageCategory
 import online.mengchen.collectionhelper.ui.image.ImageFragment
+import online.mengchen.collectionhelper.ui.image.detail.ImageDetailActivity
 
 class ImageListActivity : AppCompatActivity() {
+
+    companion object {
+        const val IMAGE_POSITION = "image_position"
+        const val IMAGE_INFO_ARRAY = "image_info_list"
+    }
 
     private lateinit var mViewModel: ImageListViewModel
     private lateinit var mBindings: ActivityImageListBinding
@@ -45,7 +42,7 @@ class ImageListActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        recyclerView.adapter = ImageListAdapter(emptyList(), this)
+        recyclerView.adapter = ImageListAdapter(emptyList(), this, mViewModel)
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
     }
 
@@ -70,5 +67,11 @@ class ImageListActivity : AppCompatActivity() {
 //                })
 //            }
 //        })
+        mViewModel.clickItem.observe(this, Observer {
+            val intent = Intent(this, ImageDetailActivity::class.java)
+            intent.putExtra(IMAGE_POSITION, it)
+            intent.putExtra(IMAGE_INFO_ARRAY, mViewModel.items.value?.toTypedArray())
+            startActivity(intent)
+        })
     }
 }

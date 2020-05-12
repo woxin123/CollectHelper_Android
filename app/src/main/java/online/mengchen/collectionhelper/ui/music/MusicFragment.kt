@@ -13,7 +13,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.qmuiteam.qmui.recyclerView.QMUIRVItemSwipeAction
+import com.qmuiteam.qmui.widget.pullLayout.QMUIPullLayout
+import kotlinx.android.synthetic.main.fragment_book_mark.*
 import kotlinx.android.synthetic.main.music_fragment.*
+import kotlinx.android.synthetic.main.music_fragment.recyclerView
 
 import online.mengchen.collectionhelper.R
 import online.mengchen.collectionhelper.data.file.CloudStoreInstance
@@ -59,6 +63,21 @@ class MusicFragment : Fragment() {
         playBar.alpha = 1F
         musicName.text = ""
         musicCategory.text = ""
+        pullLayout.setActionListener { pullAction ->
+            pullLayout.postDelayed(Runnable {
+                mViewModel.refresh()
+                pullLayout.finishActionRun(pullAction)
+            }, 300L)
+        }
+        val swipeAction = QMUIRVItemSwipeAction(true, object : QMUIRVItemSwipeAction.Callback() {
+            override fun getSwipeDirection(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
+            ): Int {
+                return QMUIRVItemSwipeAction.SWIPE_LEFT
+            }
+        })
+        swipeAction.attachToRecyclerView(recyclerView)
     }
 
     private fun initListener() {

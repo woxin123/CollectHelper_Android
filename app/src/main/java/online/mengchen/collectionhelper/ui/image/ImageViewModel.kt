@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import online.mengchen.collectionhelper.base.Event
+import online.mengchen.collectionhelper.data.file.CloudStoreInstance
 import online.mengchen.collectionhelper.data.network.RetrofitClient
+import online.mengchen.collectionhelper.domain.entity.Category
 import retrofit2.HttpException
 
 class ImageViewModel : ViewModel() {
@@ -15,6 +17,8 @@ class ImageViewModel : ViewModel() {
     companion object {
         private const val TAG = "ImageViewModel"
     }
+
+    private val cloudStoreType = CloudStoreInstance.getCloudStoreType()
 
     private val _items = MutableLiveData<List<ImageCategory>>(emptyList())
     val items: LiveData<List<ImageCategory>>
@@ -37,7 +41,7 @@ class ImageViewModel : ViewModel() {
     private fun getImageCategory() {
         viewModelScope.launch {
             try {
-                val categoriesRes = categoryService.getImageCategory()
+                val categoriesRes = categoryService.getCategory(Category.IMAGE, cloudStoreType)
                 Log.d(TAG, categoriesRes.data.toString())
                 _items.value = categoriesRes.data!!.map { ImageCategory(
                     categoryId = it.categoryId,

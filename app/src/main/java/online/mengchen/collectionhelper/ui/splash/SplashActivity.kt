@@ -86,6 +86,8 @@ class SplashActivity : AppCompatActivity() {
             if (loginStatus) {
                 if (!checkCloudStore()) {
                     startActivityForResult(Intent(this, CloudStoreConfigActivity::class.java), REQUEST_CONFIG_CLOUD_STORE)
+                } else {
+                    initCloudStore()
                 }
             }
         }

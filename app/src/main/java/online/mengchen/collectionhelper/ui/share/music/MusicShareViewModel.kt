@@ -10,11 +10,10 @@ import kotlinx.coroutines.launch
 import online.mengchen.collectionhelper.CollectHelperApplication
 import online.mengchen.collectionhelper.base.Event
 import online.mengchen.collectionhelper.R
-import online.mengchen.collectionhelper.bookmark.AddOrUpdateCategory
-import online.mengchen.collectionhelper.bookmark.CategoryInfo
+import online.mengchen.collectionhelper.domain.model.AddOrUpdateCategory
+import online.mengchen.collectionhelper.domain.model.CategoryInfo
 import online.mengchen.collectionhelper.common.ApiResult
 import online.mengchen.collectionhelper.common.FileType
-import online.mengchen.collectionhelper.common.StoreType
 import online.mengchen.collectionhelper.data.file.CloudStoreCallback
 import online.mengchen.collectionhelper.data.network.RetrofitClient
 import online.mengchen.collectionhelper.domain.entity.Category
@@ -33,11 +32,15 @@ class MusicShareViewModel(application: Application) : ShareViewModel(application
 
 
     override suspend fun getCategories(): ApiResult<List<CategoryInfo>> {
-        return categoryService.getMusicCategory()
+        return categoryService.getCategory(Category.MUSIC, cloudStoreType)
     }
 
     override fun getAddOrUpdateCategory(categoryName: String): AddOrUpdateCategory {
-        return AddOrUpdateCategory(categoryType = Category.MUSIC, categoryName = categoryName)
+        return AddOrUpdateCategory(
+            categoryType = Category.MUSIC,
+            categoryName = categoryName,
+            storeType = cloudStoreType
+        )
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -82,15 +85,20 @@ class MusicShareViewModel(application: Application) : ShareViewModel(application
                     }, callback = object: CloudStoreCallback {
                         override fun <T> onSuccess(t: T) {
                             file.delete()
+                            val key = if (t is String) {
+                                t
+                            } else {
+                                fileName
+                            }
                             uploadTasks[i].succeed = true
                             categories.forEach {categoryInfo ->
                                 saveFileInfo(
                                     FileInfo(
                                         null,
-                                        fileName,
+                                        key,
                                         null,
                                         FileType.MUSIC,
-                                        StoreType.ALIYUN,
+                                        cloudStoreType,
                                         categoryInfo.categoryId,
                                         LoginUtils.user?.userId!!,
                                         LocalDateTime.now()

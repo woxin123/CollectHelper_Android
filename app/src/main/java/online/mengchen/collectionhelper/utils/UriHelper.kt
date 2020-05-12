@@ -85,7 +85,7 @@ object UriHelper {
         return path
     }
 
-    private fun getVideoPath(uri: Uri, context: Context): String? {
+    fun getVideoPath(uri: Uri, context: Context): String? {
         var path: String? = null
         if (DocumentsContract.isDocumentUri(context, uri)) {
             // 如果是 document 类型的 Uri，则通过 Document id 处理

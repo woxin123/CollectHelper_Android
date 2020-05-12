@@ -1,4 +1,4 @@
-package online.mengchen.collectionhelper.bookmark
+package online.mengchen.collectionhelper.ui.bookmark
 
 import android.content.Intent
 import android.os.Bundle
@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.fragment_book_mark.*
 import online.mengchen.collectionhelper.R
 import online.mengchen.collectionhelper.common.Constant
 import online.mengchen.collectionhelper.databinding.FragmentBookMarkBinding
+import online.mengchen.collectionhelper.domain.model.BookMarkInfo
 import online.mengchen.collectionhelper.utils.LoginUtils
 
 class BookMarkFragment : Fragment() {
