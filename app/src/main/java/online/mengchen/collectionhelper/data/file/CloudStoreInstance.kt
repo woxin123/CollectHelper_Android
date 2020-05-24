@@ -60,6 +60,9 @@ object CloudStoreInstance {
         context: Context,
         scope: CoroutineScope
     ) {
+        if (isInit.get()) {
+            return
+        }
         val db = CollectHelpDatabase.getDatabase(context, GlobalScope)
         when (storeType) {
             StoreType.ALIYUN -> {

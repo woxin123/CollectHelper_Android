@@ -4,17 +4,16 @@ import android.app.Application
 import androidx.lifecycle.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import online.mengchen.collectionhelper.base.BaseViewModel
 import online.mengchen.collectionhelper.base.Event
 import online.mengchen.collectionhelper.base.SingleLiveEvent
 import online.mengchen.collectionhelper.data.network.RetrofitClient
 
-class SplashViewModel(application: Application): AndroidViewModel(application) {
+class SplashViewModel(application: Application): BaseViewModel(application) {
     companion object {
         const val TAG = "SplashViewModel"
         const val TIME = 3
     }
-
-    private val userService = RetrofitClient.userService
 
     val initStatus: SingleLiveEvent<Boolean> = SingleLiveEvent(false)
 

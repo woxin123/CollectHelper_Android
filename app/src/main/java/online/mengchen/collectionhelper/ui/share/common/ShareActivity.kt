@@ -16,6 +16,7 @@ import com.qmuiteam.qmui.util.QMUIKeyboardHelper
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper
 import kotlinx.android.synthetic.main.activity_share.*
 import online.mengchen.collectionhelper.R
+import online.mengchen.collectionhelper.data.file.CloudStoreInstance
 import online.mengchen.collectionhelper.domain.model.CategoryInfo
 import online.mengchen.collectionhelper.databinding.ActivityShareBinding
 import online.mengchen.collectionhelper.ui.custom.CustomProgressDialog
@@ -42,16 +43,19 @@ abstract class ShareActivity: AppCompatActivity() {
                 startActivity(Intent(this, LoginActivity::class.java))
             }
         })
+
         supportActionBar?.hide()
         QMUIStatusBarHelper.translucent(window)
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_share)
         mBinding.viewModel = getViewModel()
         mBinding.lifecycleOwner = this
+        CloudStoreInstance.init(this, getViewModel().viewModelScope)
         checkAndRequestPermission()
         initView()
         initData()
         initListener()
         initObserver()
+        getViewModel().cloudStore = CloudStoreInstance.getCloudStore()
     }
 
     override fun onResume() {

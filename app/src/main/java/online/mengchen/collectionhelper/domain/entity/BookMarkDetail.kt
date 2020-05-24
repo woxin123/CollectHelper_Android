@@ -7,7 +7,7 @@ import online.mengchen.collectionhelper.domain.model.BookMarkDetailInfo
 
 @Entity(tableName = "book_mark_detail")
 class BookMarkDetail (
-    @PrimaryKey(autoGenerate = true) val id: Long? = null,
+    @PrimaryKey(autoGenerate = true) val id: Long?,
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "summary") val summary: String,
     @ColumnInfo(name = "icon") val icon: String,

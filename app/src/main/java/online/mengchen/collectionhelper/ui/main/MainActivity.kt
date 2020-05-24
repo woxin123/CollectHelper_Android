@@ -9,6 +9,7 @@ import android.view.Gravity
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
+import androidx.core.view.GravityCompat
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_main.*
@@ -47,9 +48,13 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+        menuView.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
     }
 
     private fun initView() {
+        // 设置 toolbar
         val tabBuilder = tabSegment.tabBuilder().setGravity(Gravity.CENTER)
         tabSegment.addTab(tabBuilder.setText("书签").build(this))
         tabSegment.addTab(tabBuilder.setText("图片").build(this))
@@ -78,6 +83,7 @@ class MainActivity : AppCompatActivity() {
         } else {
             Glide.with(this).load(user.avatar).into(icon)
         }
+
     }
 
     private val PERMISSON = arrayOf(

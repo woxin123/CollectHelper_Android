@@ -22,7 +22,7 @@ import retrofit2.HttpException
 
 abstract class ShareViewModel(application: Application) : AndroidViewModel(application) {
 
-    val cloudStore: CloudStore = CloudStoreInstance.getCloudStore()
+    lateinit var cloudStore: CloudStore
 
     //    private val aliyunConfigRepository: AliyunConfigRepository
     private val fileInfoRepository: FileInfoRepository
@@ -81,6 +81,7 @@ abstract class ShareViewModel(application: Application) : AndroidViewModel(appli
 //        aliyunConfigRepository = AliyunConfigRepository(aliyunDao)
         fileInfoRepository = FileInfoRepository(db.fileInfoDao())
 //        aliyunConfig = aliyunConfigRepository.aliyunConfig
+
     }
 
 

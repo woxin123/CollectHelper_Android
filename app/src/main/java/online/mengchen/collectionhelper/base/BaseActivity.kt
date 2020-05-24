@@ -14,8 +14,8 @@ import kotlin.properties.Delegates
 
 abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel> : AppCompatActivity(), BaseView {
 
-    private lateinit var mBinding: V
-    private lateinit var mViewModel: VM
+    protected lateinit var mBinding: V
+    protected lateinit var mViewModel: VM
     private var mViewModelId by Delegates.notNull<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {

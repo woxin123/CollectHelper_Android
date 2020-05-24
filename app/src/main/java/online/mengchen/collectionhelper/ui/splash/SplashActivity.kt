@@ -7,9 +7,12 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.lifecycle.*
 import kotlinx.android.synthetic.main.activity_splash.*
+import online.mengchen.collectionhelper.BR
 import online.mengchen.collectionhelper.R
+import online.mengchen.collectionhelper.base.BaseActivity
 import online.mengchen.collectionhelper.data.file.CloudStoreInstance
 import online.mengchen.collectionhelper.data.sp.StatusProperties
+import online.mengchen.collectionhelper.databinding.ActivitySplashBinding
 import online.mengchen.collectionhelper.ui.cloudstore.CloudStoreConfigActivity
 import online.mengchen.collectionhelper.ui.main.MainActivity
 import online.mengchen.collectionhelper.ui.user.LoginActivity
@@ -17,10 +20,7 @@ import online.mengchen.collectionhelper.ui.user.LoginActivity.Companion.LOGIN_ST
 import online.mengchen.collectionhelper.ui.user.LoginActivity.Companion.REQUEST_CODE_LOGIN
 import online.mengchen.collectionhelper.utils.LoginUtils
 
-class SplashActivity : AppCompatActivity() {
-
-
-    private lateinit var mViewModel: SplashViewModel
+class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>() {
 
     companion object {
         const val REQUEST_CONFIG_CLOUD_STORE = 1001
@@ -29,16 +29,12 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
-        supportActionBar?.hide()
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
 //        webView.loadUrl("http://debugtbs.qq.com")
-        mViewModel = ViewModelProvider(this).get(SplashViewModel::class.java)
         mViewModel.start()
-        initObserver()
     }
 
-    private fun initObserver() {
+    override fun initViewObserver() {
         mViewModel.complete.observe(this, Observer {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
@@ -98,5 +94,13 @@ class SplashActivity : AppCompatActivity() {
                 mViewModel.initStatus.setValue(true)
             }
         }
+    }
+
+    override fun initContentView(savedInstanceState: Bundle?): Int {
+        return R.layout.activity_splash
+    }
+
+    override fun initViewModelId(): Int {
+        return BR.viewModel;
     }
 }

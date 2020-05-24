@@ -51,8 +51,8 @@ abstract class CollectHelpDatabase : RoomDatabase() {
                             super.onOpen(db)
                             INSTANCE?.let {
                                 scope.launch {
-//                                    it.bookMarkDetailDao().deleteAll()
-//                                    it.bookMarkDao().deleteAll()
+                                    it.bookMarkDetailDao().deleteAll()
+                                    it.bookMarkDao().deleteAll()
                                 }
                             }
                         }

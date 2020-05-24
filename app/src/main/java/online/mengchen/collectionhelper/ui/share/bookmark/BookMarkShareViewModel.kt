@@ -41,7 +41,6 @@ class BookMarkShareViewModel(application: Application) : ShareViewModel(applicat
 
     val addBookMarkInfoStatus: MutableLiveData<ApiResult<BookMarkInfo>> = MutableLiveData()
     val categories: MutableLiveData<ApiResult<List<CategoryInfo>>> = MutableLiveData()
-    val addBookMarkCategory by lazy { MutableLiveData<ApiResult<CategoryInfo>>() }
 
 
 

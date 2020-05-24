@@ -6,12 +6,37 @@
     android:layout_height="match_parent">
 
 
-    <com.qmuiteam.qmui.widget.tab.QMUITabSegment
-        android:id="@+id/tabSegment"
+    <android.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        app:qmui_tab_has_indicator="true"
-        app:qmui_tab_indicator_height="2dp" />
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="0dp"
+            android:background="?attr/selectableItemBackgroundBorderless" >
+
+            <ImageView
+                android:id="@+id/menuView"
+                android:layout_width="24dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_menu" />
+
+        </FrameLayout>
+
+        <com.qmuiteam.qmui.widget.tab.QMUITabSegment
+            android:id="@+id/tabSegment"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            app:qmui_tab_has_indicator="false"
+            app:qmui_tab_indicator_height="2dp" />
+
+    </android.widget.Toolbar>
+
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/contentViewPager"
@@ -19,5 +44,5 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:fitsSystemWindows="true" />
-    
+
 </LinearLayout>
